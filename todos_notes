@@ -1,0 +1,42 @@
+1. Implement single wp in ui. (done)
+
+2. Ceramic data and usage. one file is n_s other one is n_p -> fix code, new calc. refr. index.
+
+3. speedtests. Find slow parts (not important)
+
+4. Add losses of transmission between interfaces (can be a setting) compare to cst, see if it's better.
+
+5. (Not programming) make new PLA wp, thicker(Target 200 GHz), expect shrinkage etc. (done)
+
+6. Look at retardation accuracy pmlambda/factor thing
+
+7. make material from const. refr. index.
+
+8. cleanup imports. Import everything in one file at the start, otherwise modules are imported multiple times. (not important)
+
+9. pass default values to every ui element through wrapper, to not have enable_events=True everywhere (done)
+
+10. redo run once (done)
+
+11. fix const bf -> const ns, np inputs instead
+
+12. pick, combine widths from a discrete set then optimize each.
+    -> 4 widths, 5 wps -> 4^5 = 1024 combinations, 1k iterations each 7its/s -> 40.5 hours, <2 days
+    -> 5 widths, 5 wps -> 5^5 = 3125 combinations, 1k iterations each 7its/s -> 123 hours, 5 days
+
+13. fp_results are with wrong material lol im retarded
+
+14. add material data to material class maybe, if not too many problems
+
+15. speedtest einsum vs for loop with reduce
+
+16. Ask expert :) ; [[A,B],[C,D]] A or C are > 1 which means for [1,0] or [0,1] the intensity can increase...
+if I = EE*, considering intensity in air(n=1) before and after. (Side Q. what's the intensity in anisotropic material?)
+(neglecting transmissions at air-material and material-air)
+Consider a system with time-reversal symmetry. Then det(M)=1 tr(M) is real.
+Here tr(M) = 2 and det(M) = 1 (http://assets.press.princeton.edu/chapters/s8695.pdf)
+eh seems to be because of amplitude ratios can be larger than 1. (amplitude =! power, depends on medium)
+
+17. Write the section about transmission / reflection at the interfaces. Show significance -> I(\Delta n) or show shift
+of optimal angle away from 45 deg.
+

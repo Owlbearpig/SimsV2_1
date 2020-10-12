@@ -1,0 +1,43 @@
+
+wp1 # fused silica
+100*um mat1: nicht luft
+200*um mat2: luft
+angles = np.deg2rad(225.5)
+d = 400*um
+
+############## PLA ##############
+(eps_r, eps_i bei 500 GHz, hier konstant)
+Optical Properties of 3D Printable Plastics in the THz Regime and their Application for 3D Printed THz Optics
+zeigt n ungef. konstant, abs. nimmt ab mit freq.
+
+wp2 #
+100*um mat1
+150*um mat2 luft
+angles = np.deg2rad(225.5)
+d = 400*um
+
+wp2_l4 #
+100*um mat1
+150*um mat2 luft
+angles = np.deg2rad(225.5)
+d = 200*um
+
+wp2 #
+100*um mat1
+150*um mat2 luft
+angles = np.deg2rad(225.5)
+d = 400*um
+
+wp3 / d2500 (d = 2500*um)
+400*um mat1
+400*um mat2 luft
+angles = np.deg2rad(45)
+d = 1600*um
+
+wp3_l4
+400*um mat1
+400*um mat2 luft
+angles = np.deg2rad(225.5)
+d = 800*um
+
+############## PLA ##############

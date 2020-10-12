@@ -1,0 +1,63 @@
+    intersection(){
+        translate([1,1,0]){
+            cube([40,40,d]);
+        }
+        a=250;
+        for(i=[0:a]){
+            px=(1+lMat)+(lMat+lAir)*i;
+            rotate([0,0,xAxisAngle]){
+                translate([-15+px,-20,0]){
+                    cube([lMat,50,d]);
+                    }
+                }
+            }
+    }
+
+    from modules.settings.settings import Settings
+    from erf_setup_v21 import ErfSetup
+    import matplotlib.pyplot as plt
+    from modules.identifiers.dict_keys import DictKeys
+    import pandas as pd
+    from pathlib import Path, PureWindowsPath
+    settings = Settings()
+    keys = DictKeys()
+    settings_path = r'E:\MEGA\AG\BFWaveplates\PycharmProjects\SimsV2_1\modules\results\saved_results\30-09-2020\19-25-23_OptimizationProcess-1\settings.json'
+    settings_dict = settings.load_settings(settings_path)
+    settings_dict[keys.selected_material_data_path_key] = r'E:\MEGA\AG\BFWaveplates\PycharmProjects\SimsV2_1\modules\material_manager\data_folders\PLA\PLA_const_refInd.csv'
+
+
+    angles = np.deg2rad(np.array([95.68, 290.49, 134.65, 332.32, 348.36]))
+    #angles = np.deg2rad(np.array([95.68]))
+    widths = np.array([590, 600, 570, 400, 600])*um
+    #widths = np.array([5900])*um
+    stripes = np.array([75, 61.])*um
+
+    wp_cnt = len(angles)
+
+    settings_dict[keys.wp_cnt_key] = wp_cnt
+    settings_dict[keys.const_angles_key] = [0]*wp_cnt
+    settings_dict[keys.const_widths_key] = [0]*wp_cnt
+    settings_dict[keys.width_pattern_key] = range(1, wp_cnt+1)
+    settings_dict[keys.initial_stripe_widths_key] = [[100]*wp_cnt,[50]*wp_cnt]
+
+    erf_setup = ErfSetup(settings_dict)
+
+    refr_i = erf_setup.calc_wp_deltas(stripes)
+
+    theta, x, y = erf_setup.j_matrix_input(angles, widths, *refr_i)
+    j_matrix_stack = erf_setup.build_j_matrix_stack(theta, x, y)
+
+    theta, gamma, ret, p_squared = erf_setup.m_matrix_input(angles, widths, *refr_i)
+    m_matrix_stack = erf_setup.build_m_matrix_stack(theta, gamma, ret, p_squared)
+
+    int_x_j, int_y_j = calc_final_jones_intensities(j_matrix_stack)
+    int_x_m, int_y_m = calc_final_stokes_intensities(m_matrix_stack)
+
+    freqs = erf_setup.frequencies
+
+    plt.plot(freqs, int_x_j, label='Jones x')
+    plt.plot(freqs, int_y_j, label='Jones y')
+    plt.plot(freqs, int_x_m, label='Mueller x')
+    plt.plot(freqs, int_y_m, label='Mueller y')
+    plt.legend()
+    plt.show()
