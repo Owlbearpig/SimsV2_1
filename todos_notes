@@ -8,7 +8,7 @@
 
 5. (Not programming) make new PLA wp, thicker(Target 200 GHz), expect shrinkage etc. (done)
 
-6. Look at retardation accuracy pmlambda/factor thing
+6. Look at retardation accuracy pmlambda/factor thing (what they use commercially to quantify performance)
 
 7. make material from const. refr. index.
 
@@ -39,4 +39,14 @@ eh seems to be because of amplitude ratios can be larger than 1. (amplitude =! p
 
 17. Write the section about transmission / reflection at the interfaces. Show significance -> I(\Delta n) or show shift
 of optimal angle away from 45 deg.
+
+18. Question: Cond. for l/4 wp: Intensity after x- and y-polarizer (after wp-stack) should be equal. -> circular light?
+But wouldn't a rotation of 45 deg. also have equal x- and y-"intensities", which is still linear?
+
+19. Why are for masson values the two intensities equal all over?
+
+20. Would comparing matrix stack to ideal waveplate simple(isotropic absorption) make sense to get phaseshift?
+I still wonder if phaseshift is the correct value to optimize and not only intensities (if at all)
+
+21. 
 
