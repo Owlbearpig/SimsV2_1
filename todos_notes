@@ -1,16 +1,25 @@
+# General notes (I forget a lot)
+Amplitude absorption coefficient (k) =  2*pi*f*kappa/c, frequency f, imag. ri kappa
+absorption coefficient (alpha) = 2 * amplitude coefficient P(x) / P(0) = exp(-alpha)
+P(x) = P(0)*exp(-alpha*x)
+E(x) = E(0)*exp(-k*x)
+#
 1. Implement single wp in ui. (done)
 
-2. Ceramic data and usage. one file is n_s other one is n_p -> fix code, new calc. refr. index.
+2. Ceramic data and usage. one file is n_s other one is n_p -> fix code, new calc. refr. index. (implemented)
 
 3. speedtests. Find slow parts (not important)
+(check callback after each optimization step)
 
-4. Add losses of transmission between interfaces (can be a setting) compare to cst, see if it's better.
+4. Add losses of transmission between interfaces (can be a setting) compare to cst, see if it's better. (finished calculation)
+example 5 wp in jones_interface_tansmission.py (in scratches)
 
 5. (Not programming) make new PLA wp, thicker(Target 200 GHz), expect shrinkage etc. (done)
 
 6. Look at retardation accuracy pmlambda/factor thing (what they use commercially to quantify performance)
+(https://www.newport.com/p/05RP02-24, http://www.tydexoptics.com/products/thz_optics/thz_converters/)
 
-7. make material from const. refr. index.
+7. make material from const. refr. index. for form birefringence
 
 8. cleanup imports. Import everything in one file at the start, otherwise modules are imported multiple times. (not important)
 
@@ -18,7 +27,7 @@
 
 10. redo run once (done)
 
-11. fix const bf -> const ns, np inputs instead
+11. fix const bf -> const ns, np inputs instead (done)
 
 12. pick, combine widths from a discrete set then optimize each.
     -> 4 widths, 5 wps -> 4^5 = 1024 combinations, 1k iterations each 7its/s -> 40.5 hours, <2 days
@@ -26,7 +35,7 @@
 
 13. fp_results are with wrong material lol im retarded
 
-14. add material data to material class maybe, if not too many problems
+14. add material data to material class maybe, if not too many problems (why though?)
 
 15. speedtest einsum vs for loop with reduce
 
@@ -43,7 +52,7 @@ of optimal angle away from 45 deg.
 18. Question: Cond. for l/4 wp: Intensity after x- and y-polarizer (after wp-stack) should be equal. -> circular light?
 But wouldn't a rotation of 45 deg. also have equal x- and y-"intensities", which is still linear?
 
-19. Why are for masson values the two intensities equal all over?
+19. Why are for masson values the two intensities equal all over? Because Masson designed l4 plates and im sleeping
 
 20. Would comparing matrix stack to ideal waveplate simple(isotropic absorption) make sense to get phaseshift?
 I still wonder if phaseshift is the correct value to optimize and not only intensities (if at all)
