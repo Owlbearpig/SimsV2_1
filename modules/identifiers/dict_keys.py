@@ -71,6 +71,7 @@ class DictKeys:
         self.new_x0_key = DictKey('set_x0_checkbox')
         self.random_x0_button_key = DictKey('random_x0_button')
         self.set_default_settings_button_key = DictKey('set_default_settings_button')
+        self.enable_ri_overwrite_checkbox_key = DictKey('enable_ri_overwrite_checkbox')
 
         # tab4
         self.process_list_key = DictKey('process_list')
@@ -144,6 +145,7 @@ class DictKeys:
         self.plotted_error_stripes_key = DictKey('plotted_error_stripes')
         self.plot_birefringence_button_key = DictKey('plot_birefringence_button')
         self.plot_refractive_indices_button_key = DictKey('plot_refractive_indices_button')
+        self.fix_old_settings_button_key = DictKey('fix_old_settings_button')
 
         # tab7
         self.update_cst_list_button_key = DictKey('update_cst_list_button')

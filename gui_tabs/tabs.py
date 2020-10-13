@@ -204,6 +204,9 @@ class Tabs(DictKeys):
                                         key=self.new_material_path_key)
         add_material_button = sg.Button(button_text='Add material',
                                         key=self.add_material_button_key)
+        enable_ri_overwrite_checkbox = Checkbox('Enable',
+                                                default=self.settings[self.enable_ri_overwrite_checkbox_key],
+                                                key=self.enable_ri_overwrite_checkbox_key)
         const_refr_index_input_n_s = Input(self.settings[self.const_refr_index_input_n_s_key],
                                            size=(5, 1),
                                            key=self.const_refr_index_input_n_s_key)
@@ -230,12 +233,14 @@ class Tabs(DictKeys):
                                       key=self.slow_material_dropdown_key)
 
         tab2_layout = [
-            [sg.Text('Overwrite RI:'),
-             sg.Text('n_s'), const_refr_index_input_n_s,
-             sg.Text('k_s'), const_refr_index_input_k_s,
-             sg.Text('n_p'), const_refr_index_input_n_p,
-             sg.Text('k_p'), const_refr_index_input_k_p],
             [sg.Text('Birefringence type:'), birefringence_type_dropdown],
+            [sg.Frame('Overwrite RI',
+                      [[sg.Text('n_s'), const_refr_index_input_n_s,
+                        sg.Text('k_s'), const_refr_index_input_k_s,
+                        sg.Text('n_p'), const_refr_index_input_n_p,
+                        sg.Text('k_p'), const_refr_index_input_k_p,
+                        enable_ri_overwrite_checkbox,
+                        ]])],
             [sg.Frame('Add material',
                       [[sg.Text('Name'), new_material_name_input,
                         sg.Text('Path'), new_material_path_input,
@@ -438,6 +443,8 @@ class Tabs(DictKeys):
                                          key=self.selected_frequency_key)
         set_selected_result_settings_button = sg.Button(button_text='Set selected result settings',
                                                         key=self.set_selected_result_settings_button_key)
+        fix_old_settings_button = sg.Button('Fix old settings',
+                                            key=self.fix_old_settings_button_key)
 
         tab6_layout = [
             [sg.Frame('Folders',
@@ -469,7 +476,7 @@ class Tabs(DictKeys):
              ],
             [update_folder_list_button, update_result_list_button],
             [plot_selected_result_button, plot_in_cst_window_checkbox],
-            [set_selected_result_settings_button]
+            [set_selected_result_settings_button, fix_old_settings_button]
         ]
 
         return tab6_layout

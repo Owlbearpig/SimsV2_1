@@ -62,6 +62,7 @@ default_settings_dict = {
     keys.selected_slow_material_data_path_key: "",
     keys.new_material_name_key: "",
     keys.new_material_path_key: "",
+    keys.enable_ri_overwrite_checkbox_key: False,
 
     keys.x0_angle_input_key: [0, 0, 0, 0, 0],
     keys.x0_widths_input_key: [0, 0, 0, 0, 0],

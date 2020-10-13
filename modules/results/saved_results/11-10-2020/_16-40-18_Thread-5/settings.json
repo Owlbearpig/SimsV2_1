@@ -170,5 +170,12 @@
     "plot_np_checkbox_key": true,
     "plot_ks_checkbox_key": false,
     "plot_kp_checkbox_key": false,
-    "zeroth_order_freq_input": 400.0
+    "zeroth_order_freq_input": 400.0,
+    "enable_ri_overwrite_checkbox": false,
+    "basic_info_tab_l0": "",
+    "basic_info_tab_l1": "",
+    "info_tab_l0": "",
+    "info_tab_l1": "",
+    "info_tab_l2": "",
+    "info_tab_l3": ""
 }

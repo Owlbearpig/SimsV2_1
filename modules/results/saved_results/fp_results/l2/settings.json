@@ -158,5 +158,22 @@
     "plot_np_checkbox_key": true,
     "plot_ks_checkbox_key": false,
     "plot_kp_checkbox_key": false,
-    "zeroth_order_freq_input": 200.0
+    "zeroth_order_freq_input": 200.0,
+    "birefringence_type_dropdown": "Form",
+    "fast_material_dropdown": "",
+    "slow_material_dropdown": "",
+    "const_refr_index_input_n_s": 0.0,
+    "const_refr_index_input_k_s": 0.0,
+    "const_refr_index_input_n_p": 0.0,
+    "const_refr_index_input_k_p": 0.0,
+    "selected_fast_material_data_path": "",
+    "selected_slow_material_data_path": "",
+    "enable_ri_overwrite_checkbox": false,
+    "basic_info_tab_l0": "",
+    "basic_info_tab_l1": "",
+    "info_tab_l0": "",
+    "info_tab_l1": "",
+    "info_tab_l2": "",
+    "info_tab_l3": "",
+    "run_once_label_input": ""
 }

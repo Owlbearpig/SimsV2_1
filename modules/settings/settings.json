@@ -96,6 +96,7 @@
     "selected_slow_material_data_path": "",
     "new_material_name": "",
     "new_material_path": "",
+    "enable_ri_overwrite_checkbox": false,
     "x0_angle_input": [
         0,
         0,

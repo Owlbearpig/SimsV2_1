@@ -267,6 +267,9 @@ class WaveplateApp(DictKeys):
         if self.result_manager.result_selected:
             self.plotter.result_plot()
 
+    def fix_old_settings(self, *args):
+        self.settings_module.fix_old_settings()
+
     # ---------------------------------------Plot tab----------------------------------------------------------------- #
     def plot_birefringence(self, ui_values):
         if self.result_manager.result_selected:
@@ -403,6 +406,7 @@ class WaveplateApp(DictKeys):
             self.saver_settings_key: self.show_saver_settings,
             self.set_selected_result_settings_button_key: self.set_selected_result_settings,
             self.selected_frequency_key: self.update_stokes_frame,
+            self.fix_old_settings_button_key: self.fix_old_settings,
             # tab7
             self.plot_error_button_key: self.plot_x_with_error,
             self.plot_birefringence_button_key: self.plot_birefringence,

@@ -60,7 +60,6 @@ class ErfSetup(DictKeys):
         self.wp_cnt = None
         self.freq_cnt = None
         self.n0 = None
-        self.n_force = None
 
         self.set_constants()
         # ------------------------- constants ------------------------- #
@@ -141,11 +140,9 @@ class ErfSetup(DictKeys):
         self.wp_cnt = len(self.const_angles)
 
         # n
-        self.n0 = self.calc_wp_deltas(self.stripe_widths)
-        self.n_force = np.array([self.const_n_s, self.const_n_p,
-                                 self.anis_s * self.const_k_s, self.anis_p * self.const_k_p])
+        self.n0 = self.form_birefringence(self.stripe_widths)
 
-    def calc_wp_deltas(self, stripes):
+    def form_birefringence(self, stripes):
         """
         :return: array with length of frequency, frequency resolved delta n, delta kappa
         """
@@ -291,21 +288,22 @@ class ErfSetup(DictKeys):
         if self.settings[self.birefringence_type_dropdown_key] in 'Form':
             if self.const_wp_dimensions:
                 # if stripe width doesn't change -> birefringence doesn't change
-                # delta is complex birefringent strength (diff between s and p - n, real and imaginary difference of n)
                 n = self.n0
             else:
-                n = self.calc_wp_deltas(stripes)
+                n = self.form_birefringence(stripes)
         else:
             n = self.natural_birefringence()
 
-        self.n_force = np.array([self.n_force[0] * np.ones_like(n[0]), self.n_force[1] * np.ones_like(n[1]),
-                                 self.n_force[2] * np.ones_like(n[2]), self.n_force[3] * np.ones_like(n[3])])
-        # let stripes have no effect if we overwrite ri anyways
-        if self.n_force.any():
+        if self.settings[self.enable_ri_overwrite_checkbox_key]:
+            n = np.array([self.const_n_s*np.ones_like(n[0]),
+                          self.const_n_p*np.ones_like(n[1]),
+                          self.const_k_s*np.ones_like(n[2]),
+                          self.const_k_p*np.ones_like(n[3])])
+
+            # let stripes have no effect if we overwrite ri anyways
             self.const_wp_dimensions = True
-        # look for zeroes. Invert bool array.
-        non_0 = ~np.isclose(self.n_force, 0)
-        n[non_0] = self.n_force[non_0]
+
+        n[2], n[3] = self.anis_s * n[2], self.anis_p  * n[3]
 
         return n
 

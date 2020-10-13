@@ -21,14 +21,18 @@ def error_popup(e):
     sg.popup_error(e, title='Error broke it again ;(', non_blocking=True)
 
 
-def search_dir(dir_path, object_type, name='', file_extension='', iterative_search=True):
+def search_dir(dir_path, object_type='files', name='', file_extension='', iterative_search=True, return_path=False):
     # iterative search is deep search, all sub dirs
     if iterative_search:
         search_space = list(dir_path.rglob("*"))
     else:
         search_space = list(dir_path.iterdir())
-    files = [x.name for x in search_space if x.is_file() and (f'{name}.{file_extension}' in str(x))]
-    dirs = [x.name for x in search_space if x.is_dir() and (f'{name}' in str(x))]
+    if return_path:
+        files = [x for x in search_space if x.is_file() and (f'{name}.{file_extension}' in str(x))]
+        dirs = [x for x in search_space if x.is_dir() and (f'{name}' in str(x))]
+    else:
+        files = [x.name for x in search_space if x.is_file() and (f'{name}.{file_extension}' in str(x))]
+        dirs = [x.name for x in search_space if x.is_dir() and (f'{name}' in str(x))]
     if object_type.lower() in 'files':
         ret = files
     else:
