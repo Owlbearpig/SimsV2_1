@@ -35,20 +35,20 @@
         4
     ],
     "frequency_resolution_multiplier": 1.0,
-    "min_freq": 0.1,
-    "max_freq": 1.0,
+    "min_freq": 0.0,
+    "max_freq": 2.0,
     "material_drop_down": "FusedSilica",
     "birefringence_type_dropdown": "Natural",
     "fast_material_dropdown": "CeramicFast",
     "slow_material_dropdown": "CeramicSlow",
-    "const_refr_index_input_n_s": 0.0,
-    "const_refr_index_input_k_s": 0.0,
-    "const_refr_index_input_n_p": 0.0,
-    "const_refr_index_input_k_p": 0.0,
+    "const_refr_index_input_n_s": 2.108,
+    "const_refr_index_input_k_s": 0.00024,
+    "const_refr_index_input_n_p": 2.156,
+    "const_refr_index_input_k_p": 0.00034,
     "randomizer_seed": null,
     "log_of_res": false,
-    "min_width": 2000.0,
-    "max_width": 12000,
+    "min_width": 3000.0,
+    "max_width": 11000,
     "min_angle": 0.0,
     "max_angle": 6.283184,
     "min_stripe_width": 5.0,
@@ -59,11 +59,11 @@
     "x_slicing": [
         [
             0,
-            4
+            6
         ],
         [
-            4,
-            8
+            6,
+            12
         ],
         [
             0,
@@ -91,18 +91,20 @@
     "selected_slow_material_data_path": "modules/material_manager/data_folders/CeramicSlow/Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
     "new_material_name": "",
     "new_material_path": "",
-    "enable_ri_overwrite_checkbox": false,
+    "enable_ri_overwrite_checkbox": true,
     "x0_angle_input": [
-        3.23,
-        2.74,
-        0.65,
-        0.91
+        5.79,
+        5.03,
+        5.96,
+        0.53,
+        2.97
     ],
     "x0_widths_input": [
-        2612.4,
-        2388.7,
-        9356.2,
-        7905.1
+        1073.1,
+        787.9,
+        2767.7,
+        1286.4,
+        1576.9
     ],
     "x0_stripes_input": [],
     "angle_input": [
@@ -125,7 +127,7 @@
         0,
         0
     ],
-    "run_once_label_input": "Masson",
+    "run_once_label_input": "ConstBF_w_absorption",
     "plot_in_cst": false,
     "selected_frequency": 0.5,
     "difference_plot": false,
@@ -159,5 +161,5 @@
     "plot_np_checkbox_key": true,
     "plot_ks_checkbox_key": false,
     "plot_kp_checkbox_key": false,
-    "zeroth_order_freq_input": 400.0
+    "zeroth_order_freq_input": 800.0
 }

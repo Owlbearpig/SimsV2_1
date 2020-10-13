@@ -183,8 +183,8 @@ class WaveplateApp(DictKeys):
         if output.process_name == selected_process.name:
             self.window[self.info_tab_l1_key].update('Iter cnt: ' + str(output.iter_cnt))
             iter_speed = output.iter_cnt / (time.time() - selected_process.start_time)
-            self.window[self.info_tab_l2_key].update('{} iterations / s'.format(np.round(iter_speed, 1)))
-            self.window[self.info_tab_l3_key].update('Best min: ' + str(np.round(selected_process.best_result, 4)))
+            self.window[self.info_tab_l2_key].update(f'{np.round(iter_speed, 1)} iterations / s')
+            self.window[self.info_tab_l3_key].update('Best min: ' + str(np.round(selected_process.best_result, 5)))
 
     @check_values
     def optimizer_test(self, ui_values):

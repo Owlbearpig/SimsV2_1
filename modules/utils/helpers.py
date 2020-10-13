@@ -40,9 +40,14 @@ def search_dir(dir_path, object_type='files', name='', file_extension='', iterat
     return ret
 
 
+def check_x0_wp_cnt(ui_values):
+    return len(ui_values[DictKeys().x0_angle_input_key]) != int(ui_values[DictKeys().wp_cnt_key])
+
 def check_values(func):
     def wrapper(self, current_ui_values):
-
+        if check_x0_wp_cnt(current_ui_values):
+            sg.PopupNoWait('---Check x0---', title='oof')
+            return
         if current_ui_values[DictKeys().birefringence_type_dropdown_key] in 'Form':
             if not current_ui_values[DictKeys().selected_material_data_path_key]:
                 sg.PopupNoWait('---No material selected---', title=':(')

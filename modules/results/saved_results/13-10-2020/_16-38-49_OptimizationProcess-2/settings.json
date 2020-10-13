@@ -1,16 +1,14 @@
 {
-    "wp_cnt": 4,
+    "wp_cnt": 3,
     "const_wp_dim": false,
     "equal_stripes": true,
     "initial_stripe_widths": [
         [
             50,
             50,
-            50,
             50
         ],
         [
-            100,
             100,
             100,
             100
@@ -19,11 +17,9 @@
     "const_angles": [
         0,
         0,
-        0,
         0
     ],
     "const_widths": [
-        0,
         0,
         0,
         0
@@ -31,11 +27,10 @@
     "width_pattern": [
         1,
         2,
-        3,
-        4
+        3
     ],
     "frequency_resolution_multiplier": 1.0,
-    "min_freq": 0.1,
+    "min_freq": 0.0,
     "max_freq": 1.0,
     "material_drop_down": "FusedSilica",
     "birefringence_type_dropdown": "Natural",
@@ -59,11 +54,11 @@
     "x_slicing": [
         [
             0,
-            4
+            3
         ],
         [
-            4,
-            8
+            3,
+            6
         ],
         [
             0,
@@ -93,16 +88,14 @@
     "new_material_path": "",
     "enable_ri_overwrite_checkbox": false,
     "x0_angle_input": [
-        3.23,
-        2.74,
-        0.65,
-        0.91
+        2.93,
+        3.2,
+        4.67
     ],
     "x0_widths_input": [
-        2612.4,
-        2388.7,
-        9356.2,
-        7905.1
+        11378.4,
+        7742.0,
+        4343.8
     ],
     "x0_stripes_input": [],
     "angle_input": [

@@ -3,6 +3,11 @@ Amplitude absorption coefficient (k) =  2*pi*f*kappa/c, frequency f, imag. ri ka
 absorption coefficient (alpha) = 2 * amplitude coefficient P(x) / P(0) = exp(-alpha)
 P(x) = P(0)*exp(-alpha*x)
 E(x) = E(0)*exp(-k*x)
+
+Temperature:
+exp( -(func(xnew) - func(xold)) / T ). So, for best results, T should to be comparable to the typical
+difference (in function values) between local minima. (The height of “walls” between local minima is irrelevant.)
+For example, if one local minima is func = 10 and another is func = 14, then T = 4 would be appropriate.
 #
 1. Implement single wp in ui. (done)
 
