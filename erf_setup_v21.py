@@ -1,5 +1,6 @@
 from numpy.random import uniform as rnd
 from numpy import cos, sin, arctan, sqrt, sum, power, pi, outer, abs, exp
+import string
 import pandas
 from pathlib import PureWindowsPath
 from modules.identifiers.dict_keys import DictKeys
@@ -60,6 +61,8 @@ class ErfSetup(DictKeys):
         self.wp_cnt = None
         self.freq_cnt = None
         self.n0 = None
+        self.einsum_str = None
+        self.einsum_path = None
 
         self.set_constants()
         # ------------------------- constants ------------------------- #
@@ -142,6 +145,21 @@ class ErfSetup(DictKeys):
         # n
         self.n0 = self.form_birefringence(self.stripe_widths)
 
+        # setup einsum_str
+        s0 = string.ascii_lowercase + string.ascii_uppercase
+        self.einsum_str = ''
+        for i in range(self.wp_cnt):
+            self.einsum_str += s0[self.wp_cnt + 2] + s0[i] + s0[i + 1] + ','
+
+        # remove last comma
+        self.einsum_str = self.einsum_str[:-1]
+        self.einsum_str += '->' + s0[self.wp_cnt + 2] + s0[0] + s0[self.wp_cnt]
+
+        # einsum path (not sure if necessary)
+        test_array = np.zeros((self.wp_cnt, self.freq_cnt, 4, 4))
+        self.einsum_path = np.einsum_path(self.einsum_str, *test_array, optimize='greedy')
+
+
     def form_birefringence(self, stripes):
         """
         :return: array with length of frequency, frequency resolved delta n, delta kappa
@@ -194,8 +212,7 @@ class ErfSetup(DictKeys):
         J[:, :, 1, 0] = J[:, :, 0, 1]
         J[:, :, 1, 1] = exp(x) * sin(theta) ** 2 + exp(y) * cos(theta) ** 2
 
-        for i in range(self.freq_cnt):
-            J[i, 0] = reduce(np.dot, J[i])
+        np.einsum(self.einsum_str, *J.transpose((1, 0, 2, 3)), out=J[:, 0], optimize=self.einsum_path[0])
 
         return J[:, 0]
 
@@ -233,9 +250,7 @@ class ErfSetup(DictKeys):
         M[:, :, 3, 1] *= -1
         M[:, :, 3, 2] *= -1
 
-        # TODO see if possible to do with np.einsum and compare timing
-        for i in range(self.freq_cnt):
-            M[i, 0] = reduce(np.dot, M[i])
+        np.einsum(self.einsum_str, *M.transpose((1, 0, 2, 3)), out=M[:, 0], optimize=self.einsum_path[0])
 
         M[:, 0] = (M[:, 0].transpose(1, 2, 0) * ((0.5 ** self.wp_cnt) * np.prod(p_squared, axis=1))).transpose(2, 0, 1)
 

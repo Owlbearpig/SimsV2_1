@@ -42,7 +42,7 @@ example 5 wp in jones_interface_tansmission.py (in scratches)
 
 14. add material data to material class maybe, if not too many problems (why though?)
 
-15. speedtest einsum vs for loop with reduce
+15. speedtest einsum vs for loop with reduce (einsum good, implement it)
 
 16. Ask expert :) ; [[A,B],[C,D]] A or C are > 1 which means for [1,0] or [0,1] the intensity can increase...
 if I = EE*, considering intensity in air(n=1) before and after. (Side Q. what's the intensity in anisotropic material?)
@@ -62,5 +62,5 @@ But wouldn't a rotation of 45 deg. also have equal x- and y-"intensities", which
 20. Would comparing matrix stack to ideal waveplate simple(isotropic absorption) make sense to get phaseshift?
 I still wonder if phaseshift is the correct value to optimize and not only intensities (if at all)
 
-21. 
+21.
 

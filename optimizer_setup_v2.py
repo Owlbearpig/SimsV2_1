@@ -1,6 +1,5 @@
-import numpy as np
 from scipy.optimize import OptimizeResult
-from bh_algo.basinhopping import BasinHopping
+from scipy.optimize import basinhopping
 from modules.identifiers.dict_keys import DictKeys
 from modules.utils.constants import *
 
@@ -26,7 +25,7 @@ class Output:
         stripes = np.round(self.stripes * 10 ** 6, 2)
         l5 = f"Stripe widths {stripes} (μm)\n"
         l6 = "*****************************************************************\n"
-        return l0+l1+l2+l3+l4+l5+l6
+        return l0 + l1 + l2 + l3 + l4 + l5 + l6
 
 
 class OptimizerSetup(DictKeys):
@@ -56,7 +55,7 @@ class OptimizerSetup(DictKeys):
 
         # variables
         self.best_f = np.inf
-        self.iter_cnt = 1
+        self.iter_cnt = 0
         self.accepted_cnt = 0
 
         self.run_on_init()
@@ -177,14 +176,11 @@ class OptimizerSetup(DictKeys):
         temperature = self.temperature
         take_step = CustomStep(angle_step, width_step, stripe_step, self.erf_setup_instance, self)
         bounds_callable = Bounds(self)
-        self.basinhopper = BasinHopping()
 
-        res = self.basinhopper.start_optimization(stack_err, x0, niter=iterations, stepsize=angle_step,
-                                                  callback=callback, take_step=take_step, T=temperature,
-                                                  accept_test=bounds_callable,
-                                                  minimizer_kwargs=local_min_kwargs, interval=5)
-
-        return res
+        basinhopping(stack_err, x0, niter=iterations, stepsize=angle_step,
+                     callback=callback, take_step=take_step, T=temperature,
+                     accept_test=bounds_callable,
+                     minimizer_kwargs=local_min_kwargs, interval=5)
 
 
 class CustomStep:
@@ -263,18 +259,20 @@ class Bounds:
 
         return (t_max_angle and t_min_angle) and (t_min_width and t_max_width) and (t_min_stripe and t_max_stripe)
 
+
 if __name__ == '__main__':
     from modules.settings.settings import Settings
     from erf_setup_v21 import ErfSetup
     import time
-    settings_path = 'modules/results/saved_results/01-10-2020/Test1_16-12-57_Thread-2/settings.json'
+    from modules.identifiers.dict_keys import DictKeys
+
+    settings_path = 'modules/results/saved_results/14-10-2020/18-24-27_OptimizationProcess-1/settings.json'
     settings_module = Settings()
     settings = settings_module.load_settings(settings_path)
+    settings[DictKeys().calculation_method_key] = 'Jones'
     erf_setup = ErfSetup(settings)
 
     erf = erf_setup.erf
-
-    from scipy.optimize import basinhopping
 
     iterations = 500
 
@@ -284,13 +282,9 @@ if __name__ == '__main__':
 
     func = lambda x: np.sum(x ** 2)
 
-    # res = basinhopping(erf, x0, niter=iterations)
-
-    basinhopper = BasinHopping()
-    res = basinhopper.start_optimization(erf, x0, niter=iterations)
+    res = basinhopping(erf, x0, niter=iterations)
 
     total = time.time() - start_time
 
-    print(res)
+    #print(res)
     print(round(iterations / total, 2))
-

@@ -75,8 +75,8 @@
             12
         ]
     ],
-    "calculation_method": "Stokes",
-    "iterations": 100000,
+    "calculation_method": "Jones",
+    "iterations": 1000,
     "angle_step": 0.1,
     "width_step": 10.0,
     "stripe_width_step": 5.0,

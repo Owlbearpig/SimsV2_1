@@ -345,7 +345,7 @@ class WaveplateApp(DictKeys):
                 continue
 
     def read_process_queue(self):
-        refresh_time = 0.1
+        refresh_time = 0.05
         while True:
             time.sleep(refresh_time)
             if self.queue_reader_thread.stopped():
