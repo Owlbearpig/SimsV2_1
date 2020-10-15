@@ -30,8 +30,11 @@ ref0 = fft(load(base / files[1]))[1]
 for file in files:
     data = load(base / file)
     ft = fft(data)
-    plt.plot(ft[0], np.abs(ft[1] - ref0), label=file)
-    plt.xlim([-0.1, 1])
+    #plt.plot(ft[0], np.abs(ft[1] - ref0), label=file)
+    plt.plot(ft[0], ft[1], label=file)
+    plt.xlim([-0.1, 1.5])
 
+plt.xlabel('Frequency (THz)')
+plt.ylabel('Intensity (dB)')
 plt.legend()
 plt.show()
