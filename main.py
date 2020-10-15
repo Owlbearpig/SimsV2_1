@@ -171,7 +171,10 @@ class WaveplateApp(DictKeys):
         self.window[self.basic_info_tab_l2_key].update('Variable cnt: ' + str(selected_process.task_info['opt_params']))
 
     def on_process_selection(self, ui_values):
-        self.process_manager.set_selected_process(ui_values[self.process_list_key][0])
+        if ui_values[self.process_list_key]:
+            self.process_manager.set_selected_process(ui_values[self.process_list_key][0])
+        else:
+            return
         self.update_basic_info_frame()
 
     def update_info_frame(self, output):

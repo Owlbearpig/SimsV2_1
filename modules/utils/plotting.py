@@ -27,7 +27,7 @@ class Plot(DictKeys):
         plt.title(title)
         x = self.result.erf_setup.frequencies * Hz_to_THz
         plt.plot(x, y, label=legend_label + ' ' + self.result.name.split("_")[0])
-        plt.xlabel('Frequencies (THz)')
+        plt.xlabel('Frequency (THz)')
         plt.ylabel(y_label)
         if legend_label:
             plt.legend()

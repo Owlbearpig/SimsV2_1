@@ -48,7 +48,8 @@ class OptimizationProcess(Process):
         return "Process " + str(self._identity[0])
 
     def terminate(self):
-        super().terminate()
+        # don't think it matters if terminate or kill is used
+        super().kill()
         self.queue.put(str(self) + ' terminated')
 
     def start(self):

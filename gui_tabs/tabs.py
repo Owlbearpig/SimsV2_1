@@ -362,13 +362,16 @@ class Tabs(DictKeys):
 
         angles_input = Input(default_text=cast_to_ui(self.settings[self.angle_input_key]),
                              size=(30, 1),
-                             key=self.angle_input_key)
+                             key=self.angle_input_key,
+                             enable_events=False)
         widths_input = Input(default_text=cast_to_ui(self.settings[self.widths_input_key]),
                              size=(30, 1),
-                             key=self.widths_input_key)
+                             key=self.widths_input_key,
+                             enable_events=False)
         stripes_input = Input(default_text=cast_to_ui(self.settings[self.stripes_input_key]),
                               size=(30, 1),
-                              key=self.stripes_input_key)
+                              key=self.stripes_input_key,
+                             enable_events=False)
 
         run_once_button = sg.Button('Run once',
                                     key=self.run_once_button_key)

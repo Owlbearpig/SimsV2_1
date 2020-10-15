@@ -3,7 +3,7 @@ from modules.identifiers.dict_keys import DictKeys
 from modules.utils.calculations import (make_m_matrix_stack, make_j_matrix_stack,
                                         calc_final_stokes_intensities, calc_final_jones_intensities,
                                         calculate_final_vectors, calc_polarization_degrees_m, calc_polarization_degrees_j)
-from modules.utils.helpers import search_dir, remove_brackets
+from modules.utils.helpers import search_dir
 from modules.utils.constants import *
 from modules.settings.settings import Settings
 from datetime import datetime
@@ -198,9 +198,9 @@ class Results(DictKeys):
     def result_info_frame_values(self):
         f, angles, widths, stripes = self.selected_result.get_rounded_values()
         f_str = "F: " + str(f)
-        angles_str = remove_brackets(str(angles))
-        widths_str = remove_brackets(str(widths))
-        stripes_str = remove_brackets(str(stripes))
+        angles_str = str(list(angles))
+        widths_str = str(list(widths))
+        stripes_str = str(list(stripes))
 
         return {"f": f_str, "angles": angles_str, "widths": widths_str, "stripes": stripes_str}
 
