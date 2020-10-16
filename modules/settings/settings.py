@@ -9,8 +9,8 @@ from modules.utils.constants import *
 class Settings(DictKeys):
     def __init__(self):
         super().__init__()
-        self.default_settings_file_name = settings_module_folder / Path('default_settings.json')
-        self.previous_settings_file_name = settings_module_folder / Path('settings.json')
+        self.default_settings_file_name = settings_module_dir / Path('default_settings.json')
+        self.previous_settings_file_name = settings_module_dir / Path('settings.json')
 
     def load_settings(self, json_file_path=None):
         if json_file_path:
@@ -68,7 +68,7 @@ class Settings(DictKeys):
         return settings_for_single_run
 
     def fix_old_settings(self):
-        settings_paths = search_dir(saved_results_folder, file_extension='json', return_path=True)
+        settings_paths = search_dir(saved_results_dir, file_extension='json', return_path=True)
         for settings_file_path in settings_paths:
             settings_dict = self.load_settings(settings_file_path)
             # if settings dict is missing key add default value

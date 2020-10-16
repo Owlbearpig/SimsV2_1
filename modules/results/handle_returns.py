@@ -42,7 +42,7 @@ class Saver(DictKeys):
             folder_name = datetime.today().strftime('%d-%m-%Y')
         now = datetime.today().strftime('%H-%M-%S')
 
-        save_folder = saved_results_folder / str(folder_name) / (save_name + str(now) + '_' + str(process_name))
+        save_folder = saved_results_dir / str(folder_name) / (save_name + str(now) + '_' + str(process_name))
         save_folder.mkdir(exist_ok=True, parents=True, mode=0o755)
 
         return save_folder

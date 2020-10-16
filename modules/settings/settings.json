@@ -158,7 +158,7 @@
     "plot_ks": false,
     "cst_plot_x": true,
     "cst_plot_y": true,
-    "single_wp_angle_input": 45.0,
+    "single_wp_angle_input": 42.0,
     "single_wp_width_input": 4500.0,
     "single_wp_stripe1_width_input": 560.0,
     "single_wp_stripe2_width_input": 260.0,

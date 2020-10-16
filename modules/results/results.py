@@ -29,7 +29,7 @@ class Result(DictKeys):
         return str(self.name)
 
     def set_result_path(self):
-        return saved_results_folder / self.result_date_dir_name / self.name
+        return saved_results_dir / self.result_date_dir_name / self.name
 
     def set_result_settings(self):
         result_settings_path = self.result_full_path / 'settings.json'
@@ -161,18 +161,18 @@ class Results(DictKeys):
 
     @staticmethod
     def result_names(selected_dir):
-        result_dirs = search_dir(saved_results_folder / selected_dir, object_type='dir')
+        result_dirs = search_dir(saved_results_dir / selected_dir, object_type='dir')
         # check if the result folder has a f.npy file in it
         valid_results = []
         for result_dir in result_dirs:
-            f_file_path = saved_results_folder / selected_dir / result_dir / 'f.npy'
+            f_file_path = saved_results_dir / selected_dir / result_dir / 'f.npy'
             if f_file_path.absolute().exists():
                 valid_results.append(result_dir)
         return sorted(valid_results, reverse=True)
 
     @staticmethod
     def dir_names():
-        saved_results_list = search_dir(saved_results_folder, object_type='dir', iterative_search=False)
+        saved_results_list = search_dir(saved_results_dir, object_type='dir', iterative_search=False)
 
         def is_date_dir(dir_name):
             try:
@@ -244,7 +244,7 @@ class Results(DictKeys):
 
     @staticmethod
     def get_cst_result_file_names(selected_folder):
-        cst_result_folder_path = cst_results_folder / selected_folder
+        cst_result_folder_path = cst_results_dir / selected_folder
 
         cst_results = search_dir(dir_path=cst_result_folder_path, object_type='file', file_extension='txt')
 
@@ -252,5 +252,5 @@ class Results(DictKeys):
 
     @staticmethod
     def get_cst_folder_names():
-        cst_folders = search_dir(dir_path=cst_results_folder, object_type='dirs')
+        cst_folders = search_dir(dir_path=cst_results_dir, object_type='dirs')
         return cst_folders

@@ -113,7 +113,7 @@ class Plot(DictKeys):
     def cst_plot(self, ui_values):
         folder_path = self.cst_result.cst_result_folder_path
         for file_name in self.cst_result.result_file_names:
-            file_path = cst_results_folder / folder_path / file_name
+            file_path = cst_results_dir / folder_path / file_name
 
             cst_data_loader = CSTData(file_path)
             frequency_axis = cst_data_loader.f_s_parameters

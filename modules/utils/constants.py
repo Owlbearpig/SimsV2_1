@@ -19,21 +19,22 @@ GHz = 10 ** 9
 
 
 # Locations
-project_folder = Path(__file__).parents[2]
+project_dir = Path(__file__).parents[2]
 
-module_folder = project_folder / Path('modules')
+module_dir = project_dir / Path('modules')
 
-settings_module_folder = module_folder / Path('settings')
+settings_module_dir = module_dir / Path('settings')
 
-results_module_folder = module_folder / Path('results')
-saved_results_folder = results_module_folder / Path('saved_results')
+results_module_dir = module_dir / Path('results')
+saved_results_dir = results_module_dir / Path('saved_results')
 
-cst_module_folder = module_folder / Path('cst')
-cst_results_folder = cst_module_folder / Path('cst_results')
+cst_module_dir = module_dir / Path('cst')
+cst_results_dir = cst_module_dir / Path('cst_results')
 
-material_manager_folder = module_folder / Path('material_manager')
-data_folders = material_manager_folder / Path('data_folders')
+material_manager_dir = module_dir / Path('material_manager')
+data_dir = material_manager_dir / Path('data_folders')
 
+plot_data_dir = project_dir / Path('plot_data')
 
 # constant matrices
 x_pol_m = 0.5 * np.array([[1, 1, 0, 0],
@@ -57,4 +58,4 @@ stokes_initial = np.array([1, 1, 0, 0])
 jones_initial = np.array([1, 0])
 
 if __name__ == '__main__':
-    print(saved_results_folder)
+    print(saved_results_dir)

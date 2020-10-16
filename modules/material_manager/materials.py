@@ -1,5 +1,5 @@
 import shutil
-from modules.utils.constants import data_folders, project_folder
+from modules.utils.constants import data_dir, project_dir
 
 
 class Material:
@@ -11,7 +11,7 @@ class Material:
         return self.name
 
     def add_material_from_file(self):
-        material_folder = data_folders / self.name
+        material_folder = data_dir / self.name
         material_folder.mkdir(exist_ok=True, parents=True, mode=0o755)
         shutil.copy(str(self.path), str(material_folder))
 
@@ -22,10 +22,10 @@ class ProjectMaterials:
         self.find_materials()
 
     def find_materials(self):
-        p = data_folders.glob('**/*')
+        p = data_dir.glob('**/*')
         files = [x for x in p if x.is_file() and (".csv" in str(x))]
         for file in files:
-            self.material_list.append(Material(file.parts[-2], file.relative_to(project_folder)))
+            self.material_list.append(Material(file.parts[-2], file.relative_to(project_dir)))
 
     def get_material(self, material_name):
         if material_name == "":
