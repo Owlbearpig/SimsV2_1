@@ -25,7 +25,7 @@ default_settings_dict = {
     keys.randomizer_seed_key: None,
     keys.log_of_res_key: False,
     keys.min_width_key: 0.0,
-    keys.max_width_key: 500,
+    keys.max_width_key: 500.0,
     keys.min_angle_key: 0.0,
     keys.max_angle_key: 2*3.141592,
     keys.min_stripe_width_key: 5.0,

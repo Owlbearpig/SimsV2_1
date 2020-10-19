@@ -346,6 +346,8 @@ class ErfSetup(DictKeys):
 
             if self.wp_type == 'λ/2':
                 res = sum((1 - J[:, 1, 0] * np.conjugate(J[:, 1, 0]) + J[:, 0, 0] * np.conjugate(J[:, 0, 0])) ** 2)
+                # Jan loss function. No I_x
+                #res = sum((1 - J[:, 1, 0] * np.conjugate(J[:, 1, 0])) ** 2)
             else:
                 res = sum((J[:, 1, 0] * np.conjugate(J[:, 1, 0]) - J[:, 0, 0] * np.conjugate(J[:, 0, 0])) ** 2)
 
