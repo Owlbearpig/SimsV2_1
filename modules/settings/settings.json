@@ -151,7 +151,7 @@
     "stripe0_input": 1.0,
     "stripe1_input": 5.0,
     "plot_bf_real": true,
-    "plot_bf_imag": true,
+    "plot_bf_imag": false,
     "plot_np": true,
     "plot_ns": true,
     "plot_kp": false,

@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import pandas as pd
 from modules.utils.constants import *
 from modules.identifiers.dict_keys import DictKeys
 from modules.cst.read_cst_data import CSTData
@@ -31,8 +32,7 @@ class Plot(DictKeys):
         plt.ylabel(y_label)
         if legend_label:
             plt.legend()
-        plt.draw()
-        plt.pause(0.001)
+        plt.show(block = False)
 
     def result_plot(self, target_figure='Result plot'):
         legend_x_polarizer_label = 'X-Polarizer'
@@ -40,8 +40,6 @@ class Plot(DictKeys):
         y_axis_label = 'Intensity (dB)'
         fig_title = target_figure
         int_x, int_y = self.result.calculated_values['intensities']
-        plt.ion()
-        plt.show()
         self.simple_plot(int_x, legend_label=legend_x_polarizer_label, fig_title=fig_title, y_label=y_axis_label)
         self.simple_plot(int_y, legend_label=legend_y_polarizer_label, fig_title=fig_title, y_label=y_axis_label)
 
@@ -130,6 +128,11 @@ class Plot(DictKeys):
                 label = f'{file_name} y-pol.'.replace('.txt', '')
                 self.cst_plot_base(frequency_axis, int_y, legend_label=label)
 
+    @staticmethod
+    def export_data(x, y, file_path):
+        df = pd.DataFrame({'x': x,
+                           'y': y})
+        df.to_csv(plot_data_dir / (file_path.stem + '.csv'), index_label='n')
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt

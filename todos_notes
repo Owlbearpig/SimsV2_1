@@ -65,5 +65,9 @@ I still wonder if phaseshift is the correct value to optimize and not only inten
 21. Problem: Optimization results are a lot better if absorption is disabled. Does that make sense?
 Especially obvious for ceramic plates.
 
-22.
+22. 10 log10 int or 20 log10 int ?
+
+23. optimal angle(bf) plot
+
+24.
 
