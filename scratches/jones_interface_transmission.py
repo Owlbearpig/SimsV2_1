@@ -156,21 +156,37 @@ def optimal_angle_dev(n_s, n_p):
     return 180*np.abs(angles[np.argmin(minima_t_loss)]-pi/4)/pi
 
 
+def optimal_angle_dev2(n_s, n_p):
+    t_x = (4 * n_p * n_s ** 2) / (n_s ** 2 + n_p) ** 2
+    t_y = (4 * n_p ** 3) / (n_p + n_p ** 2) ** 2
+    best_angle = np.arctan(np.sqrt(t_x / t_y))
+
+    return np.abs(45 - np.rad2deg(best_angle))
+
+def optimal_angle_dev3(d, k_s, k_p):
+    alpha_s, alpha_p = -2 * pi * k_s * d / wls, -2 * pi * k_p * d / wls
+    best_angle = np.arctan(np.sqrt(exp(alpha_s) / exp(alpha_p)))
+
+    return np.abs(45 - np.rad2deg(best_angle))
+
+def single_wp_intensity(theta, d, n_s, n_p, t_loss=True):
+    phi_s, phi_p = 2 * d * n_s * pi / wls, 2 * d * n_p * pi / wls
+    x, y = 1j * phi_s, 1j * phi_p
+    if t_loss:
+        t_x, t_y = (4 * n_p * n_s ** 2) / (n_s ** 2 + n_p) ** 2, (4 * n_p ** 3) / (n_p + n_p ** 2) ** 2
+    else:
+        t_x, t_y = np.ones_like(n_p), np.ones_like(n_p)
+
+    e_0 = t_x * exp(x) * cos(theta) * cos(theta) + t_y * exp(y) * sin(theta) * sin(theta)
+
+    return 10*np.log10(e_0*np.conjugate(e_0))
+
+
 f_start = 0.150 * THz
 f_end = 1.5 * THz
 
 f_pnts = int((f_end - f_start) / (1 * GHz))
 freqs = np.linspace(f_start, f_end, f_pnts)
-
-# const eps_1,2
-n1 = 1.89  # material
-n2 = 1  # luft
-
-# n1**2+0.053j
-eps_mat1 = ((n1 ** 2 + 0.000j) * np.ones(freqs.shape, dtype=np.float))
-eps_mat2 = ((n2 ** 2 + 0.000j) * np.ones(freqs.shape, dtype=np.float))
-
-wls = c / freqs
 
 angles = [95.68, 290.49, 134.65, 332.32, 348.36]
 angles = np.deg2rad(angles)
@@ -180,17 +196,17 @@ d = np.array(d) * um
 
 wp_cnt = len(d)
 
-l_mat1 = 75 * um  # *75*um  # 64.8*um # mat1: nicht luft
-l_mat2 = 61 * um  # *61*um  # 45.6*um # mat2: luft
+l_mat1 = 58 * um  # *75*um  # 64.8*um # mat1: nicht luft
+l_mat2 = 92 * um  # *61*um  # 45.6*um # mat2: luft
 
 x_linear_j = np.array([1, 0])
 x_linear_m = np.array([1, 1, 0, 0])
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # eps_1,2 from material parameters
-"""
-# data_file_path = Path('/home/alex/Desktop/MDrive/AG/BFWaveplates/PycharmProjects/SimsV2/materials/FusedSilica/3Eck_D=1028.csv')
-data_file_path = Path(r'E:\CURPROJECT\SimsV2_1\modules\material_manager\data_folders\FusedSilica\3Eck_D=1028.csv')
+
+data_file_path = Path('/home/alex/Desktop/Projects/SimsV2_1/modules/material_manager/data_folders/FusedSilica/3Eck_D=1028.csv')
+# data_file_path = Path(r'E:\CURPROJECT\SimsV2_1\modules\material_manager\data_folders\FusedSilica\3Eck_D=1028.csv')
 
 df = pandas.read_csv(data_file_path)
 eps_silica_r_key = [key for key in df.keys() if "epsilon_r" in key][0]
@@ -214,16 +230,26 @@ freqs = freqs
 eps_mat1 = (constants["eps_silica_r"] + constants["eps_silica_i"] * 1j)
 eps_mat2 = (np.ones(eps_mat1.shape, dtype=eps_mat1.dtype))
 
-wls = (c / freqs)
 """
+# const eps_1,2
+n1 = 1.89  # material
+n2 = 1  # luft
+
+# n1**2+0.053j
+eps_mat1 = ((n1 ** 2 + 0.000j) * np.ones(freqs.shape, dtype=np.float))
+eps_mat2 = ((n2 ** 2 + 0.000j) * np.ones(freqs.shape, dtype=np.float))
+"""
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+wls = (c / freqs)
 n_s, n_p, k_s, k_p = calc_wp_deltas(l_mat1, l_mat2)
 
 angles = [95.68, 290.49, 134.65, 332.32, 348.36]
 angles = [45]
 angles = np.deg2rad(angles)
 
-d = [15000, 600., 570., 400., 600.]
+d = [500, 600., 570., 400., 600.]
+d = [500]
 d = np.array(d) * um
 
 # int l2 fp result with and without t losses
@@ -288,37 +314,37 @@ plt.plot(freqs, int_j_y_ohne, label='int_j_y_ohne')
 plt.legend()
 plt.show()
 """
-
-# n_s y-axis, n_p x-axis, angle dev. from 45deg optimum img.
 """
-len_x, len_y = 100, 100
+# n_s y-axis, n_p x-axis, angle dev. from 45deg optimum img.
+
+len_x, len_y = 1000, 1000
 cnt = 0
 img = np.zeros((len_x, len_y))
-n_s_lst, n_p_lst = np.linspace(1, 2, len_x), np.linspace(1, 2, len_y)
+n_s_lst, n_p_lst = np.linspace(1.1, 3.5, len_x), np.linspace(1.1, 3.5, len_y)
 
 for x, n_s in enumerate(n_s_lst):
     for y, n_p in enumerate(n_p_lst):
         cnt += 1
         print(f'{cnt}/{len_x*len_y}')
         if x != y:
-            img[x, y] = optimal_angle_dev(n_s, n_p)
+            img[x, y] = optimal_angle_dev2(n_s, n_p)
         else:
             img[x, y] = 0
 
-np.save('image2.npy', img)
+np.save('image_t_loss.npy', img)
 """
-"""
-img = np.load('image.npy')
+
+img = np.load('image_t_loss.npy')
 # autumn, gnuplot, brg, gist_rainbow, rainbow, nipy_spectral, jet, RdBu, coolwarm
-im = plt.imshow(img, extent=[1, 2, 1, 2], cmap=plt.cm.hsv) 
+im = plt.imshow(img, extent=[1.1, 3.5, 1.1, 3.5], cmap=plt.cm.RdBu)
 plt.xlabel('n_p')
 plt.ylabel('n_s')
 plt.colorbar(im)
 plt.show()
-"""
+
 
 # x-axis: frequency, y-axis: intensity, for single bf., no loss and with t-loss
-
+"""
 n_s, n_p = 1.2*np.ones(f_pnts), 1.55*np.ones(f_pnts)
 wp_t_loss = jones_wp_t_loss(np.pi/4, d[0], n_s, n_p)
 int_j_x_loss, int_j_y_loss = calc_intensity(wp_t_loss)
@@ -326,16 +352,19 @@ int_j_x_loss, int_j_y_loss = calc_intensity(wp_t_loss)
 wp_no_loss = jones_wp_no_t_loss(np.pi/4, d[0], n_s, n_p)
 int_j_x_no_loss, int_j_y_no_loss = calc_intensity(wp_no_loss)
 
-plt.plot(freqs, int_j_x_loss, label='int_x with loss')
+int_test = single_wp_intensity(np.pi/4, d[0], n_s, n_p)
+
+#plt.plot(freqs, int_j_x_loss, label='int_x with loss')
+#plt.plot(freqs, int_test, label='int_x with loss test')
 plt.plot(freqs, int_j_x_no_loss, label='int_x no loss')
 plt.legend()
 plt.show()
-
+"""
 
 # optimal angle shift: angle x-axis, min. intensity y-axis
 """
-n_s, n_p = 2*np.ones(f_pnts), 1*np.ones(f_pnts)
-angles = np.deg2rad(np.linspace(40, 50, 1000))
+n_s, n_p = 1.3*np.ones(f_pnts), 1.75*np.ones(f_pnts)
+angles = np.deg2rad(np.linspace(30, 55, 1000))
 minima_t_loss, minima_no_t_loss = [], []
 for angle in angles:
     wp_t_loss = jones_wp_t_loss(angle, d[0], n_s, n_p)
@@ -347,23 +376,24 @@ for angle in angles:
     minima_no_t_loss.append(min(int_j_x_no_loss))
 
 print(180*np.abs(angles[np.argmin(minima_t_loss)]-angles[np.argmin(minima_no_t_loss)])/np.pi)
-plt.plot(np.linspace(40, 50, 1000), minima_no_t_loss, label='int_x no loss')
-plt.plot(np.linspace(40, 50, 1000), minima_t_loss, label='int_x with loss')
+
+plt.plot(np.linspace(30, 55, 1000), minima_no_t_loss, label='int_x no loss')
+plt.plot(np.linspace(30, 55, 1000), minima_t_loss, label='int_x with loss')
 plt.legend()
 plt.show()
 """
 
 # angle dev from optimal dependent on bf: x-axis n_p + [0, 1], y-axis angle dev. from no t_loss
 """
-n_s_values = n_p + np.linspace(0, 1, len(n_p))
+n_s_values = n_p + np.linspace(0.3, 2, len(n_p))
 angle_dev = []
 cnt = 0
 for n_s in n_s_values:
     cnt += 1
-    angle_dev.append(optimal_angle_dev(n_s, n_p))
+    angle_dev.append(np.mean(optimal_angle_dev2(n_s, n_p)))
     print(f'{cnt} / {len(n_p)}')
 
-np.save('angle_dev_bf_plot', np.array(angle_dev))
+#np.save('angle_dev_bf_plot', np.array(angle_dev))
 
 plt.plot(np.linspace(0, 1, len(n_p)), angle_dev)
 plt.xlabel('bf')

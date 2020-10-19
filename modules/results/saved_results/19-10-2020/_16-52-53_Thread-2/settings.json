@@ -1,0 +1,171 @@
+{
+    "wp_cnt": 5,
+    "const_wp_dim": false,
+    "equal_stripes": true,
+    "initial_stripe_widths": [
+        [
+            50,
+            50,
+            50,
+            50,
+            50
+        ],
+        [
+            100,
+            100,
+            100,
+            100,
+            100
+        ]
+    ],
+    "const_angles": [
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "const_widths": [
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "width_pattern": [
+        1,
+        2,
+        3,
+        4,
+        5
+    ],
+    "frequency_resolution_multiplier": 1.0,
+    "min_freq": 0.15,
+    "max_freq": 2.5,
+    "material_drop_down": "FusedSilica_4Eck",
+    "birefringence_type_dropdown": "Natural",
+    "fast_material_dropdown": "CeramicFast",
+    "slow_material_dropdown": "CeramicSlow",
+    "const_refr_index_input_n_s": 0.0,
+    "const_refr_index_input_k_s": 0.0,
+    "const_refr_index_input_n_p": 0.0,
+    "const_refr_index_input_k_p": 0.0,
+    "randomizer_seed": null,
+    "log_of_res": false,
+    "min_width": 0.0,
+    "max_width": 500,
+    "min_angle": 0.0,
+    "max_angle": 6.283184,
+    "min_stripe_width": 5.0,
+    "max_stripe_width": 90.0,
+    "anisotropy_p": 1.0,
+    "anisotropy_s": 1.0,
+    "wp_type": "\u03bb/2",
+    "x_slicing": [
+        [
+            0,
+            5
+        ],
+        [
+            5,
+            10
+        ],
+        [
+            0,
+            0
+        ]
+    ],
+    "calculation_method": "Stokes",
+    "iterations": 100000,
+    "angle_step": 0.1,
+    "width_step": 10.0,
+    "stripe_width_step": 5.0,
+    "temperature": 0.5,
+    "local_opt_tol": 10,
+    "print_precision": 5,
+    "print_interval": 100,
+    "periodic_restart": false,
+    "disable_callback": false,
+    "save_all_results": false,
+    "save_settings": true,
+    "save_iterations": false,
+    "save_name": "_",
+    "save_folder_name": "",
+    "selected_material_data_path": "modules/material_manager/data_folders/FusedSilica_4Eck/4Eck_D=2042.csv",
+    "selected_fast_material_data_path": "modules/material_manager/data_folders/CeramicFast/Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
+    "selected_slow_material_data_path": "modules/material_manager/data_folders/CeramicSlow/Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
+    "new_material_name": "",
+    "new_material_path": "",
+    "enable_ri_overwrite_checkbox": false,
+    "x0_angle_input": [
+        0.25,
+        0.36,
+        2.65,
+        1.83,
+        3.43
+    ],
+    "x0_widths_input": [
+        189.3,
+        350.5,
+        398.8,
+        61.6,
+        489.9
+    ],
+    "x0_stripes_input": [
+        44.3,
+        51.4
+    ],
+    "angle_input": [
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "widths_input": [
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "stripes_input": [
+        0,
+        0
+    ],
+    "run_once_label_input": "",
+    "plot_in_cst": false,
+    "selected_frequency": 0.5,
+    "difference_plot": false,
+    "polarization_plot": false,
+    "angle_err_checkbox": false,
+    "width_err_checkbox": false,
+    "stripe_err_checkbox": false,
+    "min_angle_error_input": 0.0,
+    "max_angle_error_input": 1.0,
+    "min_width_error_input": 1.0,
+    "max_width_error_input": 5.0,
+    "min_stripe_error_input": 1.0,
+    "max_stripe_error_input": 5.0,
+    "overwrite_stripes": false,
+    "stripe0_input": 1.0,
+    "stripe1_input": 5.0,
+    "plot_bf_real": false,
+    "plot_bf_imag": false,
+    "plot_np": false,
+    "plot_ns": false,
+    "plot_kp": true,
+    "plot_ks": true,
+    "cst_plot_x": true,
+    "cst_plot_y": true,
+    "single_wp_angle_input": 42.0,
+    "single_wp_width_input": 4500.0,
+    "single_wp_stripe1_width_input": 560.0,
+    "single_wp_stripe2_width_input": 260.0,
+    "single_wp_label_input": "",
+    "plot_ns_checkbox_key": true,
+    "plot_np_checkbox_key": true,
+    "plot_ks_checkbox_key": false,
+    "plot_kp_checkbox_key": false,
+    "zeroth_order_freq_input": 300.0
+}
