@@ -20,6 +20,7 @@ def make_m_matrix_stack(erf_setup, refractive_indices, values):
     angles, widths, _ = values
     theta, gamma, ret, p_squared = erf_setup.m_matrix_input(angles, widths, *refractive_indices)
     M_all_freq = erf_setup.build_m_matrix_stack(theta, gamma, ret, p_squared)
+
     return M_all_freq
 
 

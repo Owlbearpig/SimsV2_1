@@ -204,9 +204,12 @@ class Tabs(DictKeys):
                                         key=self.new_material_path_key)
         add_material_button = sg.Button(button_text='Add material',
                                         key=self.add_material_button_key)
-        enable_ri_overwrite_checkbox = Checkbox('Enable',
-                                                default=self.settings[self.enable_ri_overwrite_checkbox_key],
-                                                key=self.enable_ri_overwrite_checkbox_key)
+        set_ri_real_part_checkbox = Checkbox('Overwrite real part',
+                                             default=self.settings[self.set_ri_real_part_checkbox_key],
+                                             key=self.set_ri_real_part_checkbox_key)
+        set_ri_img_part_checkbox = Checkbox('Overwrite imaginary part',
+                                            default=self.settings[self.set_ri_img_part_checkbox_key],
+                                            key=self.set_ri_img_part_checkbox_key)
         const_refr_index_input_n_s = Input(self.settings[self.const_refr_index_input_n_s_key],
                                            size=(5, 1),
                                            key=self.const_refr_index_input_n_s_key)
@@ -235,11 +238,11 @@ class Tabs(DictKeys):
         tab2_layout = [
             [sg.Text('Birefringence type:'), birefringence_type_dropdown],
             [sg.Frame('Overwrite RI',
-                      [[sg.Text('n_s'), const_refr_index_input_n_s,
+                      [[set_ri_real_part_checkbox, set_ri_img_part_checkbox],
+                       [sg.Text('n_s'), const_refr_index_input_n_s,
                         sg.Text('k_s'), const_refr_index_input_k_s,
                         sg.Text('n_p'), const_refr_index_input_n_p,
-                        sg.Text('k_p'), const_refr_index_input_k_p,
-                        enable_ri_overwrite_checkbox,
+                        sg.Text('k_p'), const_refr_index_input_k_p
                         ]])],
             [sg.Frame('Add material',
                       [[sg.Text('Name'), new_material_name_input,
@@ -250,7 +253,7 @@ class Tabs(DictKeys):
                       [[sg.Text('Form birefringence material:'), materials_dropdown],
                        [sg.Text('Data path'), selected_material_data_path_input],
                        ])],
-             [sg.Frame('Natural birefringence',
+            [sg.Frame('Natural birefringence',
                       [[sg.Text('Fast material:'), fast_material_dropdown],
                        [sg.Text('Fast material path'), fast_material_data_path_input],
                        [sg.Text('Slow material:'), slow_material_dropdown],
@@ -371,7 +374,7 @@ class Tabs(DictKeys):
         stripes_input = Input(default_text=cast_to_ui(self.settings[self.stripes_input_key]),
                               size=(30, 1),
                               key=self.stripes_input_key,
-                             enable_events=False)
+                              enable_events=False)
 
         run_once_button = sg.Button('Run once',
                                     key=self.run_once_button_key)

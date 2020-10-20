@@ -1,5 +1,5 @@
 {
-    "wp_cnt": 5,
+    "wp_cnt": 6,
     "const_wp_dim": false,
     "equal_stripes": true,
     "initial_stripe_widths": [
@@ -8,9 +8,11 @@
             50,
             50,
             50,
+            50,
             50
         ],
         [
+            100,
             100,
             100,
             100,
@@ -23,9 +25,11 @@
         0,
         0,
         0,
+        0,
         0
     ],
     "const_widths": [
+        0,
         0,
         0,
         0,
@@ -37,23 +41,24 @@
         2,
         3,
         4,
-        5
+        5,
+        6
     ],
-    "frequency_resolution_multiplier": 1.0,
+    "frequency_resolution_multiplier": 0.2,
     "min_freq": 0.25,
-    "max_freq": 1.0,
-    "material_drop_down": "",
-    "birefringence_type_dropdown": "Form",
-    "fast_material_dropdown": "",
-    "slow_material_dropdown": "",
-    "const_refr_index_input_n_s": 0.0,
+    "max_freq": 2.0,
+    "material_drop_down": "FusedSilica",
+    "birefringence_type_dropdown": "Natural",
+    "fast_material_dropdown": "CeramicFast",
+    "slow_material_dropdown": "CeramicSlow",
+    "const_refr_index_input_n_s": 2.108,
     "const_refr_index_input_k_s": 0.0,
-    "const_refr_index_input_n_p": 0.0,
+    "const_refr_index_input_n_p": 2.156,
     "const_refr_index_input_k_p": 0.0,
     "randomizer_seed": null,
     "log_of_res": false,
-    "min_width": 0.0,
-    "max_width": 500,
+    "min_width": 500.0,
+    "max_width": 7000,
     "min_angle": 0.0,
     "max_angle": 6.283184,
     "min_stripe_width": 5.0,
@@ -64,23 +69,23 @@
     "x_slicing": [
         [
             0,
-            5
+            6
         ],
         [
-            5,
-            10
-        ],
-        [
-            10,
+            6,
             12
+        ],
+        [
+            0,
+            0
         ]
     ],
-    "calculation_method": "Stokes",
-    "iterations": 100000,
-    "angle_step": 0.1,
-    "width_step": 10.0,
+    "calculation_method": "Jones",
+    "iterations": 10000,
+    "angle_step": 0.2,
+    "width_step": 50.0,
     "stripe_width_step": 5.0,
-    "temperature": 0.5,
+    "temperature": 0.0001,
     "local_opt_tol": 0.001,
     "print_precision": 5,
     "print_interval": 100,
@@ -89,58 +94,53 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "",
-    "save_folder_name": "",
-    "selected_material_data_path": "",
-    "selected_fast_material_data_path": "",
-    "selected_slow_material_data_path": "",
+    "save_name": "6wp_thick_full_f_range_",
+    "save_folder_name": "Ceramic_New_Absorption_Matrix",
+    "selected_material_data_path": "modules/material_manager/data_folders/FusedSilica/3Eck_D=1028.csv",
+    "selected_fast_material_data_path": "modules/material_manager/data_folders/CeramicFast/Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
+    "selected_slow_material_data_path": "modules/material_manager/data_folders/CeramicSlow/Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
     "new_material_name": "",
     "new_material_path": "",
     "set_ri_real_part_checkbox": false,
     "set_ri_img_part_checkbox": false,
     "x0_angle_input": [
-        0,
-        0,
-        0,
-        0,
-        0
+        4.47,
+        3.01,
+        2.44,
+        1.83,
+        1.43,
+        3.28
     ],
     "x0_widths_input": [
-        0,
-        0,
-        0,
-        0,
-        0
+        631.3,
+        2350.7,
+        3075.0,
+        1099.4,
+        4571.3,
+        5739.5
     ],
-    "x0_stripes_input": [
-        0,
-        0
-    ],
-    "basic_info_tab_l0": "",
-    "basic_info_tab_l1": "",
-    "info_tab_l0": "",
-    "info_tab_l1": "",
-    "info_tab_l2": "",
-    "info_tab_l3": "",
+    "x0_stripes_input": [],
     "angle_input": [
-        0,
-        0,
-        0,
-        0,
-        0
+        146.79,
+        167.15,
+        269.6,
+        288.16,
+        303.79,
+        322.84
     ],
     "widths_input": [
-        0,
-        0,
-        0,
-        0,
-        0
+        4527.7,
+        5052.5,
+        2598.6,
+        4428.6,
+        1435.4,
+        1172.2
     ],
     "stripes_input": [
         0,
         0
     ],
-    "run_once_label_input": "",
+    "run_once_label_input": "Masson_ConstBF_w_abs",
     "plot_in_cst": false,
     "selected_frequency": 0.5,
     "difference_plot": false,
@@ -158,7 +158,7 @@
     "stripe0_input": 1.0,
     "stripe1_input": 5.0,
     "plot_bf_real": true,
-    "plot_bf_imag": true,
+    "plot_bf_imag": false,
     "plot_np": true,
     "plot_ns": true,
     "plot_kp": false,
@@ -166,13 +166,13 @@
     "cst_plot_x": true,
     "cst_plot_y": true,
     "single_wp_angle_input": 45.0,
-    "single_wp_width_input": 1200.0,
-    "single_wp_stripe1_width_input": 100.0,
-    "single_wp_stripe2_width_input": 50.0,
+    "single_wp_width_input": 1600.0,
+    "single_wp_stripe1_width_input": 300.0,
+    "single_wp_stripe2_width_input": 500.0,
     "single_wp_label_input": "",
-    "plot_ns_checkbox_key": true,
-    "plot_np_checkbox_key": true,
+    "plot_ns_checkbox_key": false,
+    "plot_np_checkbox_key": false,
     "plot_ks_checkbox_key": true,
     "plot_kp_checkbox_key": true,
-    "zeroth_order_freq_input": 300.0
+    "zeroth_order_freq_input": 400.0
 }

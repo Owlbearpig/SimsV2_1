@@ -94,14 +94,15 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "MassonValues_",
+    "save_name": "Masson_ConstBF_w_abs_",
     "save_folder_name": "Masson2",
     "selected_material_data_path": "modules/material_manager/data_folders/FusedSilica/3Eck_D=1028.csv",
     "selected_fast_material_data_path": "modules/material_manager/data_folders/CeramicFast/Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
     "selected_slow_material_data_path": "modules/material_manager/data_folders/CeramicSlow/Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
     "new_material_name": "",
     "new_material_path": "",
-    "enable_ri_overwrite_checkbox": true,
+    "set_ri_real_part_checkbox": true,
+    "set_ri_img_part_checkbox": false,
     "x0_angle_input": [
         2.93,
         4.18,
@@ -120,26 +121,26 @@
     ],
     "x0_stripes_input": [],
     "angle_input": [
-        31.7,
-        10.4,
-        118.7,
-        24.9,
-        5.1,
-        69.0
+        146.79,
+        167.15,
+        269.6,
+        288.16,
+        303.79,
+        322.84
     ],
     "widths_input": [
-        3360,
-        6730,
-        6460,
-        3140,
-        3300,
-        8430
+        4527.7,
+        5052.5,
+        2598.6,
+        4428.6,
+        1435.4,
+        1172.2
     ],
     "stripes_input": [
         0,
         0
     ],
-    "run_once_label_input": "Masson_ConstBF",
+    "run_once_label_input": "Masson_ConstBF_w_abs",
     "plot_in_cst": false,
     "selected_frequency": 0.5,
     "difference_plot": false,
@@ -169,9 +170,9 @@
     "single_wp_stripe1_width_input": 300.0,
     "single_wp_stripe2_width_input": 500.0,
     "single_wp_label_input": "",
-    "plot_ns_checkbox_key": true,
-    "plot_np_checkbox_key": true,
-    "plot_ks_checkbox_key": false,
-    "plot_kp_checkbox_key": false,
+    "plot_ns_checkbox_key": false,
+    "plot_np_checkbox_key": false,
+    "plot_ks_checkbox_key": true,
+    "plot_kp_checkbox_key": true,
     "zeroth_order_freq_input": 400.0
 }

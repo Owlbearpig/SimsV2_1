@@ -92,6 +92,8 @@ class DictKeys:
         self.set_selected_result_settings_button_key = DictKey('set_selected_result_settings_button')
         self.optimizer_test_button_key = DictKey('optimizer_test_button')
         self.run_once_label_input_key = DictKey('run_once_label_input')
+        self.set_ri_real_part_checkbox_key = DictKey('set_ri_real_part_checkbox')
+        self.set_ri_img_part_checkbox_key = DictKey('set_ri_img_part_checkbox')
 
         # tab5
         self.result_list_key = DictKey('result_list')

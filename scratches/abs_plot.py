@@ -22,7 +22,7 @@ for file_path in paths:
     eps_mat_r = np.array(df[eps_mat_r_key])
     eps_mat_i = np.array(df[eps_mat_i_key])
 
-    plt.plot(frequencies, 4*np.pi*eps_mat_i*frequencies/c, label=path.stem)
+    plt.plot(frequencies, eps_mat_i, label=path.stem)
 
 plt.legend()
 plt.show()

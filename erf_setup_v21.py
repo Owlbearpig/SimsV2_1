@@ -199,11 +199,17 @@ class ErfSetup(DictKeys):
     def j_matrix_input(self, angles, d, n_s, n_p, k_s, k_p):
         wls = self.wls
         phi_s, phi_p = (2 * n_s * pi / wls) * d.T, (2 * n_p * pi / wls) * d.T
-        alpha_s, alpha_p = -(2 * pi * k_s / wls) * d.T, -(2 * pi * k_p / wls) * d.T
+        # anisotropic part only
+        alpha_s, alpha_p = np.zeros_like(wls), -(2 * pi * (k_p - k_s) / wls) * d.T
+        # original absorption term
+        #alpha_s, alpha_p = -(2 * pi * k_s / wls) * d.T, -(2 * pi * k_p / wls) * d.T
 
         theta = np.tile(angles, (self.freq_cnt, 1))
 
         return theta, 1j * phi_s + alpha_s, 1j * phi_p + alpha_p
+
+    def j_absorption_factor(self, d, k_s):
+        return np.prod(exp(-(4 * pi * k_s / self.wls) * d.T), axis=1)
 
     def build_j_matrix_stack(self, theta, x, y):
         J = np.zeros((self.freq_cnt, self.wp_cnt, 2, 2), dtype=np.complex)
@@ -309,16 +315,17 @@ class ErfSetup(DictKeys):
         else:
             n = self.natural_birefringence()
 
-        if self.settings[self.enable_ri_overwrite_checkbox_key]:
-            n = np.array([self.const_n_s*np.ones_like(n[0]),
-                          self.const_n_p*np.ones_like(n[1]),
-                          self.const_k_s*np.ones_like(n[2]),
-                          self.const_k_p*np.ones_like(n[3])])
-
-            # let stripes have no effect if we overwrite ri anyways
+        # let stripes have no effect if we overwrite ri anyways
+        if self.settings[self.set_ri_real_part_checkbox_key] or self.settings[self.set_ri_img_part_checkbox_key]:
             self.const_wp_dimensions = True
 
-        n[2], n[3] = self.anis_s * n[2], self.anis_p  * n[3]
+
+        if self.settings[self.set_ri_real_part_checkbox_key]:
+            n[0], n[1] = self.const_n_s*np.ones_like(n[0]), self.const_n_p*np.ones_like(n[1])
+        if self.settings[self.set_ri_img_part_checkbox_key]:
+            n[2], n[3] = self.const_k_s*np.ones_like(n[2]), self.const_k_p*np.ones_like(n[3])
+
+        n[2], n[3] = self.anis_s * n[2], self.anis_p * n[3]
 
         return n
 
@@ -350,6 +357,11 @@ class ErfSetup(DictKeys):
                 #res = sum((1 - J[:, 1, 0] * np.conjugate(J[:, 1, 0])) ** 2)
             else:
                 res = sum((J[:, 1, 0] * np.conjugate(J[:, 1, 0]) - J[:, 0, 0] * np.conjugate(J[:, 0, 0])) ** 2)
+
+            # for testing
+            abs_factor = self.j_absorption_factor(d, k_s)
+            self.intensity_x = 10*np.log10(abs_factor * J[:, 0, 0] * np.conjugate(J[:, 0, 0]))
+            self.intensity_y = 10*np.log10(abs_factor * J[:, 1, 0] * np.conjugate(J[:, 1, 0]))
 
             if self.log_of_res:
                 return np.log10(res / self.freq_cnt)
@@ -386,6 +398,24 @@ class ErfSetup(DictKeys):
         else:
             return j_stack_err
 
-
 if __name__ == '__main__':
-    pass
+    from modules.settings.settings import Settings
+    import matplotlib.pyplot as plt
+
+    path = '/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/Ceramic_New_Absorption_Matrix/6wp_thick_full_f_range_12-35-09_OptimizationProcess-1/settings.json'
+    settings_dict = Settings().load_settings(path)
+    erf_setup = ErfSetup(settings_dict)
+    erf = erf_setup.erf
+
+    angles = np.deg2rad([245.34, 207.2, 230.07, 77.24, 35.3, 186.93])
+    d = np.array([1888.6, 3366.8, 1046.4, 3451.1, 1873.6, 6950.5])*um
+
+    x0 = np.concatenate((angles, d))
+    erf(x0)
+
+    int_x, int_y = erf_setup.intensity_x, erf_setup.intensity_y
+    freqs = erf_setup.frequencies
+
+    plt.plot(freqs, int_x, label='after x-pol')
+    plt.plot(freqs, int_y, label='after y-pol')
+    plt.show()
