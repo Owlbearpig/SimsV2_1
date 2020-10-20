@@ -402,13 +402,13 @@ if __name__ == '__main__':
     from modules.settings.settings import Settings
     import matplotlib.pyplot as plt
 
-    path = '/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/Ceramic_New_Absorption_Matrix/6wp_thick_full_f_range_12-35-09_OptimizationProcess-1/settings.json'
+    path = '/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/Ceramic_New_Absorption_Matrix/5wp_thick_low_f_range_17-12-11_OptimizationProcess-2/settings.json'
     settings_dict = Settings().load_settings(path)
     erf_setup = ErfSetup(settings_dict)
     erf = erf_setup.erf
 
-    angles = np.deg2rad([245.34, 207.2, 230.07, 77.24, 35.3, 186.93])
-    d = np.array([1888.6, 3366.8, 1046.4, 3451.1, 1873.6, 6950.5])*um
+    angles = np.deg2rad([98.85, 292.63, 313.61, 333.85, 170.91])
+    d = np.array([3357.9, 3586.1, 3603.1, 3714.0, 3619.1])*um
 
     x0 = np.concatenate((angles, d))
     erf(x0)
