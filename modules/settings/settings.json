@@ -40,8 +40,8 @@
         5
     ],
     "frequency_resolution_multiplier": 0.2,
-    "min_freq": 0.25,
-    "max_freq": 2.0,
+    "min_freq": 1.25,
+    "max_freq": 2.25,
     "material_drop_down": "FusedSilica",
     "birefringence_type_dropdown": "Natural",
     "fast_material_dropdown": "CeramicFast",
@@ -53,7 +53,7 @@
     "randomizer_seed": null,
     "log_of_res": false,
     "min_width": 500.0,
-    "max_width": 7000,
+    "max_width": 9000,
     "min_angle": 0.0,
     "max_angle": 6.283184,
     "min_stripe_width": 5.0,
@@ -83,13 +83,13 @@
     "temperature": 0.0001,
     "local_opt_tol": 0.001,
     "print_precision": 5,
-    "print_interval": 100,
+    "print_interval": 1000,
     "periodic_restart": false,
     "disable_callback": false,
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "6wp_thick_full_f_range_",
+    "save_name": "5wp_thick_high_f_range_",
     "save_folder_name": "Ceramic_New_Absorption_Matrix",
     "selected_material_data_path": "modules/material_manager/data_folders/FusedSilica/3Eck_D=1028.csv",
     "selected_fast_material_data_path": "modules/material_manager/data_folders/CeramicFast/Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
@@ -99,18 +99,18 @@
     "set_ri_real_part_checkbox": false,
     "set_ri_img_part_checkbox": false,
     "x0_angle_input": [
-        3.29,
-        5.83,
-        1.43,
-        0.52,
-        6.2
+        4.74,
+        5.74,
+        1.12,
+        0.94,
+        6.24
     ],
     "x0_widths_input": [
-        5582.7,
-        2045.1,
-        6158.4,
-        6850.1,
-        6289.3
+        3180.2,
+        3997.8,
+        3523.5,
+        8144.9,
+        8468.8
     ],
     "x0_stripes_input": [],
     "angle_input": [
@@ -163,9 +163,9 @@
     "single_wp_stripe1_width_input": 300.0,
     "single_wp_stripe2_width_input": 500.0,
     "single_wp_label_input": "",
-    "plot_ns_checkbox_key": false,
-    "plot_np_checkbox_key": false,
-    "plot_ks_checkbox_key": true,
-    "plot_kp_checkbox_key": true,
-    "zeroth_order_freq_input": 400.0
+    "plot_ns_checkbox_key": true,
+    "plot_np_checkbox_key": true,
+    "plot_ks_checkbox_key": false,
+    "plot_kp_checkbox_key": false,
+    "zeroth_order_freq_input": 300.0
 }
