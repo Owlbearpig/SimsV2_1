@@ -70,6 +70,7 @@ class Settings(DictKeys):
     def fix_old_settings(self):
         settings_paths = search_dir(saved_results_dir, file_extension='json', return_path=True)
         for settings_file_path in settings_paths:
+            print(settings_file_path)
             settings_dict = self.load_settings(settings_file_path)
             # if settings dict is missing key add default value
             for key in default_settings_dict:
@@ -79,8 +80,13 @@ class Settings(DictKeys):
                     settings_dict[key] = default_settings_dict[key]
             self.make_settings_save_file(settings_dict, settings_file_path)
 
+
 if __name__ == '__main__':
-    new_settings = Settings()
-    new_settings.make_default_settings()
-    new_settings_dict = new_settings.load_settings()
+    settings_paths = search_dir(saved_results_dir, file_extension='json', return_path=True)
+    settings = Settings()
+    for settings_file_path in settings_paths:
+        try:
+            settings_dict = settings.load_settings(settings_file_path)
+        except Exception as e:
+            print(settings_file_path)
 

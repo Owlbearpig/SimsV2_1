@@ -179,5 +179,6 @@
     "info_tab_l2": "",
     "info_tab_l3": "",
     "set_ri_real_part_checkbox": false,
-    "set_ri_img_part_checkbox": false
+    "set_ri_img_part_checkbox": false,
+    "weak_absorption_checkbox": false
 }

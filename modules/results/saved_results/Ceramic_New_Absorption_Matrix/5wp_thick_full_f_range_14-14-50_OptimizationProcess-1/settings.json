@@ -168,6 +168,7 @@
     "plot_ks_checkbox_key": true,
     "plot_kp_checkbox_key": true,
     "zeroth_order_freq_input": 400.0,
+    "weak_absorption_checkbox": false,
     "basic_info_tab_l0": "",
     "basic_info_tab_l1": "",
     "info_tab_l0": "",

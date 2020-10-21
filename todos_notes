@@ -83,4 +83,8 @@ Especially obvious for ceramic plates.
 
 30. 'fix old settings' should also delete fields which doesn't exist anymore
 
-31.
+31. Hermanns values:
+    - Wafers have discrete widths. 8 in total.
+    - Fix same 1 width, optimize angles, stripes(-> bf) for each wp (l4 problem with too thick plates)
+    - Assume plates can be cut from wafers -> Same widths can be used multiple times, optimize angles and stripes
+    - check influence of width/stripe width error
