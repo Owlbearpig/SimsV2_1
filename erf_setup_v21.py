@@ -199,8 +199,10 @@ class ErfSetup(DictKeys):
     def j_matrix_input(self, angles, d, n_s, n_p, k_s, k_p):
         wls = self.wls
         phi_s, phi_p = (2 * n_s * pi / wls) * d.T, (2 * n_p * pi / wls) * d.T
+
         # anisotropic part only
         alpha_s, alpha_p = np.zeros_like(wls), -(2 * pi * (k_p - k_s) / wls) * d.T
+
         # original absorption term
         #alpha_s, alpha_p = -(2 * pi * k_s / wls) * d.T, -(2 * pi * k_p / wls) * d.T
 
@@ -319,7 +321,6 @@ class ErfSetup(DictKeys):
         if self.settings[self.set_ri_real_part_checkbox_key] or self.settings[self.set_ri_img_part_checkbox_key]:
             self.const_wp_dimensions = True
 
-
         if self.settings[self.set_ri_real_part_checkbox_key]:
             n[0], n[1] = self.const_n_s*np.ones_like(n[0]), self.const_n_p*np.ones_like(n[1])
         if self.settings[self.set_ri_img_part_checkbox_key]:
@@ -351,12 +352,18 @@ class ErfSetup(DictKeys):
 
             J = self.build_j_matrix_stack(theta, x, y)
 
+            self.int_x, self.int_y = 10*np.log10(J[:, 0, 0] * np.conjugate(J[:, 0, 0])), \
+                                     10*np.log10(J[:, 1, 0] * np.conjugate(J[:, 1, 0]))
+
             if self.wp_type == 'λ/2':
                 res = sum((1 - J[:, 1, 0] * np.conjugate(J[:, 1, 0]) + J[:, 0, 0] * np.conjugate(J[:, 0, 0])) ** 2)
                 # Jan loss function. No I_x
                 #res = sum((1 - J[:, 1, 0] * np.conjugate(J[:, 1, 0])) ** 2)
             else:
-                res = sum((J[:, 1, 0] * np.conjugate(J[:, 1, 0]) - J[:, 0, 0] * np.conjugate(J[:, 0, 0])) ** 2)
+                # OG intensity loss
+                # res = sum((J[:, 1, 0] * np.conjugate(J[:, 1, 0]) - J[:, 0, 0] * np.conjugate(J[:, 0, 0])) ** 2)
+                q = J[:, 0, 0] / J[:, 1, 0]
+                res = sum(q.real**2 + (q.imag-1)**2)
 
             # for testing
             abs_factor = self.j_absorption_factor(d, k_s)
@@ -402,13 +409,13 @@ if __name__ == '__main__':
     from modules.settings.settings import Settings
     import matplotlib.pyplot as plt
 
-    path = '/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/Ceramic_New_Absorption_Matrix/5wp_thick_low_f_range_17-12-11_OptimizationProcess-2/settings.json'
+    path = '/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/fp_results_quartz/fp_quartz_11-44-59_Thread-2/settings.json'
     settings_dict = Settings().load_settings(path)
     erf_setup = ErfSetup(settings_dict)
     erf = erf_setup.erf
 
-    angles = np.deg2rad([98.85, 292.63, 313.61, 333.85, 170.91])
-    d = np.array([3357.9, 3586.1, 3603.1, 3714.0, 3619.1])*um
+    angles = np.deg2rad([95.68, 290.49, 134.65, 332.32, 348.36])
+    d = np.array([590.0, 600.0, 570.0, 400.0, 600.0])*um
 
     x0 = np.concatenate((angles, d))
     erf(x0)

@@ -150,5 +150,13 @@
     "plot_np_checkbox_key": true,
     "plot_ks_checkbox_key": true,
     "plot_kp_checkbox_key": true,
-    "zeroth_order_freq_input": 300.0
+    "zeroth_order_freq_input": 300.0,
+    "set_ri_real_part_checkbox": false,
+    "set_ri_img_part_checkbox": false,
+    "basic_info_tab_l0": "",
+    "basic_info_tab_l1": "",
+    "info_tab_l0": "",
+    "info_tab_l1": "",
+    "info_tab_l2": "",
+    "info_tab_l3": ""
 }
