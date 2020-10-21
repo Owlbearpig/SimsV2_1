@@ -5,6 +5,7 @@ from modules.settings.defaults import default_settings_dict
 from modules.utils.constants import *
 import traceback
 import PySimpleGUI as sg
+
 base_folder = pathlib.Path(__file__).parents[1].absolute()
 
 
@@ -12,12 +13,12 @@ def error_popup(e):
     tb = traceback.format_exc()
     page_len = 2000
     for cnt, i in enumerate(range(0, len(tb), page_len)):
-        sg.popup_error(tb[i:i+page_len],
-                       title=f'Traceback (Good luck) ({1 + cnt}/{1 + len(tb)//page_len})',
+        sg.popup_error(tb[i:i + page_len],
+                       title=f'Traceback (Good luck) ({1 + cnt}/{1 + len(tb) // page_len})',
                        non_blocking=True)
     e = str(e)
     if len(e) < 50:
-        e = e + ' '*(50-len(e)) + '\(.;.;.)/'
+        e = e + ' ' * (50 - len(e)) + '\(.;.;.)/'
     sg.popup_error(e, title='Error broke it again ;(', non_blocking=True)
 
 
@@ -46,6 +47,10 @@ def check_x0_wp_cnt(ui_values):
 
 def check_values(func):
     def wrapper(self, current_ui_values):
+        if (current_ui_values[DictKeys().weak_absorption_checkbox_key] and
+                current_ui_values[DictKeys().calculation_method_key] != 'Jones'):
+            sg.PopupNoWait('---anisotropic absorption only implemented for jones calc---', title='F')
+            return
         if check_x0_wp_cnt(current_ui_values):
             sg.PopupNoWait('---Check x0---', title='oof')
             return
@@ -116,4 +121,3 @@ def cast_to_ui(value):
 if __name__ == '__main__':
     test = Path("/home/alex/Desktop/MDrive/AG/BFWaveplates/PycharmProjects/SimsV2_1/modules/results/saved_results")
     print(search_dir(test, object_type='dir'))
-

@@ -201,10 +201,11 @@ class ErfSetup(DictKeys):
         phi_s, phi_p = (2 * n_s * pi / wls) * d.T, (2 * n_p * pi / wls) * d.T
 
         # anisotropic part only
-        alpha_s, alpha_p = np.zeros_like(wls), -(2 * pi * (k_p - k_s) / wls) * d.T
-
+        if self.settings[self.weak_absorption_checkbox_key]:
+            alpha_s, alpha_p = np.zeros_like(wls), -(2 * pi * (k_p - k_s) / wls) * d.T
         # original absorption term
-        #alpha_s, alpha_p = -(2 * pi * k_s / wls) * d.T, -(2 * pi * k_p / wls) * d.T
+        else:
+            alpha_s, alpha_p = -(2 * pi * k_s / wls) * d.T, -(2 * pi * k_p / wls) * d.T
 
         theta = np.tile(angles, (self.freq_cnt, 1))
 

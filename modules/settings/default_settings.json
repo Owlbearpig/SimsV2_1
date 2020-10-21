@@ -59,6 +59,7 @@
     "min_stripe_width": 5.0,
     "max_stripe_width": 90.0,
     "anisotropy_p": 1.0,
+    "weak_absorption_checkbox": false,
     "anisotropy_s": 1.0,
     "wp_type": "\u03bb/2",
     "x_slicing": [

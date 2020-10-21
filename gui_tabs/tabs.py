@@ -110,6 +110,10 @@ class Tabs(DictKeys):
                                 default_value=self.settings[self.wp_type_key],
                                 auto_size_text=True,
                                 key=self.wp_type_key)
+        weak_absorption_checkbox = Checkbox('Enable weak absorption',
+                                            default=self.settings[self.weak_absorption_checkbox_key],
+                                            key=self.weak_absorption_checkbox_key,
+                                            tooltip='Enable to use anisotropic part of absorption only')
         x0_angles_input = Input(default_text=cast_to_ui(self.settings[self.x0_angle_input_key]),
                                 size=(70, 1),
                                 key=self.x0_angle_input_key)
@@ -163,7 +167,7 @@ class Tabs(DictKeys):
                         sg.Text('k_s'), low_anisotropy_input,
                         sg.Text('k_p'), high_anisotropy_input],
                        [sg.Text('Wp type', size=(15, 1)), wp_type_dropdown],
-                       [sg.Text('x - slices:'), x_slicing_input]]),
+                       [sg.Text('x - slices:'), x_slicing_input, weak_absorption_checkbox]]),
              sg.Frame('Initial values',
                       [[sg.Text('angles (rad)')],
                        [x0_angles_input],
