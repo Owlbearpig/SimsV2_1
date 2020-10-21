@@ -176,6 +176,7 @@
     "zeroth_order_freq_input": 1400.0,
     "set_ri_real_part_checkbox": false,
     "set_ri_img_part_checkbox": false,
+    "weak_absorption_checkbox": false,
     "basic_info_tab_l0": "",
     "basic_info_tab_l1": "",
     "info_tab_l0": "",

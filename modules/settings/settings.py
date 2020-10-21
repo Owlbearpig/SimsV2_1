@@ -70,7 +70,6 @@ class Settings(DictKeys):
     def fix_old_settings(self):
         settings_paths = search_dir(saved_results_dir, file_extension='json', return_path=True)
         for settings_file_path in settings_paths:
-            print(settings_file_path)
             settings_dict = self.load_settings(settings_file_path)
             # if settings dict is missing key add default value
             for key in default_settings_dict:
@@ -82,11 +81,7 @@ class Settings(DictKeys):
 
 
 if __name__ == '__main__':
-    settings_paths = search_dir(saved_results_dir, file_extension='json', return_path=True)
-    settings = Settings()
-    for settings_file_path in settings_paths:
-        try:
-            settings_dict = settings.load_settings(settings_file_path)
-        except Exception as e:
-            print(settings_file_path)
+    import numpy as np
+    path = r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\Ceramic_New_Absorption_Matrix\4wp_thin_mid_f_range_19-29-30_OptimizationProcess-5\angles.npy'
+    np.load(path, allow_pickle=True)
 
