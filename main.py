@@ -140,7 +140,13 @@ class WaveplateApp(DictKeys):
         thread.start()
 
     @check_values
+    def discrete_bruteforce_optimization(self):
+        pass
+
+    @check_values
     def new_optimization_process(self, ui_values):
+        # save settings in case of crash (:
+        self.settings_module.save_settings(ui_values)
         new_process = OptimizationProcess(target=make_optimizer, kwargs={'queue': self.queue, 'settings': ui_values})
         new_process.add_task_info()
         self.output_handlers[new_process.name] = OutputHandler(ui_values, new_process)

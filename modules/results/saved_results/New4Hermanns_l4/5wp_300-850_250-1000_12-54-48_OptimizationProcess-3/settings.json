@@ -26,11 +26,11 @@
         0
     ],
     "const_widths": [
-        520,
-        520,
-        520,
-        520,
-        520
+        0,
+        0,
+        0,
+        0,
+        0
     ],
     "width_pattern": [
         1,
@@ -41,7 +41,7 @@
     ],
     "frequency_resolution_multiplier": 1.0,
     "min_freq": 0.25,
-    "max_freq": 1.75,
+    "max_freq": 1.0,
     "material_drop_down": "FusedSilica",
     "birefringence_type_dropdown": "Form",
     "fast_material_dropdown": "CeramicFast",
@@ -57,10 +57,10 @@
     "min_angle": 0.0,
     "max_angle": 6.283184,
     "min_stripe_width": 10.0,
-    "max_stripe_width": 70.0,
+    "max_stripe_width": 100.0,
     "anisotropy_p": 1.0,
     "anisotropy_s": 1.0,
-    "wp_type": "\u03bb/2",
+    "wp_type": "\u03bb/4",
     "x_slicing": [
         [
             0,
@@ -68,18 +68,18 @@
         ],
         [
             5,
-            5
+            10
         ],
         [
-            5,
-            15
+            10,
+            20
         ]
     ],
     "calculation_method": "Jones",
     "iterations": 10000,
-    "angle_step": 0.02,
-    "width_step": 10.0,
-    "stripe_width_step": 5.0,
+    "angle_step": 0.03,
+    "width_step": 50.0,
+    "stripe_width_step": 2.0,
     "temperature": 0.001,
     "local_opt_tol": 0.001,
     "print_precision": 5,
@@ -89,8 +89,8 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "5wp_520_500-1500_",
-    "save_folder_name": "New4Hermanns_l2",
+    "save_name": "5wp_300-850_250-1000_",
+    "save_folder_name": "New4Hermanns_l4",
     "selected_material_data_path": "modules/material_manager/data_folders/FusedSilica/3Eck_D=1028.csv",
     "selected_fast_material_data_path": "modules/material_manager/data_folders/CeramicFast/Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
     "selected_slow_material_data_path": "modules/material_manager/data_folders/CeramicSlow/Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
@@ -100,24 +100,30 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": true,
     "x0_angle_input": [
-        0.17,
-        3.91,
-        4.87,
-        1.69,
-        2.85
+        1.86,
+        2.51,
+        5.73,
+        4.21,
+        1.8
     ],
-    "x0_widths_input": [],
+    "x0_widths_input": [
+        520.3,
+        351.5,
+        706.5,
+        849.8,
+        818.7
+    ],
     "x0_stripes_input": [
-        51.8,
-        37.8,
-        10.5,
-        23.8,
-        45.6,
-        11.4,
-        20.0,
-        68.6,
-        42.3,
-        64.2
+        39.2,
+        87.2,
+        24.9,
+        58.0,
+        16.2,
+        37.6,
+        97.6,
+        89.0,
+        78.8,
+        57.0
     ],
     "angle_input": [
         116.1,
@@ -164,12 +170,12 @@
     "cst_plot_y": true,
     "single_wp_angle_input": 45.0,
     "single_wp_width_input": 1600.0,
-    "single_wp_stripe1_width_input": 30.1,
-    "single_wp_stripe2_width_input": 70.0,
+    "single_wp_stripe1_width_input": 40.1,
+    "single_wp_stripe2_width_input": 40.0,
     "single_wp_label_input": "",
     "plot_ns_checkbox_key": true,
     "plot_np_checkbox_key": true,
     "plot_ks_checkbox_key": false,
     "plot_kp_checkbox_key": false,
-    "zeroth_order_freq_input": 2000.0
+    "zeroth_order_freq_input": 250.0
 }
