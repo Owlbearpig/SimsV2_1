@@ -89,3 +89,6 @@ Especially obvious for ceramic plates.
     - Fix same 1 width, optimize angles, stripes(-> bf) for each wp (l4 problem with too thick plates)
     - Assume plates can be cut from wafers -> Same widths can be used multiple times, optimize angles and stripes
     - check influence of width/stripe width error
+
+32. if wafer is circular need some way to tell direction eg. 0 deg.
+    - 3 possibilities: slit for "pole" to stack, one side flat or a notch
