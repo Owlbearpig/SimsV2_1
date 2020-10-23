@@ -1,6 +1,7 @@
 from modules.utils.helpers import sg
 from gui_tabs.tabs import Tabs
-from modules.execution.optimization_process import OptimizationProcess, make_optimizer, no_optimization
+from modules.execution.optimization_process import (OptimizationProcess, make_optimizer, no_optimization,
+                                                    make_discrete_bruteforce_optimizer)
 import queue
 from multiprocessing import Queue
 from modules.execution.stopppable_thread import StoppableThread
@@ -140,8 +141,10 @@ class WaveplateApp(DictKeys):
         thread.start()
 
     @check_values
-    def discrete_bruteforce_optimization(self):
-        pass
+    def discrete_bruteforce_optimization(self, ui_values):
+        new_process = OptimizationProcess(target=make_discrete_bruteforce_optimizer,
+                                          kwargs={'queue': self.queue, 'settings': ui_values})
+        new_process.start()
 
     #@check_values
     def new_optimization_process(self, ui_values):
@@ -322,6 +325,7 @@ class WaveplateApp(DictKeys):
         if self.plotter.cst_result:
             self.plotter.cst_plot(ui_values)
     # ---------------------------------------Single WP---------------------------------------------------------------- #
+
     @check_values
     def single_wp_plot_intensities(self, ui_values):
         new_single_wp = SingleWaveplate(ui_values)

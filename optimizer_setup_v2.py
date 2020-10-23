@@ -177,10 +177,12 @@ class OptimizerSetup(DictKeys):
         take_step = CustomStep(angle_step, width_step, stripe_step, self.erf_setup_instance, self)
         bounds_callable = Bounds(self)
 
-        basinhopping(stack_err, x0, niter=iterations, stepsize=angle_step,
-                     callback=callback, take_step=take_step, T=temperature,
-                     accept_test=bounds_callable,
-                     minimizer_kwargs=local_min_kwargs, interval=5)
+        opt_res = basinhopping(stack_err, x0, niter=iterations, stepsize=angle_step,
+                               callback=callback, take_step=take_step, T=temperature,
+                               accept_test=bounds_callable,
+                               minimizer_kwargs=local_min_kwargs, interval=50)
+
+        return opt_res
 
 
 class CustomStep:
@@ -283,8 +285,8 @@ if __name__ == '__main__':
     func = lambda x: np.sum(x ** 2)
 
     res = basinhopping(erf, x0, niter=iterations)
-
+    print(res.x)
     total = time.time() - start_time
 
-    #print(res)
+    # print(res)
     print(round(iterations / total, 2))

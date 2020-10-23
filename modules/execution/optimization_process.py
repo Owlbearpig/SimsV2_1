@@ -6,6 +6,7 @@ from modules.identifiers.dict_keys import DictKeys
 from optimizer_setup_v2 import Output
 from modules.utils.constants import *
 import numpy as np
+from itertools import combinations_with_replacement
 import time
 
 
@@ -17,6 +18,25 @@ def make_optimizer(**kwargs):
     settings[DictKeys().process_name_key] = mp.current_process().name
     new_optimizer = OptimizerSetup(erf_setup, settings, queue)
     new_optimizer.start_optimization()
+
+
+def make_discrete_bruteforce_optimizer(**kwargs):
+    settings = kwargs['settings']
+    queue = kwargs['queue']
+
+    settings[DictKeys().disable_callback_key] = True
+
+    wp_cnt = settings[DictKeys().wp_cnt_key]
+    d_lst = settings[DictKeys().dbo_widths_input_key]
+    combinations = combinations_with_replacement(d_lst, wp_cnt)
+    for combination in combinations:
+        settings[DictKeys().const_widths_key] = list(combination)
+
+        erf_setup = ErfSetup(settings)
+        settings[DictKeys().process_name_key] = mp.current_process().name
+        new_optimizer = OptimizerSetup(erf_setup, settings, queue)
+        opt_res = new_optimizer.start_optimization()
+
 
 
 def no_optimization(settings, new_values, queue):
@@ -66,3 +86,10 @@ class OptimizationProcess(Process):
             'wp_cnt': n,
             'opt_params': len(erf_setup.x0)
         }
+
+
+class DiscreteBruteforceOptimizationProcess(OptimizationProcess):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+

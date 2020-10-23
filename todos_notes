@@ -27,6 +27,7 @@ example 5 wp in jones_interface_tansmission.py (in scratches)
 7. make material from const. refr. index. for form birefringence
 
 8. cleanup imports. Import everything in one file at the start, otherwise modules are imported multiple times. (not important)
+add __init__ files like in taipan is cool : )
 
 9. pass default values to every ui element through wrapper, to not have enable_events=True everywhere (done)
 
