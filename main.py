@@ -131,7 +131,7 @@ class WaveplateApp(DictKeys):
 
     # ---------------------------------------Run tab------------------------------------------------------------------ #
     # uses current ui and 'Run once' frame values
-    @check_values
+    #@check_values
     def run_once(self, ui_values):
         settings_for_single_run = self.settings_module.single_run_settings(ui_values)
         thread = StoppableThread(target=no_optimization, args=(settings_for_single_run, ui_values, self.queue))
@@ -143,7 +143,7 @@ class WaveplateApp(DictKeys):
     def discrete_bruteforce_optimization(self):
         pass
 
-    @check_values
+    #@check_values
     def new_optimization_process(self, ui_values):
         # save settings in case of crash (:
         self.settings_module.save_settings(ui_values)

@@ -151,3 +151,9 @@ modules/settings/__pycache__/
 modules/single_wp/__pycache__/
 modules/utils/__pycache__/
 scratches/__pycache__/
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/other.xml
+.idea/vcs.xml
+bh_algo/

@@ -140,7 +140,7 @@ class ErfSetup(DictKeys):
         self.freq_cnt = len(self.frequencies)
         self.wls = (c / self.frequencies).reshape(self.freq_cnt, 1)
 
-        self.wp_cnt = len(self.const_angles)
+        self.wp_cnt = self.settings[self.wp_cnt_key]
 
         # n
         self.n0 = self.form_birefringence(self.stripe_widths)
@@ -266,6 +266,7 @@ class ErfSetup(DictKeys):
         return M[:, 0]
 
     def setup_input_vectors(self, x):
+
         angle_x_indices = self.x_slices[0]
         width_x_indices = self.x_slices[1]
         stripe_x_indices = self.x_slices[2]
@@ -345,17 +346,39 @@ class ErfSetup(DictKeys):
             :param x: array of angles, widths, stripe widths
             :return: value of error function
             """
+
             angles, d, stripes = self.setup_input_vectors(x)
 
             n_s, n_p, k_s, k_p = self.setup_ri(stripes)
 
             theta, x, y = self.j_matrix_input(angles, d, n_s, n_p, k_s, k_p)
 
-            J = self.build_j_matrix_stack(theta, x, y)
+            J_l2 = self.build_j_matrix_stack(theta[:, 0:self.wp_cnt], x, y)
+            J_l4 = self.build_j_matrix_stack(theta[:, self.wp_cnt:], x, y)
 
+            m = self.freq_cnt
+
+            res_l2 = sum((1 - J_l2[m//2:, 1, 0] * np.conjugate(J_l2[m//2:, 1, 0]) +
+                       J_l2[m//2:, 0, 0] * np.conjugate(J_l2[m//2:, 0, 0])) ** 2)
+
+            q = J_l4[:m//2, 0, 0] / J_l4[:m//2, 1, 0]
+            res_l4 = sum(q.real ** 2 + (q.imag - 1) ** 2)
+
+            # for testing
+            abs_factor = 1 #self.j_absorption_factor(d, k_s)
+            self.intensity_x_l2 = 10*np.log10(abs_factor * J_l2[:, 0, 0] * np.conjugate(J_l2[:, 0, 0]))
+            self.intensity_y_l2 = 10*np.log10(abs_factor * J_l2[:, 1, 0] * np.conjugate(J_l2[:, 1, 0]))
+
+            #self.intensity_x_l4 = 10 * np.log10(abs_factor * J_l4[:, 0, 0] * np.conjugate(J_l4[:, 0, 0]))
+            #self.intensity_y_l4 = 10 * np.log10(abs_factor * J_l4[:, 1, 0] * np.conjugate(J_l4[:, 1, 0]))
+
+            """
+            J = self.build_j_matrix_stack(theta, x, y)
+            
             self.int_x, self.int_y = 10*np.log10(J[:, 0, 0] * np.conjugate(J[:, 0, 0])), \
                                      10*np.log10(J[:, 1, 0] * np.conjugate(J[:, 1, 0]))
 
+            
             if self.wp_type == 'λ/2':
                 res = sum((1 - J[:, 1, 0] * np.conjugate(J[:, 1, 0]) + J[:, 0, 0] * np.conjugate(J[:, 0, 0])) ** 2)
                 # Jan loss function. No I_x
@@ -365,7 +388,7 @@ class ErfSetup(DictKeys):
                 # res = sum((J[:, 1, 0] * np.conjugate(J[:, 1, 0]) - J[:, 0, 0] * np.conjugate(J[:, 0, 0])) ** 2)
                 q = J[:, 0, 0] / J[:, 1, 0]
                 res = sum(q.real**2 + (q.imag-1)**2)
-
+            
             # for testing
             abs_factor = self.j_absorption_factor(d, k_s)
             self.intensity_x = 10*np.log10(abs_factor * J[:, 0, 0] * np.conjugate(J[:, 0, 0]))
@@ -375,6 +398,9 @@ class ErfSetup(DictKeys):
                 return np.log10(res / self.freq_cnt)
 
             return res.real / self.freq_cnt
+            """
+
+            return res_l4.real / self.freq_cnt + res_l2.real / self.freq_cnt
 
         def m_stack_err(x):
             """
@@ -409,22 +435,32 @@ class ErfSetup(DictKeys):
 if __name__ == '__main__':
     from modules.settings.settings import Settings
     import matplotlib.pyplot as plt
+    from pathlib import Path
 
-    path = '/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/New4Hermanns_l2/5wp_300-850_700-2000_12-50-04_OptimizationProcess-1/settings.json'
+    path = '/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/Hermans_mixed/5wp_250-1750_test1_15-08-31_OptimizationProcess-1/settings.json'
     settings_dict = Settings().load_settings(path)
     erf_setup = ErfSetup(settings_dict)
     erf = erf_setup.erf
+    dir_path = Path('/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/Hermans_mixed/5wp_250-1750_test2_fixed_f_ranges15-43-54_OptimizationProcess-1')
 
-    angles = np.deg2rad([36.66, 332.72, 179.39, 17.83, 8.31])
-    d = np.array([518.8, 804.9, 384.5, 636.5, 464.4])*um
-    hermann_d = np.array([520, 830, 495, 330, 394.2])*um
-    stripes = np.array([50.0, 47.6, 47.1, 32.8, 44.8, 13.8, 19.4, 16.6, 36.1, 14.7])*um
+    angles = np.load(dir_path / 'angles.npy')
+    d = np.load(dir_path / 'widths.npy')
+    stripes = np.load(dir_path / 'stripes.npy')
+    print(np.rad2deg(angles))
+    print(d)
+    print(list(np.round(stripes*m_to_um, 2)))
+    #hermann_d = np.array([520, 830, 495, 330, 394.2])*um
+
     x0 = np.concatenate((angles, d, stripes))
     erf(x0)
 
-    int_x, int_y = erf_setup.intensity_x, erf_setup.intensity_y
+    intensity_x_l2, intensity_y_l2 = erf_setup.intensity_x_l2, erf_setup.intensity_y_l2
+    #intensity_x_l4, intensity_y_l4 = erf_setup.intensity_x_l4, erf_setup.intensity_y_l4
     freqs = erf_setup.frequencies
 
-    plt.plot(freqs, int_x, label='after x-pol')
-    plt.plot(freqs, int_y, label='after y-pol')
+    plt.plot(freqs, intensity_x_l2, label='after x-pol l2')
+    plt.plot(freqs, intensity_y_l2, label='after y-pol l2')
+    #plt.plot(freqs, intensity_x_l4, label='after x-pol l4')
+    #plt.plot(freqs, intensity_y_l4, label='after y-pol l4')
+    plt.legend()
     plt.show()

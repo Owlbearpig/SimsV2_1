@@ -23,11 +23,6 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
         0
     ],
     "const_widths": [
@@ -69,15 +64,15 @@
     "x_slicing": [
         [
             0,
+            5
+        ],
+        [
+            5,
             10
         ],
         [
             10,
-            15
-        ],
-        [
-            15,
-            25
+            20
         ]
     ],
     "calculation_method": "Jones",
@@ -94,7 +89,7 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "5wp_250-1750_test2_fixed_f_ranges",
+    "save_name": "mixed_l2_",
     "save_folder_name": "Hermans_mixed",
     "selected_material_data_path": "modules/material_manager/data_folders/FusedSilica/3Eck_D=1028.csv",
     "selected_fast_material_data_path": "modules/material_manager/data_folders/CeramicFast/Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
@@ -136,34 +131,34 @@
         48.3
     ],
     "angle_input": [
-        0.0936016076,
-        327.936495,
-        82.0664593,
-        129.213462,
-        339.430736
+        20.58,
+        280.6,
+        217.32,
+        181.86,
+        271.12
     ],
     "widths_input": [
-        519.68,
-        521.75,
-        652.72,
-        487.04,
-        469.38
+        611.38,
+        499.63,
+        636.33,
+        476.92,
+        469.3
     ],
     "stripes_input": [
-        11.61,
-        67.33,
-        69.91,
-        11.87,
+        11.05,
+        10.87,
+        66.53,
+        25.93,
         70.0,
-        57.87,
-        27.64,
-        23.84,
-        35.76,
-        10.04
+        44.54,
+        36.57,
+        26.16,
+        34.75,
+        11.62
     ],
-    "run_once_label_input": "mixed_l4_2",
+    "run_once_label_input": "mixed_l2",
     "plot_in_cst": false,
-    "selected_frequency": 1.2,
+    "selected_frequency": 1.25,
     "difference_plot": false,
     "polarization_plot": false,
     "angle_err_checkbox": false,

@@ -7,6 +7,7 @@ class InitPrep(DictKeys):
     def __init__(self, ui_values):
         super().__init__()
         self.ui_values = ui_values
+        self.wp_cnt = ui_values[self.wp_cnt_key]
         self.x_slices = self.x_slicing()
         self.bounds = self.set_bounds()
         self.angles0, self.widths0, self.stripes0 = self.get_x0()
@@ -25,7 +26,7 @@ class InitPrep(DictKeys):
 
         angles2vary = const_angles[const_angles == 0].shape[0]
         widths2vary = np.unique(width_pattern[np.where(const_widths == 0)]).shape[0]
-        stripes2vary = len(const_angles) * 2
+        stripes2vary = self.wp_cnt * 2
 
         if self.ui_values[self.const_wp_dim_key]:
             x_indices = [angles2vary, widths2vary, 0]
@@ -39,7 +40,7 @@ class InitPrep(DictKeys):
         width_slice = (x_indices[0], x_indices[0] + x_indices[1])
         stripe_slice = (x_indices[0] + x_indices[1], x_indices[0] + x_indices[1] + x_indices[2])
 
-        if self.ui_values[self.birefringence_type_dropdown_key] in 'Natural':
+        if self.ui_values[self.birefringence_type_dropdown_key] in 'Natural' or self.ui_values[self.const_wp_dim_key]:
             stripe_slice = [0, 0]
 
         return list(angle_slice), list(width_slice), list(stripe_slice)

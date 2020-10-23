@@ -51,7 +51,7 @@ class Tabs(DictKeys):
 
     def get_tab1_layout(self):
         tab1_desc = sg.Text('Error function settings and stuff')
-        const_wp_dim_checkbox = Checkbox('Constant wp dimensions',
+        const_wp_dim_checkbox = Checkbox('Const wp dimensions',
                                          size=(20, 1),
                                          default=self.settings[self.const_wp_dim_key],
                                          key=self.const_wp_dim_key)
@@ -146,8 +146,8 @@ class Tabs(DictKeys):
                        [freq_limit_low_input,
                         freq_limit_high_input]])
              ],
-            [const_wp_dim_checkbox, equal_stripes_checkbox, log_of_res_checkbox,
-             sg.Text('Freq. res. multiplier'), frequency_multiplier_input],
+            [const_wp_dim_checkbox, equal_stripes_checkbox,
+             frequency_multiplier_input, sg.Text('Freq. res. multiplier')],
             [sg.Text('Const angles (rad)', size=(20, 1)), const_angles_input],
             [sg.Text('Const widths (μm)', size=(20, 1)), const_widths_input],
             [sg.Text('Width pattern', size=(20, 1)), width_pattern_input],
@@ -166,7 +166,8 @@ class Tabs(DictKeys):
                         sg.Text('Anisotropy', size=(15, 1)),
                         sg.Text('k_s'), low_anisotropy_input,
                         sg.Text('k_p'), high_anisotropy_input],
-                       [sg.Text('Wp type', size=(15, 1)), wp_type_dropdown],
+                       [sg.Text('Wp type', size=(15, 1)), wp_type_dropdown,
+                        log_of_res_checkbox],
                        [sg.Text('x - slices:'), x_slicing_input, weak_absorption_checkbox]]),
              sg.Frame('Initial values',
                       [[sg.Text('angles (rad)')],
