@@ -106,7 +106,7 @@ class Tabs(DictKeys):
         high_anisotropy_input = Input(default_text=self.settings[self.anisotropy_p_key],
                                       size=(10, 1),
                                       key=self.anisotropy_p_key)
-        wp_type_dropdown = Drop(values=['λ/2', 'λ/4'],
+        wp_type_dropdown = Drop(values=['λ/2', 'λ/4', 'mixed'],
                                 default_value=self.settings[self.wp_type_key],
                                 auto_size_text=True,
                                 key=self.wp_type_key)
@@ -481,8 +481,8 @@ class Tabs(DictKeys):
                        [sg.Text('Jones vector:'),
                         sg.Text(key=self.jones_vector_key, size=(40, 1))],
                        [sg.Text(' ', size=(40, 1))],
-                       [sg.Text(key=self.stokes_parameters_key1, size=(20, 15)),
-                        sg.Text(key=self.stokes_parameters_key2, size=(20, 15))],
+                       [sg.Text(key=self.stokes_parameters_key1, size=(20, 20)),
+                        sg.Text(key=self.stokes_parameters_key2, size=(20, 20))],
                        ])
              ],
             [update_folder_list_button, update_result_list_button],

@@ -268,7 +268,7 @@ if __name__ == '__main__':
     import time
     from modules.identifiers.dict_keys import DictKeys
 
-    settings_path = 'modules/results/saved_results/14-10-2020/18-24-27_OptimizationProcess-1/settings.json'
+    settings_path = 'modules/results/archived/14-10-2020/18-24-27_OptimizationProcess-1/settings.json'
     settings_module = Settings()
     settings = settings_module.load_settings(settings_path)
     settings[DictKeys().calculation_method_key] = 'Jones'

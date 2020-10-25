@@ -9,6 +9,41 @@ import PySimpleGUI as sg
 base_folder = pathlib.Path(__file__).parents[1].absolute()
 
 
+def check_x0_wp_cnt(ui_values):
+    if ui_values[DictKeys().wp_type_key] == 'mixed':
+        return len(ui_values[DictKeys().x0_angle_input_key]) != 2*int(ui_values[DictKeys().wp_cnt_key])
+    else:
+        return len(ui_values[DictKeys().x0_angle_input_key]) != int(ui_values[DictKeys().wp_cnt_key])
+
+
+def check_values(func):
+    def wrapper(self, current_ui_values):
+        if (current_ui_values[DictKeys().weak_absorption_checkbox_key] and
+                current_ui_values[DictKeys().calculation_method_key] != 'Jones'):
+            sg.PopupNoWait('---anisotropic absorption only implemented for jones calc---', title='F')
+            return
+        if check_x0_wp_cnt(current_ui_values):
+            sg.PopupNoWait('---Check x0---', title='oof')
+            return
+        if current_ui_values[DictKeys().birefringence_type_dropdown_key] in 'Form':
+            if not current_ui_values[DictKeys().selected_material_data_path_key]:
+                sg.PopupNoWait('---No material selected---', title=':(')
+                return
+        elif current_ui_values[DictKeys().birefringence_type_dropdown_key] in 'Natural':
+            if not current_ui_values[DictKeys().selected_slow_material_data_path_key]:
+                sg.PopupNoWait('---No slow material selected---', title=':(')
+                return
+            if not current_ui_values[DictKeys().selected_fast_material_data_path_key]:
+                sg.PopupNoWait('---No fast material selected---', title=':(')
+                return
+        try:
+            return func(self, current_ui_values)
+        except Exception as e:
+            error_popup(e)
+
+    return wrapper
+
+
 def error_popup(e):
     tb = traceback.format_exc()
     page_len = 2000
@@ -39,38 +74,6 @@ def search_dir(dir_path, object_type='files', name='', file_extension='', iterat
     else:
         ret = dirs
     return ret
-
-
-def check_x0_wp_cnt(ui_values):
-    return len(ui_values[DictKeys().x0_angle_input_key]) != int(ui_values[DictKeys().wp_cnt_key])
-
-
-def check_values(func):
-    def wrapper(self, current_ui_values):
-        if (current_ui_values[DictKeys().weak_absorption_checkbox_key] and
-                current_ui_values[DictKeys().calculation_method_key] != 'Jones'):
-            sg.PopupNoWait('---anisotropic absorption only implemented for jones calc---', title='F')
-            return
-        if check_x0_wp_cnt(current_ui_values):
-            sg.PopupNoWait('---Check x0---', title='oof')
-            return
-        if current_ui_values[DictKeys().birefringence_type_dropdown_key] in 'Form':
-            if not current_ui_values[DictKeys().selected_material_data_path_key]:
-                sg.PopupNoWait('---No material selected---', title=':(')
-                return
-        elif current_ui_values[DictKeys().birefringence_type_dropdown_key] in 'Natural':
-            if not current_ui_values[DictKeys().selected_slow_material_data_path_key]:
-                sg.PopupNoWait('---No slow material selected---', title=':(')
-                return
-            if not current_ui_values[DictKeys().selected_fast_material_data_path_key]:
-                sg.PopupNoWait('---No fast material selected---', title=':(')
-                return
-        try:
-            return func(self, current_ui_values)
-        except Exception as e:
-            error_popup(e)
-
-    return wrapper
 
 
 def fix_types(event, ui_values):

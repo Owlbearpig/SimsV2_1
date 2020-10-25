@@ -124,6 +124,9 @@ class WaveplateApp(DictKeys):
             new_stripes_lst_mat0 = old_stripes_lst[0][:new_wp_cnt]
             new_stripes_lst_mat1 = old_stripes_lst[1][:new_wp_cnt]
 
+        if ui_values[self.wp_type_key] == 'mixed':
+            new_angle_lst *= 2
+
         self.window[self.const_angles_key].update(cast_to_ui(new_angle_lst))
         self.window[self.const_widths_key].update(cast_to_ui(new_widths_lst))
         self.window[self.initial_stripe_widths_key].update(cast_to_ui([new_stripes_lst_mat0,
@@ -132,7 +135,7 @@ class WaveplateApp(DictKeys):
 
     # ---------------------------------------Run tab------------------------------------------------------------------ #
     # uses current ui and 'Run once' frame values
-    #@check_values
+    @check_values
     def run_once(self, ui_values):
         settings_for_single_run = self.settings_module.single_run_settings(ui_values)
         thread = StoppableThread(target=no_optimization, args=(settings_for_single_run, ui_values, self.queue))
@@ -146,7 +149,7 @@ class WaveplateApp(DictKeys):
                                           kwargs={'queue': self.queue, 'settings': ui_values})
         new_process.start()
 
-    #@check_values
+    @check_values
     def new_optimization_process(self, ui_values):
         # save settings in case of crash (:
         self.settings_module.save_settings(ui_values)
@@ -395,6 +398,7 @@ class WaveplateApp(DictKeys):
         binds = {
             # tab1
             self.wp_cnt_key: self.on_wp_cnt_change,
+            self.wp_type_key: self.on_wp_cnt_change,
             self.new_x0_key: self.new_initial_values,
             self.set_default_settings_button_key: self.load_default_settings,
             # tab2

@@ -222,7 +222,7 @@ class Results(DictKeys):
         sf, jf, actual_selected_frequency = calculate_final_vectors(m_matrix_stack, j_matrix_stack,
                                                                     erf_setup, selected_frequency)
         numpy_settings = np.seterr(all="ignore")
-        stokes_parameters = jf.parameters.get_all()
+        stokes_parameters = sf.parameters.get_all()
         self.selected_result.actual_selected_frequency = actual_selected_frequency
 
         parameter_str1, parameter_str2 = '', ''

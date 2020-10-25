@@ -1,11 +1,10 @@
 from numpy.random import uniform as rnd
-from numpy import cos, sin, arctan, sqrt, sum, power, pi, outer, abs, exp
+from numpy import cos, sin, sqrt, sum, power, pi, outer, abs, exp, conj
 import string
 import pandas
 from pathlib import PureWindowsPath
 from modules.identifiers.dict_keys import DictKeys
 from modules.utils.constants import *
-from functools import reduce
 
 
 # setup erf, init value and optimization bounds
@@ -159,7 +158,6 @@ class ErfSetup(DictKeys):
         test_array = np.zeros((self.wp_cnt, self.freq_cnt, 4, 4))
         self.einsum_path = np.einsum_path(self.einsum_str, *test_array, optimize='greedy')
 
-
     def form_birefringence(self, stripes):
         """
         :return: array with length of frequency, frequency resolved delta n, delta kappa
@@ -211,57 +209,53 @@ class ErfSetup(DictKeys):
 
         return theta, 1j * phi_s + alpha_s, 1j * phi_p + alpha_p
 
-    def j_absorption_factor(self, d, k_s):
-        return np.prod(exp(-(4 * pi * k_s / self.wls) * d.T), axis=1)
-
     def build_j_matrix_stack(self, theta, x, y):
-        J = np.zeros((self.freq_cnt, self.wp_cnt, 2, 2), dtype=np.complex)
-        J[:, :, 0, 0] = exp(y) * sin(theta) ** 2 + exp(x) * cos(theta) ** 2
-        J[:, :, 0, 1] = 0.5 * sin(2 * theta) * (exp(y) - exp(x))
-        J[:, :, 1, 0] = J[:, :, 0, 1]
-        J[:, :, 1, 1] = exp(x) * sin(theta) ** 2 + exp(y) * cos(theta) ** 2
+        j = np.zeros((self.freq_cnt, self.wp_cnt, 2, 2), dtype=np.complex)
+        j[:, :, 0, 0] = exp(y) * sin(theta) ** 2 + exp(x) * cos(theta) ** 2
+        j[:, :, 0, 1] = 0.5 * sin(2 * theta) * (exp(y) - exp(x))
+        j[:, :, 1, 0] = j[:, :, 0, 1]
+        j[:, :, 1, 1] = exp(x) * sin(theta) ** 2 + exp(y) * cos(theta) ** 2
 
-        np.einsum(self.einsum_str, *J.transpose((1, 0, 2, 3)), out=J[:, 0], optimize=self.einsum_path[0])
+        np.einsum(self.einsum_str, *j.transpose((1, 0, 2, 3)), out=j[:, 0], optimize=self.einsum_path[0])
 
-        return J[:, 0]
+        return j[:, 0]
 
     def m_matrix_input(self, angles, d, n_s, n_p, k_s, k_p):
         wls = self.wls
         bf = n_s - n_p
 
-        # tan(gamma) = p_p/p_s (p_y/p_x) (p_x = e^(-k_s))
-        gamma = arctan(exp((2 * pi * (k_s - k_p) / wls) * d.T))
-
-        p_squared = exp((-4 * pi * k_s / wls) * d.T) + exp((-4 * pi * k_p / wls) * d.T)
+        p_s, p_p = exp(-(2 * pi * k_s / wls) * d.T), exp(-(2 * pi * k_p / wls) * d.T)
 
         ret = 2 * np.pi * bf * d.T / wls
 
         theta = np.tile(angles, (self.freq_cnt, 1))
 
-        return theta, gamma, ret, p_squared
+        return theta, ret, p_s, p_p
 
-    def build_m_matrix_stack(self, theta, gamma, ret, p_squared):
+    def build_m_matrix_stack(self, theta, ret, p_s, p_p):
         M = np.zeros((self.freq_cnt, self.wp_cnt, 4, 4), dtype=np.float)
+        if self.settings[self.weak_absorption_checkbox_key]:
+            a, b, c1 = 0.5*(1 + (p_p/p_s)**2), 0.5*(1 - (p_p/p_s)**2), p_p/p_s
+        else:
+            a, b, c1 = 0.5 * (p_s ** 2 + p_p ** 2), 0.5 * (p_s ** 2 - p_p ** 2), p_s * p_p
 
-        M[:, :, 0, 0] = 1
-        M[:, :, 0, 1] = cos(2 * gamma) * cos(2 * theta)
-        M[:, :, 0, 2] = -sin(2 * theta) * cos(2 * gamma)
-        M[:, :, 1, 1] = cos(2 * theta) ** 2 + sin(2 * theta) ** 2 * cos(ret) * sin(2 * gamma)
-        M[:, :, 1, 2] = cos(2 * theta) * sin(2 * theta) * (sin(2 * gamma) * cos(ret) - 1)
-        M[:, :, 1, 3] = sin(2 * theta) * sin(2 * gamma) * sin(ret)
-        M[:, :, 2, 2] = sin(2 * theta) ** 2 + cos(2 * theta) ** 2 * sin(2 * gamma) * cos(ret)
-        M[:, :, 2, 3] = cos(2 * theta) * sin(2 * gamma) * sin(ret)
-        M[:, :, 3, 3] = sin(2 * gamma) * cos(ret)
+        M[:, :, 0, 0] = a
+        M[:, :, 0, 1] = b * cos(2 * theta)
+        M[:, :, 0, 2] = -sin(2 * theta) * b
+        M[:, :, 1, 1] = a*(cos(2 * theta) ** 2) + (sin(2 * theta) ** 2) * cos(ret) * c1
+        M[:, :, 1, 2] = cos(2 * theta) * sin(2 * theta) * (c1 * cos(ret) - a)
+        M[:, :, 1, 3] = sin(2 * theta) * c1 * sin(ret)
+        M[:, :, 2, 2] = a*(sin(2 * theta) ** 2) + (cos(2 * theta) ** 2) * c1 * cos(ret)
+        M[:, :, 2, 3] = cos(2 * theta) * c1 * sin(ret)
+        M[:, :, 3, 3] = c1 * cos(ret)
 
         M[:, :] += M[:, :].transpose(0, 1, 3, 2)
         M[:, :, np.arange(4), np.arange(4)] *= 0.5
 
-        M[:, :, 3, 1] *= -1
-        M[:, :, 3, 2] *= -1
+        np.negative(M[:, :, 3, 1], out=M[:, :, 3, 1])
+        np.negative(M[:, :, 3, 2], out=M[:, :, 3, 2])
 
         np.einsum(self.einsum_str, *M.transpose((1, 0, 2, 3)), out=M[:, 0], optimize=self.einsum_path[0])
-
-        M[:, 0] = (M[:, 0].transpose(1, 2, 0) * ((0.5 ** self.wp_cnt) * np.prod(p_squared, axis=1))).transpose(2, 0, 1)
 
         return M[:, 0]
 
@@ -332,13 +326,34 @@ class ErfSetup(DictKeys):
 
         return n
 
+    def absorption_factor(self, d, k_s):
+        return np.prod(exp((-4 * pi * k_s / self.wls) * d.T), axis=1)
+
     def setup_erf(self):
         """
         for setting up the error function
 
         :return: error function to be minimized
         """
+        def j_stack_err_mixed_wp_type(x):
+            angles, d, stripes = self.setup_input_vectors(x)
 
+            n_s, n_p, k_s, k_p = self.setup_ri(stripes)
+
+            theta, x, y = self.j_matrix_input(angles, d, n_s, n_p, k_s, k_p)
+
+            m = self.freq_cnt
+            # p_shift ∝ freq. p_shift_l2 = 2 * p_shift_l4
+            j_l2 = self.build_j_matrix_stack(theta[m // 2:, 0:self.wp_cnt], x[m // 2:], y[m // 2:])
+            j_l4 = self.build_j_matrix_stack(theta[:m // 2, self.wp_cnt:], x[:m // 2], y[:m // 2])
+
+            res_l2 = sum((1 - j_l2[:, 1, 0] * conj(j_l2[:, 1, 0]) + j_l2[:, 0, 0] * conj(j_l2[:, 0, 0])) ** 2)
+
+            q = j_l4[:, 0, 0] / j_l4[:, 1, 0]
+            res_l4 = sum(q.real ** 2 + (q.imag - 1) ** 2)
+
+            return (res_l4.real + res_l2.real) / self.freq_cnt
+        
         def j_stack_err(x):
             """
             calculates error given angles, widths and stripe widths using jones calc
@@ -353,54 +368,29 @@ class ErfSetup(DictKeys):
 
             theta, x, y = self.j_matrix_input(angles, d, n_s, n_p, k_s, k_p)
 
-            J_l2 = self.build_j_matrix_stack(theta[:, 0:self.wp_cnt], x, y)
-            J_l4 = self.build_j_matrix_stack(theta[:, self.wp_cnt:], x, y)
+            j = self.build_j_matrix_stack(theta, x, y)
 
-            m = self.freq_cnt
+            # adds the full absorption in case of enabled weak absorption for testing
+            #"""
+            #j = np.einsum('mij,m->mij', j, sqrt(self.absorption_factor(d, k_s)))
+            from modules.utils.calculations import calc_final_jones_intensities
+            self.intensity_x, self.intensity_y = calc_final_jones_intensities(j)
+            #"""
 
-            res_l2 = sum((1 - J_l2[m//2:, 1, 0] * np.conjugate(J_l2[m//2:, 1, 0]) +
-                       J_l2[m//2:, 0, 0] * np.conjugate(J_l2[m//2:, 0, 0])) ** 2)
-
-            q = J_l4[:m//2, 0, 0] / J_l4[:m//2, 1, 0]
-            res_l4 = sum(q.real ** 2 + (q.imag - 1) ** 2)
-
-            # for testing
-            abs_factor = 1 #self.j_absorption_factor(d, k_s)
-            self.intensity_x_l2 = 10*np.log10(abs_factor * J_l2[:, 0, 0] * np.conjugate(J_l2[:, 0, 0]))
-            self.intensity_y_l2 = 10*np.log10(abs_factor * J_l2[:, 1, 0] * np.conjugate(J_l2[:, 1, 0]))
-
-            #self.intensity_x_l4 = 10 * np.log10(abs_factor * J_l4[:, 0, 0] * np.conjugate(J_l4[:, 0, 0]))
-            #self.intensity_y_l4 = 10 * np.log10(abs_factor * J_l4[:, 1, 0] * np.conjugate(J_l4[:, 1, 0]))
-
-            """
-            J = self.build_j_matrix_stack(theta, x, y)
-            
-            self.int_x, self.int_y = 10*np.log10(J[:, 0, 0] * np.conjugate(J[:, 0, 0])), \
-                                     10*np.log10(J[:, 1, 0] * np.conjugate(J[:, 1, 0]))
-
-            
             if self.wp_type == 'λ/2':
-                res = sum((1 - J[:, 1, 0] * np.conjugate(J[:, 1, 0]) + J[:, 0, 0] * np.conjugate(J[:, 0, 0])) ** 2)
-                # Jan loss function. No I_x
-                #res = sum((1 - J[:, 1, 0] * np.conjugate(J[:, 1, 0])) ** 2)
+                res = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0]) + j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
+                # jan loss function. No I_x
+                #res = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0])) ** 2)
             else:
                 # OG intensity loss
-                # res = sum((J[:, 1, 0] * np.conjugate(J[:, 1, 0]) - J[:, 0, 0] * np.conjugate(J[:, 0, 0])) ** 2)
-                q = J[:, 0, 0] / J[:, 1, 0]
+                # res = sum((j[:, 1, 0] * conj(j[:, 1, 0]) - j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
+                q = j[:, 0, 0] / j[:, 1, 0]
                 res = sum(q.real**2 + (q.imag-1)**2)
-            
-            # for testing
-            abs_factor = self.j_absorption_factor(d, k_s)
-            self.intensity_x = 10*np.log10(abs_factor * J[:, 0, 0] * np.conjugate(J[:, 0, 0]))
-            self.intensity_y = 10*np.log10(abs_factor * J[:, 1, 0] * np.conjugate(J[:, 1, 0]))
 
             if self.log_of_res:
                 return np.log10(res / self.freq_cnt)
 
             return res.real / self.freq_cnt
-            """
-
-            return res_l4.real / self.freq_cnt + res_l2.real / self.freq_cnt
 
         def m_stack_err(x):
             """
@@ -413,9 +403,16 @@ class ErfSetup(DictKeys):
 
             n_s, n_p, k_s, k_p = self.setup_ri(stripes)
 
-            theta, gamma, ret, p_squared = self.m_matrix_input(angles, d, n_s, n_p, k_p, k_s)
+            theta, ret, p_s, p_p = self.m_matrix_input(angles, d, n_s, n_p, k_s, k_p)
 
-            M = self.build_m_matrix_stack(theta, gamma, ret, p_squared)
+            M = self.build_m_matrix_stack(theta, ret, p_s, p_p)
+
+            # adds the full absorption in case of enabled weak absorption for testing
+            #"""
+            #M = np.einsum('mij,m->mij', M, self.absorption_factor(d, k_s))
+            from modules.utils.calculations import calc_final_stokes_intensities
+            self.intensity_x, self.intensity_y = calc_final_stokes_intensities(M)
+            #"""
 
             if self.wp_type == 'λ/2':
                 res = sum((M[:, 0, 0] + M[:, 0, 1] - 1) ** 2) + sum((M[:, 1, 0] + M[:, 1, 1] + 1) ** 2)
@@ -426,7 +423,9 @@ class ErfSetup(DictKeys):
                 return np.log10(res / self.freq_cnt)
 
             return res / self.freq_cnt
-
+        
+        if self.wp_type == 'mixed':
+            return j_stack_err_mixed_wp_type
         if self.settings[self.calculation_method_key] in 'Stokes':
             return m_stack_err
         else:
@@ -436,31 +435,34 @@ if __name__ == '__main__':
     from modules.settings.settings import Settings
     import matplotlib.pyplot as plt
     from pathlib import Path
+    from modules.identifiers.dict_keys import DictKeys
+    keys = DictKeys()
 
-    path = '/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/Hermans_mixed/5wp_250-1750_test1_15-08-31_OptimizationProcess-1/settings.json'
-    settings_dict = Settings().load_settings(path)
+    dir_path = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\New4Hermanns_l2\5wp_300-850_700-2000_12-50-04_OptimizationProcess-1')
+
+    settings_dict = Settings().load_settings(dir_path / 'settings.json')
+
+    settings_dict[keys.weak_absorption_checkbox_key] = True
+    settings_dict[keys.calculation_method_key] = 'Jones'
+    settings_dict[keys.anisotropy_p_key] = 1
+    settings_dict[keys.anisotropy_s_key] = 1
+
     erf_setup = ErfSetup(settings_dict)
     erf = erf_setup.erf
-    dir_path = Path('/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/Hermans_mixed/5wp_250-1750_test2_fixed_f_ranges15-43-54_OptimizationProcess-1')
 
-    angles = np.load(dir_path / 'angles.npy')
-    d = np.load(dir_path / 'widths.npy')
-    stripes = np.load(dir_path / 'stripes.npy')
-    print(np.rad2deg(angles))
-    print(d)
-    print(list(np.round(stripes*m_to_um, 2)))
+    angles_ = np.load(dir_path / 'angles.npy')
+    d_ = np.load(dir_path / 'widths.npy')
+    stripes_ = np.load(dir_path / 'stripes.npy')
     #hermann_d = np.array([520, 830, 495, 330, 394.2])*um
 
-    x0 = np.concatenate((angles, d, stripes))
+    x0 = np.concatenate((angles_, d_, stripes_))
     erf(x0)
 
-    intensity_x_l2, intensity_y_l2 = erf_setup.intensity_x_l2, erf_setup.intensity_y_l2
-    #intensity_x_l4, intensity_y_l4 = erf_setup.intensity_x_l4, erf_setup.intensity_y_l4
+    intensity_x, intensity_y = erf_setup.intensity_x, erf_setup.intensity_y
+
     freqs = erf_setup.frequencies
 
-    plt.plot(freqs, intensity_x_l2, label='after x-pol l2')
-    plt.plot(freqs, intensity_y_l2, label='after y-pol l2')
-    #plt.plot(freqs, intensity_x_l4, label='after x-pol l4')
-    #plt.plot(freqs, intensity_y_l4, label='after y-pol l4')
+    plt.plot(freqs, intensity_x, label='after x-pol')
+    plt.plot(freqs, intensity_y, label='after y-pol')
     plt.legend()
     plt.show()

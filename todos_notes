@@ -43,7 +43,7 @@ add __init__ files like in taipan is cool : )
 
 14. add material data to material class maybe, if not too many problems (why though?)
 
-15. speedtest einsum vs for loop with reduce (einsum good, implement it)
+15. speedtest einsum vs for loop with reduce (einsum good, implement it) (done)
 
 16. Ask expert :) ; [[A,B],[C,D]] A or C are > 1 which means for [1,0] or [0,1] the intensity can increase...
 if I = EE*, considering intensity in air(n=1) before and after. (Side Q. what's the intensity in anisotropic material?)
@@ -74,15 +74,15 @@ Especially obvious for ceramic plates.
 
 25. add material direct ri plots
 
-26. add scaling of absolute part of absorption as options
+26. add scaling of absolute part of absorption as options (half done)
 
 27. iteration speed avg. shorter time scale
 
 28. add show material settings in result tab
 
-29. auto push before close (keep missing additions)
+29. auto push before close (keep missing additions) # don't think this is possible
 
-30. 'fix old settings' should also delete fields which doesn't exist anymore
+30. 'fix old settings' should also delete fields which don't exist anymore
 
 31. Hermanns values:
     - Wafers have discrete widths. 8 in total.
@@ -92,3 +92,14 @@ Especially obvious for ceramic plates.
 
 32. if wafer is circular need some way to tell direction eg. 0 deg.
     - 3 possibilities: slit for "pole" to stack, one side flat or a notch
+
+33. You lose half of the frequency range sort of by doing multipurpose waveplates. l2 and l4 alone have wider range I think.
+But still good idea, can add as a subsection and show result still : )
+
+34. option to calc intensity for weak and full absorption
+
+35. check and understand result settings vs ui settings, when is which used ? I forgot what I've implemented...
+
+36. implement discrete bruteforce optimization. (-> try all combinations of widths and optimize angles, stripes)
+
+37.
