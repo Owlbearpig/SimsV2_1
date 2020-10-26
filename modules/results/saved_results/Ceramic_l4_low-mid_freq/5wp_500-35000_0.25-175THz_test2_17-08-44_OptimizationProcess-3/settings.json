@@ -76,11 +76,11 @@
         ]
     ],
     "calculation_method": "Jones",
-    "iterations": 100000,
-    "angle_step": 0.015,
-    "width_step": 250.0,
+    "iterations": 10000,
+    "angle_step": 0.01,
+    "width_step": 25.0,
     "stripe_width_step": 5.0,
-    "temperature": 0.0001,
+    "temperature": 0.001,
     "local_opt_tol": 0.001,
     "print_precision": 5,
     "print_interval": 500,
@@ -100,18 +100,18 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": true,
     "x0_angle_input": [
-        2.03,
-        4.76,
-        3.49,
-        2.67,
-        3.16
+        1.19,
+        6.21,
+        0.73,
+        5.09,
+        4.01
     ],
     "x0_widths_input": [
-        12529.0,
-        2613.2,
-        8347.2,
-        16911.8,
-        23461.8
+        540.6,
+        609.5,
+        593.7,
+        351.3,
+        335.6
     ],
     "x0_stripes_input": [],
     "angle_input": [

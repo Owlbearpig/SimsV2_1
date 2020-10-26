@@ -76,9 +76,9 @@
         ]
     ],
     "calculation_method": "Jones",
-    "iterations": 100000,
+    "iterations": 10000,
     "angle_step": 0.015,
-    "width_step": 250.0,
+    "width_step": 100.0,
     "stripe_width_step": 5.0,
     "temperature": 0.0001,
     "local_opt_tol": 0.001,
