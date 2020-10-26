@@ -146,8 +146,9 @@ class WaveplateApp(DictKeys):
 
     @check_values
     def discrete_bruteforce_optimization(self, ui_values):
+        dbo_settings = self.settings_module.dbo_settings(ui_values)
         dbo_process = DBOProcess(target=make_discrete_bruteforce_optimizer,
-                                 kwargs={'queue': self.queue, 'settings': ui_values})
+                                 kwargs={'queue': self.queue, 'settings': dbo_settings})
         self.process_manager.running_processes.append(dbo_process)
         self.update_process_list()
         dbo_process.start()
@@ -207,8 +208,18 @@ class WaveplateApp(DictKeys):
         self.window[self.dbo_task_info_tab_l0_key].update('Iter cnt: ' + str(output['iter_cnt']))
         self.window[self.dbo_task_info_tab_l1_key].update('F: ' + str(output['f']))
 
-    def update_job_progress_frame(self, output):
-        self.window[self.dbo_progressbar_key].update(output['task_cnt'], output['total_task_cnt'])
+    def update_job_progress(self, output):
+        task_cnt, total_tasks, best_f = output['task_cnt'], output['total_task_cnt'], output['best_f']
+
+        cur_combination = output['cur_combination']
+        self.window[self.dbo_current_combination_key].update(f'Current combination: {cur_combination}')
+
+        self.window[self.dbo_job_info_tab_l0_key].update(f'Best F: {round(best_f, 5)}')
+
+        self.window[self.dbo_progressbar_key].update(task_cnt, total_tasks)
+        s = f'Task: {task_cnt}/{total_tasks}, ({round(100*task_cnt/total_tasks, 1)} %)'
+        self.window[self.dbo_job_progress_text_field_key].update(s)
+
 
     @check_values
     def optimizer_test(self, ui_values):

@@ -35,7 +35,7 @@ class QueueReader(DictKeys):
                 continue
 
             if 'dbo_job_progress' in str(output):
-                self.main_app.update_job_progress_frame(output)
+                self.main_app.update_job_progress(output)
                 continue
 
             if isinstance(output, type(str())):

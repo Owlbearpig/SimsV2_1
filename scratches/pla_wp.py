@@ -5,8 +5,8 @@ from modules.utils.constants import plot_data_dir
 import pandas
 
 
-#data_dir = Path('/home/alex/Desktop/MDrive/AG/BFWaveplates/Data/PLAWP_table1')
-data_dir = Path('E:\MEGA\AG\BFWaveplates\Data\PLAWP_table1')
+data_dir = Path('/home/alex/Desktop/MDrive/AG/BFWaveplates/Data/PLAWP_table1')
+#data_dir = Path('E:\MEGA\AG\BFWaveplates\Data\PLAWP_table1')
 files = list(data_dir.iterdir())
 
 def fft(data):
@@ -33,8 +33,8 @@ for file in files:
 
     plt.plot(freqs, 20*np.log10(np.abs(fft_file)/np.abs(fft_ref[1])))
 
-plt.xlim((0, 1.5))
-plt.ylim((-130, 10))
+plt.xlim((0, 0.7))
+plt.ylim((-20, 10))
 plt.show()
 
 

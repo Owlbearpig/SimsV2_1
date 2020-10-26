@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 from modules.identifiers.dict_keys import DictKeys
+from modules.utils.constants import *
 from modules.utils.helpers import cast_to_ui
 
 
@@ -396,6 +397,7 @@ class Tabs(DictKeys):
                                  size=(30, 1))
         dbo_task_info_tab_l0 = sg.Text('', size=(15, 1), justification='left', key=self.dbo_task_info_tab_l0_key)
         dbo_task_info_tab_l1 = sg.Text('', size=(15, 1), justification='left', key=self.dbo_task_info_tab_l1_key)
+        dbo_task_info_tab_l2 = sg.Text('', size=(15, 1), justification='left', key=self.dbo_task_info_tab_l2_key)
         dbo_save_name_input = Input(default_text=cast_to_ui(self.settings[self.dbo_save_name_input_key]),
                                     key=self.dbo_save_name_input_key,
                                     size=(30, 1))
@@ -403,7 +405,14 @@ class Tabs(DictKeys):
                                          key=self.dbo_start_job_button_key)
         dbo_job_info_tab_l0 =  sg.Text('', size=(15, 1), justification='left', key=self.dbo_job_info_tab_l0_key)
         dbo_job_info_tab_l1 = sg.Text('', size=(15, 1), justification='left', key=self.dbo_job_info_tab_l1_key)
-
+        dbo_current_combination = sg.Text('', size=(45, 1), justification='left', key=self.dbo_current_combination_key)
+        dbo_continue_job_input = Input(default_text=self.settings[self.dbo_continue_job_input_key],
+                                       size=(65, 1),
+                                       key=self.dbo_continue_job_input_key,
+                                       disabled=True)
+        dbo_continue_job_checkbox = Checkbox('Continue unfinished job',
+                                             default=self.settings[self.dbo_continue_job_checkbox_key],
+                                             key=self.dbo_continue_job_checkbox_key)
 
         tab5_layout = [[sg.Frame('Output',
                                  [[output],
@@ -435,10 +444,20 @@ class Tabs(DictKeys):
                        [sg.Frame('DBO',
                         [[sg.Text('Widths:', size=(15, 1)), dbo_widths_input],
                          [sg.Text('Save name:', size=(15, 1)), dbo_save_name_input],
-                         [sg.Frame('Task info', [[dbo_task_info_tab_l0], [dbo_task_info_tab_l1]]),
-                          sg.Frame('Job info', [[dbo_job_info_tab_l0], [dbo_job_info_tab_l1]])],
-                         [dbo_start_job_button],
-                         [sg.ProgressBar(1000, orientation='h', size=(20, 20), key=self.dbo_progressbar_key)]
+                         [sg.Frame('Task info', [[dbo_task_info_tab_l0],
+                                                 [dbo_task_info_tab_l1]
+                                                 ]),
+                          sg.Frame('Job info', [[dbo_job_info_tab_l0],
+                                                [dbo_job_info_tab_l1]
+                                                ])
+                          ],
+                         [sg.Text('Unfinished job:'), dbo_continue_job_input,
+                          sg.FileBrowse(initial_folder=dbo_results_dir)],
+                         [dbo_continue_job_checkbox],
+                         [sg.ProgressBar(1000, orientation='h', size=(45, 20), key=self.dbo_progressbar_key),
+                          sg.Text('', size=(20, 1), justification='left', key=self.dbo_job_progress_text_field_key)],
+                         [dbo_current_combination],
+                         [dbo_start_job_button]
                         ])
                         ],
                        ]

@@ -1,9 +1,12 @@
 from multiprocessing import Process
 import multiprocessing as mp
+from pathlib import Path
 from erf_setup_v21 import ErfSetup
 from optimizer_setup_v2 import OptimizerSetup
 from modules.identifiers.dict_keys import DictKeys
 from optimizer_setup_v2 import Output
+import ast
+from modules.settings.settings import Settings
 from modules.utils.constants import *
 import numpy as np
 from itertools import combinations_with_replacement
@@ -36,9 +39,12 @@ class DBO(DictKeys):
         self.save_name = self.settings[self.dbo_save_name_input_key]
         self.result_file_path = self.make_save_file()
         self.iter_cnt = 0
+        self.best_f = np.inf
+        self.cur_f = np.inf
         self.queue = queue
 
     def set_settings(self, settings):
+
         settings[self.process_name_key] = mp.current_process().name
 
         return settings
@@ -51,31 +57,66 @@ class DBO(DictKeys):
         f.close()
         return result_file_path
 
+    def read_previous_job_output(self):
+        previous_job_path = self.settings[self.dbo_continue_job_input_key]
+        combinations = []
+        with open(previous_job_path, 'r') as f:
+            for line in f:
+                split_line = line.split(',_,')
+                if float(split_line[0]) < self.best_f:
+                    self.best_f = float(split_line[0])
+                combinations.append(list(ast.literal_eval(split_line[1])))
+
+        return combinations
+
     def get_combinations(self):
         wp_cnt = self.settings[self.wp_cnt_key]
         d_lst = self.settings[self.dbo_widths_input_key]
-        combinations = combinations_with_replacement(d_lst, wp_cnt)
-        # add check loadfile stuff here so we  just replace full combinations
+        combinations = [list(combination) for combination in combinations_with_replacement(d_lst, wp_cnt)]
+
+        if self.settings[self.dbo_continue_job_checkbox_key]:
+            previous_combinations = self.read_previous_job_output()
+            for combination in previous_combinations:
+                try:
+                    combinations.remove(combination)
+                except ValueError:
+                    continue
 
         return combinations
 
     def callback(self, x, f, accept):
         self.iter_cnt += 1
-        new_output = DBOOutput(output_identifier='dbo_output')
-        new_output['iter_cnt'], new_output['f'] = self.iter_cnt, np.round(f, 5)
+        if f < self.best_f:
+            self.best_f = f
+        if f < self.cur_f:
+            self.cur_f = f
+        output = {'iter_cnt': self.iter_cnt, 'f': np.round(f, 5)}
+        new_output = DBOOutput('dbo_output', output)
         self.queue.put(new_output)
 
-    def on_task_completion(self, combination, opt_res, progress):
-        s = str(combination) + ', ' + str(list(opt_res.x)) + '\n'
+    def on_task_completion(self, combination, opt_res):
+        s = str(self.cur_f) + ',_,' + str(combination) + ',_,' + str(list(opt_res.x)) + '\n'
         with open(self.result_file_path, 'a') as f:
             f.write(s)
         f.close()
         self.iter_cnt = 0
-        self.job_progress_output(progress)
+        self.cur_f = np.inf
 
     def job_progress_output(self, progress):
         new_output = DBOOutput('dbo_job_progress', progress)
         self.queue.put(new_output)
+
+
+if __name__ == '__main__':
+    keys = DictKeys()
+    settings = {keys.dbo_continue_job_input_key: '/home/alex/Desktop/Projects/SimsV2_1/modules/results/dbo/test2.txt'}
+    settings[keys.dbo_save_name_input_key] = 'test2'
+    settings[keys.wp_cnt_key] = 5
+    settings[keys.dbo_continue_job_checkbox_key] = True
+    settings[keys.dbo_widths_input_key] = [520, 420, 320, 560]
+    new_dbo = DBO(settings, None)
+    print(new_dbo.get_combinations())
+    print(new_dbo.read_previous_job_output())
 
 
 def make_discrete_bruteforce_optimizer(**kwargs):
@@ -83,16 +124,22 @@ def make_discrete_bruteforce_optimizer(**kwargs):
     queue = kwargs['queue']
 
     new_dbo = DBO(settings, queue)
-    combinations = list(new_dbo.get_combinations())
+    combinations = new_dbo.get_combinations()
+    # return if job is complete
+    if not combinations:
+        return
+
     for i, combination in enumerate(combinations):
-        new_dbo.settings[new_dbo.const_widths_key] = list(combination)
+        progress = {'task_cnt': i + 1, 'total_task_cnt': len(combinations),
+                    'cur_combination': combination, 'best_f': new_dbo.best_f}
+        new_dbo.job_progress_output(progress)
+        new_dbo.settings[new_dbo.const_widths_key] = combination
         erf_setup = ErfSetup(new_dbo.settings)
         new_optimizer = OptimizerSetup(erf_setup, settings, queue)
         new_optimizer.custom_callback = new_dbo.callback
         opt_res = new_optimizer.start_optimization()
 
-        progress = {'task_cnt': i+1, 'total_task_cnt': len(combinations)}
-        new_dbo.on_task_completion(combination, opt_res, progress)
+        new_dbo.on_task_completion(combination, opt_res)
 
 
 def no_optimization(settings, new_values, queue):

@@ -85,6 +85,8 @@ default_settings_dict = {
     keys.run_once_label_input_key: "",
     keys.dbo_save_name_input_key: "",
     keys.dbo_widths_input_key: [520, 420, 320, 220],
+    keys.dbo_continue_job_input_key: "",
+    keys.dbo_continue_job_checkbox_key: False,
 
     # tab5
     keys.plot_in_cst_key: False,

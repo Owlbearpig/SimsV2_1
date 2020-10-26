@@ -67,6 +67,24 @@ class Settings(DictKeys):
 
         return settings_for_single_run
 
+    def dbo_settings(self, ui_values_dict):
+        if ui_values_dict[self.dbo_continue_job_checkbox_key]:
+            previous_job_path = Path(ui_values_dict[self.dbo_continue_job_input_key])
+            settings_path = previous_job_path.parent / (str(previous_job_path.stem) + '_settings.json')
+            settings = self.load_settings(settings_path)
+        else:
+            save_name = Path(ui_values_dict[self.dbo_save_name_input_key])
+            if save_name.suffix:
+                save_name = save_name.stem
+            settings_path = dbo_results_dir / (str(save_name) + '_settings.json')
+            self.save_settings(ui_values_dict, settings_path)
+            settings = ui_values_dict
+
+        # we don't want to load this from old ui values
+        settings[self.dbo_continue_job_checkbox_key] = ui_values_dict[self.dbo_continue_job_checkbox_key]
+
+        return settings
+
     def fix_old_settings(self):
         settings_paths = search_dir(saved_results_dir, file_extension='json', return_path=True)
         for settings_file_path in settings_paths:

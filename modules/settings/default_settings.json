@@ -67,6 +67,8 @@
         220
     ],
     "dbo_save_name_input": "",
+    "dbo_continue_job_input": "",
+    "dbo_continue_job_checkbox": false,
     "anisotropy_s": 1.0,
     "wp_type": "\u03bb/2",
     "x_slicing": [
