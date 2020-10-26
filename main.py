@@ -1,15 +1,15 @@
 from modules.utils.helpers import sg
 from gui_tabs.tabs import Tabs
-from modules.execution.optimization_process import (OptimizationProcess, make_optimizer, no_optimization,
+from modules.execution.optimization_process import (OptimizationProcess, DBOProcess, make_optimizer, no_optimization,
                                                     make_discrete_bruteforce_optimizer)
-import queue
 from multiprocessing import Queue
-from modules.execution.stopppable_thread import StoppableThread
 import time
+from modules.execution.stopppable_thread import StoppableThread
 from modules.utils.constants import *
 from modules.utils.helpers import error_popup, cast_to_ui, fix_types, check_values
 from modules.material_manager.materials import ProjectMaterials, Material
 from modules.results.results import Results
+from modules.results.queue_reader import QueueReader
 from modules.results.handle_returns import OutputHandler
 import _tkinter
 from modules.identifiers.dict_keys import DictKeys
@@ -30,7 +30,6 @@ class WaveplateApp(DictKeys):
         self.new_erf_setup = None
 
         self.queue = Queue()
-        self.queue_reader_thread = None
 
         self.output_handlers = {}
 
@@ -41,6 +40,8 @@ class WaveplateApp(DictKeys):
         self.result_manager = Results()
 
         self.settings_module = Settings()
+
+        self.queue_reader = QueueReader(self)
 
         previous_settings = self.settings_module.load_settings()
         tabs = Tabs(previous_settings, self.material_manager)
@@ -145,16 +146,17 @@ class WaveplateApp(DictKeys):
 
     @check_values
     def discrete_bruteforce_optimization(self, ui_values):
-        new_process = OptimizationProcess(target=make_discrete_bruteforce_optimizer,
-                                          kwargs={'queue': self.queue, 'settings': ui_values})
-        new_process.start()
+        dbo_process = DBOProcess(target=make_discrete_bruteforce_optimizer,
+                                 kwargs={'queue': self.queue, 'settings': ui_values})
+        self.process_manager.running_processes.append(dbo_process)
+        self.update_process_list()
+        dbo_process.start()
 
     @check_values
     def new_optimization_process(self, ui_values):
         # save settings in case of crash (:
         self.settings_module.save_settings(ui_values)
         new_process = OptimizationProcess(target=make_optimizer, kwargs={'queue': self.queue, 'settings': ui_values})
-        new_process.add_task_info()
         self.output_handlers[new_process.name] = OutputHandler(ui_values, new_process)
 
         self.process_manager.running_processes.append(new_process)
@@ -200,6 +202,13 @@ class WaveplateApp(DictKeys):
             iter_speed = output.iter_cnt / (time.time() - selected_process.start_time)
             self.window[self.info_tab_l2_key].update(f'{np.round(iter_speed, 1)} iterations / s')
             self.window[self.info_tab_l3_key].update('Best min: ' + str(np.round(selected_process.best_result, 5)))
+
+    def update_dbo_info_frame(self, output):
+        self.window[self.dbo_task_info_tab_l0_key].update('Iter cnt: ' + str(output['iter_cnt']))
+        self.window[self.dbo_task_info_tab_l1_key].update('F: ' + str(output['f']))
+
+    def update_job_progress_frame(self, output):
+        self.window[self.dbo_progressbar_key].update(output['task_cnt'], output['total_task_cnt'])
 
     @check_values
     def optimizer_test(self, ui_values):
@@ -309,6 +318,7 @@ class WaveplateApp(DictKeys):
                                                              ui_values['max_width_error_input']))
         self.window[self.stripe_err_slider_key].update(range=(ui_values['min_stripe_error_input'],
                                                               ui_values['max_stripe_error_input']))
+
     # ---------------------------------------CST tab------------------------------------------------------------------ #
     def update_cst_folder_listbox(self, *args):
         cst_folders = self.result_manager.get_cst_folder_names()
@@ -360,29 +370,10 @@ class WaveplateApp(DictKeys):
             except KeyError:
                 continue
 
-    def read_process_queue(self):
-        refresh_time = 0.05
-        while True:
-            time.sleep(refresh_time)
-            if self.queue_reader_thread.stopped():
-                break
-            try:
-                output = self.queue.get_nowait()
-            except queue.Empty:
-                continue
-            if isinstance(output, type(str())):
-                print(output)
-            else:
-                try:
-                    self.output_handlers[output.process_name].main(output)
-                    self.update_info_frame(output)
-                except KeyError:
-                    print(str(output))
-
     def exit(self, *args):
         if last_ui_values:
             self.settings_module.save_settings(last_ui_values)
-        self.queue_reader_thread.stop()
+        self.queue_reader.stop()
         self.window.close()
 
     # do things
@@ -412,6 +403,8 @@ class WaveplateApp(DictKeys):
             self.process_list_key: self.on_process_selection,
             self.run_once_button_key: self.run_once,
             self.optimizer_test_button_key: self.optimizer_test,
+            self.dbo_start_job_button_key: self.discrete_bruteforce_optimization,
+
             # tab6
             self.update_result_list_button_key: self.update_result_list,
             self.update_folder_list_button_key: self.update_folder_list,
@@ -454,8 +447,7 @@ if __name__ == '__main__':
 
     main_app = WaveplateApp()
 
-    main_app.queue_reader_thread = StoppableThread(target=main_app.read_process_queue)
-    main_app.queue_reader_thread.start()
+    main_app.queue_reader.start()
 
     _, last_ui_values = fix_types(*main_app.window.read(timeout=0))
     while True:

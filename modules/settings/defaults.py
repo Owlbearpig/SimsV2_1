@@ -83,6 +83,8 @@ default_settings_dict = {
     keys.widths_input_key: [0, 0, 0, 0, 0],
     keys.stripes_input_key: [0, 0],
     keys.run_once_label_input_key: "",
+    keys.dbo_save_name_input_key: "",
+    keys.dbo_widths_input_key: [520, 420, 320, 220],
 
     # tab5
     keys.plot_in_cst_key: False,

@@ -76,7 +76,7 @@
         ]
     ],
     "calculation_method": "Jones",
-    "iterations": 10,
+    "iterations": 10000,
     "angle_step": 0.02,
     "width_step": 10.0,
     "stripe_width_step": 5.0,
@@ -155,7 +155,9 @@
     "dbo_save_name_input": "test1",
     "dbo_widths_input": [
         520,
-        420
+        420,
+        320,
+        220
     ],
     "plot_in_cst": false,
     "selected_frequency": 1.2,

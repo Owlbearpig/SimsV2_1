@@ -52,6 +52,7 @@ class OptimizerSetup(DictKeys):
         self.print_interval = settings[self.print_interval_key]
         self.periodic_restart = settings[self.periodic_restart_key]
         self.disable_callback = settings[self.disable_callback_key]
+        self.custom_callback = None
 
         # variables
         self.best_f = np.inf
@@ -94,7 +95,7 @@ class OptimizerSetup(DictKeys):
         np.set_printoptions(suppress=True)
         np.set_printoptions(linewidth=150)
 
-    def callback(self, x, f, accepted):
+    def default_callback(self, x, f, accepted):
         """
         called after each optimization step
 
@@ -167,9 +168,8 @@ class OptimizerSetup(DictKeys):
         iterations = self.iterations
         angle_step, width_step, stripe_step = self.angle_step, self.width_step, self.stripe_width_step
 
-        if not self.disable_callback:
-            callback = self.callback
-        else:
+        callback = self.custom_callback if self.custom_callback else self.default_callback
+        if self.disable_callback:
             callback = None
 
         local_min_kwargs = self.local_min_kwargs

@@ -391,6 +391,20 @@ class Tabs(DictKeys):
         optimizer_test_button = sg.Button('Test',
                                           key=self.optimizer_test_button_key)
 
+        dbo_widths_input = Input(default_text=cast_to_ui(self.settings[self.dbo_widths_input_key]),
+                                 key=self.dbo_widths_input_key,
+                                 size=(30, 1))
+        dbo_task_info_tab_l0 = sg.Text('', size=(15, 1), justification='left', key=self.dbo_task_info_tab_l0_key)
+        dbo_task_info_tab_l1 = sg.Text('', size=(15, 1), justification='left', key=self.dbo_task_info_tab_l1_key)
+        dbo_save_name_input = Input(default_text=cast_to_ui(self.settings[self.dbo_save_name_input_key]),
+                                    key=self.dbo_save_name_input_key,
+                                    size=(30, 1))
+        dbo_start_job_button = sg.Button('Start',
+                                         key=self.dbo_start_job_button_key)
+        dbo_job_info_tab_l0 =  sg.Text('', size=(15, 1), justification='left', key=self.dbo_job_info_tab_l0_key)
+        dbo_job_info_tab_l1 = sg.Text('', size=(15, 1), justification='left', key=self.dbo_job_info_tab_l1_key)
+
+
         tab5_layout = [[sg.Frame('Output',
                                  [[output],
                                   [start_process_button, stop_process_button,
@@ -417,8 +431,18 @@ class Tabs(DictKeys):
                                   [stripes_input],
                                   [sg.Text('Label:'), run_once_label_input],
                                   [run_once_button]])
-                        ]
+                        ],
+                       [sg.Frame('DBO',
+                        [[sg.Text('Widths:', size=(15, 1)), dbo_widths_input],
+                         [sg.Text('Save name:', size=(15, 1)), dbo_save_name_input],
+                         [sg.Frame('Task info', [[dbo_task_info_tab_l0], [dbo_task_info_tab_l1]]),
+                          sg.Frame('Job info', [[dbo_job_info_tab_l0], [dbo_job_info_tab_l1]])],
+                         [dbo_start_job_button],
+                         [sg.ProgressBar(1000, orientation='h', size=(20, 20), key=self.dbo_progressbar_key)]
+                        ])
+                        ],
                        ]
+
         return tab5_layout
 
     def get_tab6_layout(self):

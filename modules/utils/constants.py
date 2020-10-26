@@ -27,6 +27,8 @@ settings_module_dir = module_dir / Path('settings')
 
 results_module_dir = module_dir / Path('results')
 saved_results_dir = results_module_dir / Path('saved_results')
+archived_results_dir = results_module_dir / Path('archived')
+dbo_results_dir = results_module_dir / Path('dbo')
 
 cst_module_dir = module_dir / Path('cst')
 cst_results_dir = cst_module_dir / Path('cst_results')

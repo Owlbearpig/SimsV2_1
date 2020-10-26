@@ -60,6 +60,13 @@
     "max_stripe_width": 90.0,
     "anisotropy_p": 1.0,
     "weak_absorption_checkbox": false,
+    "dbo_widths_input": [
+        520,
+        420,
+        320,
+        220
+    ],
+    "dbo_save_name_input": "",
     "anisotropy_s": 1.0,
     "wp_type": "\u03bb/2",
     "x_slicing": [

@@ -95,6 +95,14 @@ class DictKeys:
         self.run_once_label_input_key = DictKey('run_once_label_input')
         self.set_ri_real_part_checkbox_key = DictKey('set_ri_real_part_checkbox')
         self.set_ri_img_part_checkbox_key = DictKey('set_ri_img_part_checkbox')
+        self.dbo_widths_input_key = DictKey('dbo_widths_input')
+        self.dbo_task_info_tab_l0_key = DictKey('dbo_task_info_tab_l0')
+        self.dbo_task_info_tab_l1_key = DictKey('dbo_task_info_tab_l1')
+        self.dbo_job_info_tab_l0_key = DictKey('dbo_job_info_tab_l0')
+        self.dbo_job_info_tab_l1_key = DictKey('dbo_job_info_tab_l1')
+        self.dbo_save_name_input_key = DictKey('dbo_save_name_input')
+        self.dbo_start_job_button_key = DictKey('dbo_start_job_button')
+        self.dbo_progressbar_key = DictKey('dbo_progressbar_key')
 
         # tab5
         self.result_list_key = DictKey('result_list')
