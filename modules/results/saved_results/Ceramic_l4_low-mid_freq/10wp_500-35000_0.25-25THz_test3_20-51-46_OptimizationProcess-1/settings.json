@@ -1,5 +1,5 @@
 {
-    "wp_cnt": 6,
+    "wp_cnt": 10,
     "const_wp_dim": false,
     "equal_stripes": false,
     "initial_stripe_widths": [
@@ -9,6 +9,10 @@
             49.0,
             50.0,
             42.2,
+            42.2,
+            42.2,
+            42.2,
+            42.2,
             42.2
         ],
         [
@@ -17,10 +21,18 @@
             17.4,
             18.7,
             15.1,
+            15.1,
+            15.1,
+            15.1,
+            15.1,
             15.1
         ]
     ],
     "const_angles": [
+        0,
+        0,
+        0,
+        0,
         0,
         0,
         0,
@@ -34,6 +46,10 @@
         0,
         0,
         0,
+        0,
+        0,
+        0,
+        0,
         0
     ],
     "width_pattern": [
@@ -42,11 +58,15 @@
         3,
         4,
         5,
-        6
+        6,
+        7,
+        8,
+        9,
+        10
     ],
     "frequency_resolution_multiplier": 0.2,
     "min_freq": 0.25,
-    "max_freq": 1.75,
+    "max_freq": 2.5,
     "material_drop_down": "FusedSilica",
     "birefringence_type_dropdown": "Natural",
     "fast_material_dropdown": "CeramicFast",
@@ -58,7 +78,7 @@
     "randomizer_seed": null,
     "log_of_res": false,
     "min_width": 500.0,
-    "max_width": 10000.0,
+    "max_width": 35000.0,
     "min_angle": 0.0,
     "max_angle": 6.283184,
     "min_stripe_width": 10.0,
@@ -69,11 +89,11 @@
     "x_slicing": [
         [
             0,
-            6
+            10
         ],
         [
-            6,
-            12
+            10,
+            20
         ],
         [
             0,
@@ -83,9 +103,9 @@
     "calculation_method": "Jones",
     "iterations": 100000,
     "angle_step": 0.015,
-    "width_step": 500.0,
+    "width_step": 250.0,
     "stripe_width_step": 5.0,
-    "temperature": 0.005,
+    "temperature": 0.0001,
     "local_opt_tol": 0.001,
     "print_precision": 5,
     "print_interval": 500,
@@ -94,7 +114,7 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "6wp_500-10000_0.25-175THz_test5_",
+    "save_name": "10wp_500-35000_0.25-25THz_test3_",
     "save_folder_name": "Ceramic_l4_low-mid_freq",
     "selected_material_data_path": "modules\\material_manager\\data_folders\\FusedSilica\\3Eck_D=1028.csv",
     "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\CeramicFast\\Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
@@ -105,20 +125,28 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": true,
     "x0_angle_input": [
-        2.96,
-        2.42,
-        1.5,
-        0.3,
-        0.96,
-        2.71
+        1.8,
+        5.91,
+        0.02,
+        3.23,
+        0.5,
+        3.37,
+        0.7,
+        0.88,
+        0.73,
+        3.26
     ],
     "x0_widths_input": [
-        2036.7,
-        7427.5,
-        8153.2,
-        7986.0,
-        5921.1,
-        3627.4
+        4810.1,
+        29514.2,
+        20045.8,
+        4819.9,
+        30508.9,
+        6619.7,
+        31715.9,
+        24304.7,
+        19671.7,
+        25418.1
     ],
     "x0_stripes_input": [],
     "angle_input": [
