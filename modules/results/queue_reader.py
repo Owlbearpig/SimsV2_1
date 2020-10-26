@@ -19,12 +19,11 @@ class QueueReader(DictKeys):
         self.queue_reader_thread.stop()
 
     def read_process_queue(self):
-        refresh_time = 0.05
+        refresh_time = 0.0001
         while True:
             time.sleep(refresh_time)
             if self.queue_reader_thread.stopped():
                 break
-
             try:
                 output = self.queue.get_nowait()
             except queue.Empty:

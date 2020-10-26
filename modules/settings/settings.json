@@ -39,11 +39,11 @@
         4,
         5
     ],
-    "frequency_resolution_multiplier": 1.0,
+    "frequency_resolution_multiplier": 0.5,
     "min_freq": 0.25,
     "max_freq": 1.75,
     "material_drop_down": "FusedSilica",
-    "birefringence_type_dropdown": "Form",
+    "birefringence_type_dropdown": "Natural",
     "fast_material_dropdown": "CeramicFast",
     "slow_material_dropdown": "CeramicSlow",
     "const_refr_index_input_n_s": 2.108,
@@ -52,15 +52,15 @@
     "const_refr_index_input_k_p": 0.0,
     "randomizer_seed": null,
     "log_of_res": false,
-    "min_width": 300.0,
-    "max_width": 850,
+    "min_width": 500.0,
+    "max_width": 35000.0,
     "min_angle": 0.0,
     "max_angle": 6.283184,
     "min_stripe_width": 10.0,
     "max_stripe_width": 70.0,
     "anisotropy_p": 1.0,
     "anisotropy_s": 1.0,
-    "wp_type": "\u03bb/2",
+    "wp_type": "\u03bb/4",
     "x_slicing": [
         [
             0,
@@ -71,14 +71,14 @@
             10
         ],
         [
-            10,
-            20
+            0,
+            0
         ]
     ],
     "calculation_method": "Jones",
-    "iterations": 10,
-    "angle_step": 0.02,
-    "width_step": 10.0,
+    "iterations": 10000,
+    "angle_step": 0.01,
+    "width_step": 25.0,
     "stripe_width_step": 5.0,
     "temperature": 0.001,
     "local_opt_tol": 0.001,
@@ -89,8 +89,8 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "5wp_250-1750_test2_fixed_f_ranges",
-    "save_folder_name": "Hermans_mixed",
+    "save_name": "5wp_500-35000_0.25-175THz_test2_",
+    "save_folder_name": "Ceramic_l4_low-mid_freq",
     "selected_material_data_path": "modules/material_manager/data_folders/FusedSilica/3Eck_D=1028.csv",
     "selected_fast_material_data_path": "modules/material_manager/data_folders/CeramicFast/Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
     "selected_slow_material_data_path": "modules/material_manager/data_folders/CeramicSlow/Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
@@ -100,31 +100,20 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": true,
     "x0_angle_input": [
-        5.0,
-        4.06,
-        1.48,
-        1.09,
-        0.41
+        1.19,
+        6.21,
+        0.73,
+        5.09,
+        4.01
     ],
     "x0_widths_input": [
-        700.3,
-        429.4,
-        346.6,
-        732.1,
-        716.4
+        540.6,
+        609.5,
+        593.7,
+        351.3,
+        335.6
     ],
-    "x0_stripes_input": [
-        12.4,
-        14.9,
-        29.6,
-        63.3,
-        36.1,
-        38.3,
-        43.1,
-        43.4,
-        59.5,
-        42.7
-    ],
+    "x0_stripes_input": [],
     "angle_input": [
         0.0936016076,
         327.936495,
@@ -159,9 +148,9 @@
         320
     ],
     "dbo_continue_job_input": "/home/alex/Desktop/Projects/SimsV2_1/modules/results/dbo/test3.txt",
-    "dbo_continue_job_checkbox": true,
+    "dbo_continue_job_checkbox": false,
     "plot_in_cst": false,
-    "selected_frequency": 1.2,
+    "selected_frequency": 0.5,
     "difference_plot": false,
     "polarization_plot": false,
     "angle_err_checkbox": false,
@@ -193,5 +182,5 @@
     "plot_np_checkbox_key": true,
     "plot_ks_checkbox_key": false,
     "plot_kp_checkbox_key": false,
-    "zeroth_order_freq_input": 2000.0
+    "zeroth_order_freq_input": 750.0
 }

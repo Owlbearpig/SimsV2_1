@@ -44,7 +44,6 @@ class DBO(DictKeys):
         self.queue = queue
 
     def set_settings(self, settings):
-
         settings[self.process_name_key] = mp.current_process().name
 
         return settings
@@ -90,7 +89,7 @@ class DBO(DictKeys):
             self.best_f = f
         if f < self.cur_f:
             self.cur_f = f
-        output = {'iter_cnt': self.iter_cnt, 'f': np.round(f, 5)}
+        output = {'iter_cnt': self.iter_cnt, 'f': np.round(self.cur_f, 5)}
         new_output = DBOOutput('dbo_output', output)
         self.queue.put(new_output)
 
@@ -159,30 +158,27 @@ def no_optimization(settings, new_values, queue):
 class OptimizationProcess(Process):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         self.settings = kwargs['kwargs']['settings']
         self.queue = kwargs['kwargs']['queue']
         self.best_result = np.inf
         self.start_time = None
         self.task_info = None
         self.list_index = None
-        self.name = ''
+        self.label = ''
 
     def __str__(self):
-        return self.name if self.name else "Process " + str(self._identity[0])
+        return self.label if self.label else "Process " + str(self._identity[0])
 
-    def terminate(self, pname=None):
+    def terminate(self):
         # don't think it matters if terminate or kill is used
         super().kill()
-        name = pname if pname else str(self)
-        self.queue.put(name + ' terminated')
+        self.queue.put(str(self) + ' terminated')
 
-    def start(self, pname=None):
+    def start(self):
         super().start()
         self.start_time = time.time()
         self.add_task_info()
-        name = pname if pname else str(self)
-        self.queue.put(name + ' started')
+        self.queue.put(str(self) + ' started')
 
     def add_task_info(self):
         erf_setup = ErfSetup(self.settings)
@@ -198,10 +194,4 @@ class OptimizationProcess(Process):
 class DBOProcess(OptimizationProcess):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = 'DBO'
-
-    def start(self, pname=None):
-        super().start(pname='DBO process')
-
-    def terminate(self, pname=None):
-        super().terminate(pname='DBO process')
+        self.label = 'DBO'

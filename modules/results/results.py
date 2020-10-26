@@ -229,7 +229,7 @@ class Results(DictKeys):
         for counter, key in enumerate(stokes_parameters):
             value = stokes_parameters[key]
             if key not in ['S_p', 'S_u']:
-                value = np.round(value, 2)
+                value = np.round(value, 3)
             # split the text in two columns, one side has 0.8 of the elements 0.2 for the rest
             if counter < 0.8 * len(stokes_parameters):
                 parameter_str1 += str(key) + ': ' + str(value) + '\n'

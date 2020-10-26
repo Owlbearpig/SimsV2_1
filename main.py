@@ -220,7 +220,6 @@ class WaveplateApp(DictKeys):
         s = f'Task: {task_cnt}/{total_tasks}, ({round(100*task_cnt/total_tasks, 1)} %)'
         self.window[self.dbo_job_progress_text_field_key].update(s)
 
-
     @check_values
     def optimizer_test(self, ui_values):
         test_settings = ui_values.copy()

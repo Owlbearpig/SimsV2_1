@@ -373,8 +373,8 @@ class ErfSetup(DictKeys):
             # adds the full absorption in case of enabled weak absorption for testing
             #"""
             #j = np.einsum('mij,m->mij', j, sqrt(self.absorption_factor(d, k_s)))
-            from modules.utils.calculations import calc_final_jones_intensities
-            self.intensity_x, self.intensity_y = calc_final_jones_intensities(j)
+            #from modules.utils.calculations import calc_final_jones_intensities
+            #self.intensity_x, self.intensity_y = calc_final_jones_intensities(j)
             #"""
 
             if self.wp_type == 'λ/2':
