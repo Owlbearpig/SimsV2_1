@@ -11,7 +11,7 @@ For example, if one local minima is func = 10 and another is func = 14, then T =
 #
 1. Implement single wp in ui. (done)
 
-2. Ceramic data and usage. one file is n_s other one is n_p -> fix code, new calc. refr. index. (implemented)
+2. Ceramic data and usage. one file is n_s other one is n_p -> fix code, new calc. refr. index. (done)
 
 3. speedtests. Find slow parts (not important)
 (check callback after each optimization step)
@@ -35,11 +35,11 @@ add __init__ files like in taipan is cool : )
 
 11. fix const bf -> const ns, np inputs instead (done)
 
-12. pick, combine widths from a discrete set then optimize each.
+12. pick, combine widths from a discrete set then optimize each. (done -> dbo)
     -> 4 widths, 5 wps -> 4^5 = 1024 combinations, 1k iterations each 7its/s -> 40.5 hours, <2 days
     -> 5 widths, 5 wps -> 5^5 = 3125 combinations, 1k iterations each 7its/s -> 123 hours, 5 days
 
-13. fp_results are with wrong material lol im retarded
+13. fp_results are with wrong material lol im retarded (making new optimization for SLE anyways)
 
 14. add material data to material class maybe, if not too many problems (why though?)
 
@@ -57,6 +57,10 @@ of optimal angle away from 45 deg.
 
 18. Question: Cond. for l/4 wp: Intensity after x- and y-polarizer (after wp-stack) should be equal. -> circular light?
 But wouldn't a rotation of 45 deg. also have equal x- and y-"intensities", which is still linear?
+New loss function (direct compare to circular polarized E-field vector)
+q = j[:, 0, 0] / j[:, 1, 0]
+res = sum(q.real**2 + (q.imag-1)**2)
+(done)
 
 19. Why are for masson values the two intensities equal all over? Because Masson designed l4 plates and im sleeping
 
@@ -76,13 +80,13 @@ Especially obvious for ceramic plates.
 
 26. add scaling of absolute part of absorption as options (half done)
 
-27. iteration speed avg. shorter time scale
+27. iteration speed avg. shorter time scale (smaller queue read intervals fixed it) (done)
 
-28. add show material settings in result tab
+28. add show material settings in result tab (done)
 
-29. auto push before close (keep missing additions) # don't think this is possible
+29. auto push before close (keep missing additions) # (don't think this is possible)
 
-30. 'fix old settings' should also delete fields which don't exist anymore
+30. 'fix old settings' should also delete fields which don't exist anymore (why though?)
 
 31. Hermanns values:
     - Wafers have discrete widths. 8 in total.
@@ -100,6 +104,6 @@ But still good idea, can add as a subsection and show result still : )
 
 35. check and understand result settings vs ui settings, when is which used ? I forgot what I've implemented...
 
-36. implement discrete bruteforce optimization. (-> try all combinations of widths and optimize angles, stripes)
+36. implement discrete bruteforce optimization. (-> try all combinations of widths and optimize angles, stripes) (done)
 
 37.

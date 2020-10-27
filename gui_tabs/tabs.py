@@ -492,6 +492,8 @@ class Tabs(DictKeys):
                                                    key=self.optimizer_settings_key)
         saver_settings_info_button = sg.Button('Saver settings',
                                                key=self.saver_settings_key)
+        material_settings_info_button = sg.Button('Material settings',
+                                                  key=self.material_settings_key)
         selected_frequency_input = Input(default_text=self.settings[self.selected_frequency_key],
                                          size=(5, 1),
                                          key=self.selected_frequency_key)
@@ -514,7 +516,8 @@ class Tabs(DictKeys):
                        [sg.Text('Stripe widths (μm):', size=(30, 1))],
                        [result_info_l3],
                        [erf_settings_info_button, optimizer_settings_info_button,
-                        saver_settings_info_button]]),
+                        saver_settings_info_button],
+                       [material_settings_info_button]]),
              sg.Frame('Stokes parameters',
                       [[sg.Text('Frequency'), selected_frequency_input,
                         sg.Text(f'({selected_frequency_input.DefaultText} THz)',

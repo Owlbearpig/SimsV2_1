@@ -297,6 +297,13 @@ class WaveplateApp(DictKeys):
         else:
             sg.PopupNoWait('No result selected')
 
+    def show_material_settings(self, *args):
+        if self.result_manager.result_selected:
+            dict_str = self.result_manager.key_group_to_string('material')
+            sg.PopupNoWait(dict_str, title='Material settings')
+        else:
+            sg.PopupNoWait('No result selected')
+
     def plot_selected_result(self, *args):
         if self.result_manager.result_selected:
             self.plotter.result_plot()
@@ -424,6 +431,7 @@ class WaveplateApp(DictKeys):
             self.erf_settings_key: self.show_erf_settings,
             self.optimizer_settings_key: self.show_optimizer_settings,
             self.saver_settings_key: self.show_saver_settings,
+            self.material_settings_key: self.show_material_settings,
             self.set_selected_result_settings_button_key: self.set_selected_result_settings,
             self.selected_frequency_key: self.update_stokes_frame,
             self.fix_old_settings_button_key: self.fix_old_settings,
