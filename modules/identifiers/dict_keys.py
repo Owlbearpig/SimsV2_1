@@ -116,6 +116,7 @@ class DictKeys:
         self.erf_settings_key = DictKey('erf_settings')
         self.optimizer_settings_key = DictKey('optimizer_settings')
         self.saver_settings_key = DictKey('saver_settings')
+        self.material_settings_key = DictKey('material_settings')
         self.selected_frequency_key = DictKey('selected_frequency')
         self.actual_frequency_key = DictKey('actual_frequency')
         self.stokes_vector_key = DictKey('stokes_vector')
