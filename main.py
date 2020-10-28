@@ -200,8 +200,11 @@ class WaveplateApp(DictKeys):
 
         if output.process_name == selected_process.name:
             self.window[self.info_tab_l1_key].update('Iter cnt: ' + str(output.iter_cnt))
-            iter_speed = output.iter_cnt / (time.time() - selected_process.start_time)
-            self.window[self.info_tab_l2_key].update(f'{np.round(iter_speed, 1)} iterations / s')
+            if not (output.iter_cnt % 10):
+                now = time.time()
+                selected_process.iter_speed = 10 / (now - selected_process.previous_iteration_time)
+                selected_process.previous_iteration_time = now
+            self.window[self.info_tab_l2_key].update(f'{np.round(selected_process.iter_speed, 2)} iterations / s')
             self.window[self.info_tab_l3_key].update('Best min: ' + str(np.round(selected_process.best_result, 5)))
 
     def update_dbo_info_frame(self, output):
@@ -258,6 +261,7 @@ class WaveplateApp(DictKeys):
         self.window[self.result_info_l1_key].update(values['angles'])
         self.window[self.result_info_l2_key].update(values['widths'])
         self.window[self.result_info_l3_key].update(values['stripes'])
+        self.window[self.selected_result_total_width_key].update(values['total_width'])
 
         self.update_stokes_frame(ui_values)
 

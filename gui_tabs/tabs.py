@@ -513,6 +513,7 @@ class Tabs(DictKeys):
                        [result_info_l1],
                        [sg.Text('Widths (μm):', size=(30, 1))],
                        [result_info_l2],
+                       [sg.Text('Total (mm): '), sg.Text('', size=(10, 1), key=self.selected_result_total_width_key)],
                        [sg.Text('Stripe widths (μm):', size=(30, 1))],
                        [result_info_l3],
                        [erf_settings_info_button, optimizer_settings_info_button,

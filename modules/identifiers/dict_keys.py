@@ -130,6 +130,7 @@ class DictKeys:
         self.update_result_list_button_key = DictKey('update_result_list_button')
         self.update_folder_list_button_key = DictKey('update_folder_list_button')
         self.plot_selected_result_button_key = DictKey('plot_selected_result_button')
+        self.selected_result_total_width_key = DictKey('selected_result_total_width')
 
         # tab6
         self.plot_error_button_key = DictKey('plot_error_button')

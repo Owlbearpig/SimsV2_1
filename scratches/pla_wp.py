@@ -1,6 +1,7 @@
 import numpy as np
 from pathlib import Path
 import matplotlib.pyplot as plt
+import matplotlib.transforms as mtransforms
 from modules.utils.constants import plot_data_dir
 import pandas
 
@@ -14,35 +15,40 @@ def fft(data):
     Y = np.fft.fft(data[:, 1], axis=0)
     freqs = np.fft.fftfreq(len(data[:, 0]), delta)
     idx = freqs > 0
-    #dBdata = 10 * np.log10(np.abs(Y))
 
     return freqs[idx], Y[idx]
 
 fft_ref = fft(np.loadtxt(data_dir / files[0]))
 
 freqs = fft_ref[0]
-#print(freqs)
-# 6
 
+
+"""
+degs = [22.0, 40.998, 48.998, 56.0, 69.998, 89.0, 111.999, 133.998, 158.998, 176.999]
 for file in files:
     file = str(file)
     if 'reference' in file:
         continue
+    deg = float(file.split('-')[-1].split(' ')[0])
+    if deg not in degs:
+        continue
     data = np.loadtxt(data_dir / file)
     fft_file = fft(data)[1]
 
-    plt.plot(freqs, 20*np.log10(np.abs(fft_file)/np.abs(fft_ref[1])))
+    plt.plot(freqs, 20*np.log10(np.abs(fft_file)/np.abs(fft_ref[1])), label=str(deg))
 
 plt.xlim((0, 0.7))
 plt.ylim((-20, 10))
+plt.legend()
 plt.show()
+"""
 
-
-freq = 0.4
-freq_index = np.argmin(np.abs(freqs-freq))
-print(freqs[freq_index], freq_index)
-
+freq_min, freq_max = 0.2, 0.25
+freq_index_min = np.argmin(np.abs(freqs-freq_min))
+freq_index_max = np.argmin(np.abs(freqs-freq_max))
+print(freqs[freq_index_min], freqs[freq_index_max])
 ft_list, degress = [], []
+res = []
 for file in files:
     file = str(file)
     if 'reference' in file:
@@ -50,16 +56,22 @@ for file in files:
 
     deg = float(file.split('-')[-1].split(' ')[0])
     data = np.loadtxt(data_dir / file)
-    ft = np.abs(fft(data)[1][freq_index])/np.abs(fft_ref[1][freq_index])
-    ft_list.append(ft)
-    degress.append(deg)
+    ft = sum(np.abs(fft(data)[1][freq_index_min:freq_index_max]))/sum(np.abs(fft_ref[1][freq_index_min:freq_index_max]))
+    res.append([deg, ft])
+
     #plt.plot(ft[0], 20*np.log10(np.abs(ft[1])/np.abs(ref0)), label=file)
 
     #plt.plot(ft[0], ft[1], label=file)
     #plt.xlim([0.0, 0.6])
+key = lambda x: x[0]
+res.sort(key=key)
 
-plt.plot(degress, ft_list)
+theta = [t[0] for t in res]
+r = [t[1] for t in res]
+
+plt.polar(np.deg2rad(theta), r)
+
 plt.xlabel('Angle (Deg)')
-plt.ylabel('Transmission')
+#plt.ylabel('Transmission')
 #plt.legend()
 plt.show()

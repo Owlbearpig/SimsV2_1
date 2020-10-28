@@ -7,3 +7,10 @@
 830µm
 635µm
 320µm
+
+[xcb] Unknown sequence number while processing queue
+[xcb] Most likely this is a multi-threaded client and XInitThreads has not been called
+[xcb] Aborting, sorry about that.
+python: ../../src/xcb_io.c:274: poll_for_event: Assertion `!xcb_xlib_threads_sequence_lost' failed.
+XIO:  fatal IO error 11 (Resource temporarily unavailable) on X server ":0"
+      after 33749 requests (33749 known processed) with 0 events remaining.

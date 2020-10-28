@@ -201,8 +201,10 @@ class Results(DictKeys):
         angles_str = str(list(angles))
         widths_str = str(list(widths))
         stripes_str = str(list(stripes))
+        total_width = str(np.round(np.sum(self.selected_result.widths)*um_to_mm, 2))
 
-        return {"f": f_str, "angles": angles_str, "widths": widths_str, "stripes": stripes_str}
+        return {"f": f_str, "angles": angles_str, "widths": widths_str, 'total_width': total_width,
+                "stripes": stripes_str}
 
     def key_group_to_string(self, label):
         ret_str = ''

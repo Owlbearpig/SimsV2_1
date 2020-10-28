@@ -373,8 +373,8 @@ class ErfSetup(DictKeys):
             # adds the full absorption in case of enabled weak absorption for testing
             #"""
             #j = np.einsum('mij,m->mij', j, sqrt(self.absorption_factor(d, k_s)))
-            #from modules.utils.calculations import calc_final_jones_intensities
-            #self.intensity_x, self.intensity_y = calc_final_jones_intensities(j)
+            from modules.utils.calculations import calc_final_jones_intensities
+            self.intensity_x, self.intensity_y = calc_final_jones_intensities(j)
             #"""
 
             if self.wp_type == 'λ/2':
@@ -410,8 +410,8 @@ class ErfSetup(DictKeys):
             # adds the full absorption in case of enabled weak absorption for testing
             #"""
             #M = np.einsum('mij,m->mij', M, self.absorption_factor(d, k_s))
-            from modules.utils.calculations import calc_final_stokes_intensities
-            self.intensity_x, self.intensity_y = calc_final_stokes_intensities(M)
+            #from modules.utils.calculations import calc_final_stokes_intensities
+            #self.intensity_x, self.intensity_y = calc_final_stokes_intensities(M)
             #"""
 
             if self.wp_type == 'λ/2':
@@ -438,11 +438,11 @@ if __name__ == '__main__':
     from modules.identifiers.dict_keys import DictKeys
     keys = DictKeys()
 
-    dir_path = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\New4Hermanns_l2\5wp_300-850_700-2000_12-50-04_OptimizationProcess-1')
+    dir_path = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/Ceramic_l4_low-mid_freq/5wp_500-8000_0.25-1.00THz_15-13-17_OptimizationProcess-5')
 
     settings_dict = Settings().load_settings(dir_path / 'settings.json')
 
-    settings_dict[keys.weak_absorption_checkbox_key] = True
+    settings_dict[keys.weak_absorption_checkbox_key] = False
     settings_dict[keys.calculation_method_key] = 'Jones'
     settings_dict[keys.anisotropy_p_key] = 1
     settings_dict[keys.anisotropy_s_key] = 1

@@ -10,6 +10,7 @@ c0 = c
 # Units
 um = 10 ** -6
 m_to_um = 10 ** 6
+um_to_mm = 10**3
 ps = 10 ** -12
 THz = 10 ** 12
 Hz_to_THz = 10 ** -12

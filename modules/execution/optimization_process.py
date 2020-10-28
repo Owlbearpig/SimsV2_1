@@ -161,7 +161,8 @@ class OptimizationProcess(Process):
         self.settings = kwargs['kwargs']['settings']
         self.queue = kwargs['kwargs']['queue']
         self.best_result = np.inf
-        self.start_time = None
+        self.previous_iteration_time = None
+        self.iter_speed = 0
         self.task_info = None
         self.list_index = None
         self.label = ''
@@ -176,7 +177,7 @@ class OptimizationProcess(Process):
 
     def start(self):
         super().start()
-        self.start_time = time.time()
+        self.previous_iteration_time = time.time()
         self.add_task_info()
         self.queue.put(str(self) + ' started')
 
