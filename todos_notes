@@ -103,6 +103,7 @@ But still good idea, can add as a subsection and show result still : )
 34. option to calc intensity for weak and full absorption
 
 35. check and understand result settings vs ui settings, when is which used ? I forgot what I've implemented...
+-> add option to use current ui settings or result settings
 
 36. implement discrete bruteforce optimization. (-> try all combinations of widths and optimize angles, stripes) (done)
 

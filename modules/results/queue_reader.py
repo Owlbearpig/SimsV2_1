@@ -21,13 +21,16 @@ class QueueReader(DictKeys):
     def read_process_queue(self):
         refresh_time = 0.005
         while True:
-            time.sleep(refresh_time)
+            #time.sleep(refresh_time)
             if self.queue_reader_thread.stopped():
                 break
+            output = self.queue.get()
+            """
             try:
                 output = self.queue.get_nowait()
             except queue.Empty:
                 continue
+            """
             # gotta find another way to do this if too many if ... maybe do another map thing with a dict. dunno
             if 'dbo_output' in str(output):
                 self.main_app.update_dbo_info_frame(output)

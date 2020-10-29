@@ -5,6 +5,7 @@ import numpy as np
 
 # constants
 sqrt2 = sqrt(2)
+pi = np.pi
 c0 = c
 
 # Units
@@ -55,6 +56,13 @@ x_pol_j = np.array([[1, 0],
 
 y_pol_j = np.array([[0, 0],
                     [0, 1]])
+
+
+# jones(2x2) rotation matrices
+# rotation of theta (wrt. x-axis) around z-axis
+def r_z_j(theta):
+    return np.array([[np.cos(theta), -np.sin(theta)],
+                     [np.sin(theta), np.cos(theta)]])
 
 # constant vectors
 stokes_initial = np.array([1, 1, 0, 0])

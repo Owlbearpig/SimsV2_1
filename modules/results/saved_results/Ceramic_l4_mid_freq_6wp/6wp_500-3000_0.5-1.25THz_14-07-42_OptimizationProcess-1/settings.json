@@ -46,7 +46,7 @@
     ],
     "frequency_resolution_multiplier": 0.25,
     "min_freq": 0.5,
-    "max_freq": 1.0,
+    "max_freq": 1.25,
     "material_drop_down": "FusedSilica",
     "birefringence_type_dropdown": "Natural",
     "fast_material_dropdown": "CeramicFast",
@@ -83,7 +83,7 @@
     "calculation_method": "Jones",
     "iterations": 100000,
     "angle_step": 0.015,
-    "width_step": 250.0,
+    "width_step": 100.0,
     "stripe_width_step": 5.0,
     "temperature": 0.005,
     "local_opt_tol": 0.001,
@@ -94,8 +94,8 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "6wp_500-3000_0.5-1.0THz_",
-    "save_folder_name": "Assertion `!xcb_xlib_threads_sequence_lost' failed",
+    "save_name": "6wp_500-3000_0.5-1.25THz_",
+    "save_folder_name": "Ceramic_l4_mid_freq_6wp",
     "selected_material_data_path": "modules/material_manager/data_folders/FusedSilica/3Eck_D=1028.csv",
     "selected_fast_material_data_path": "modules/material_manager/data_folders/CeramicFast/Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
     "selected_slow_material_data_path": "modules/material_manager/data_folders/CeramicSlow/Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
@@ -189,5 +189,5 @@
     "plot_np_checkbox_key": true,
     "plot_ks_checkbox_key": false,
     "plot_kp_checkbox_key": false,
-    "zeroth_order_freq_input": 250.0
+    "zeroth_order_freq_input": 500.0
 }

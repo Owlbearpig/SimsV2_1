@@ -6,7 +6,7 @@ from modules.utils.constants import plot_data_dir
 import pandas
 
 
-data_dir = Path('/home/alex/Desktop/MDrive/AG/BFWaveplates/Data/PLAWP_table1')
+data_dir = Path('/home/alex/Desktop/MDrive/AG/BFWaveplates/Data/PLAWP_table2')
 #data_dir = Path('E:\MEGA\AG\BFWaveplates\Data\PLAWP_table1')
 files = list(data_dir.iterdir())
 
@@ -18,10 +18,11 @@ def fft(data):
 
     return freqs[idx], Y[idx]
 
-fft_ref = fft(np.loadtxt(data_dir / files[0]))
+refs = [file for file in files if 'reference' in str(file)]
+
+fft_ref = fft(np.loadtxt(data_dir / refs[0])) # 180 deg @ index 0
 
 freqs = fft_ref[0]
-
 
 """
 degs = [22.0, 40.998, 48.998, 56.0, 69.998, 89.0, 111.999, 133.998, 158.998, 176.999]
@@ -66,11 +67,14 @@ for file in files:
 key = lambda x: x[0]
 res.sort(key=key)
 
-theta = [t[0] for t in res]
-r = [t[1] for t in res]
+theta = [t[0]-4 for t in res]
+r = [20*np.log10(t[1]) for t in res]
 
 plt.polar(np.deg2rad(theta), r)
-
+res.sort(key=lambda x: x[1])
+print([x[0]-4 for x in res])
+print((180/np.pi)*np.arctan(np.sqrt(0.7462366731627508/0.7090858802802847)))
+print(res[-1])
 plt.xlabel('Angle (Deg)')
 #plt.ylabel('Transmission')
 #plt.legend()

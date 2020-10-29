@@ -134,6 +134,11 @@ class Plot(DictKeys):
                            'y': y})
         df.to_csv(plot_data_dir / (file_path.stem + '.csv'), index_label='n')
 
+    def polar_plot(self):
+        freq_min, freq_max = 0.2, 0.25
+
+        plt.polar()
+
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
 

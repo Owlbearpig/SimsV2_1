@@ -2,7 +2,8 @@ from erf_setup_v21 import ErfSetup
 from modules.identifiers.dict_keys import DictKeys
 from modules.utils.calculations import (make_m_matrix_stack, make_j_matrix_stack,
                                         calc_final_stokes_intensities, calc_final_jones_intensities,
-                                        calculate_final_vectors, calc_polarization_degrees_m, calc_polarization_degrees_j)
+                                        calculate_final_vectors, calc_polarization_degrees_m,
+                                        calc_polarization_degrees_j)
 from modules.utils.helpers import search_dir
 from modules.utils.constants import *
 from modules.settings.settings import Settings
@@ -114,6 +115,16 @@ class Result(DictKeys):
 
         return self.error_values
 
+    def add_angle_resolved_intensities(self):
+        angle_cnt = 720
+        polar_intensities = np.zeros(angle_cnt)
+        j = self.calculated_values['j_matrix_stack']
+        for i, theta in enumerate(np.range(0, 2*pi, angle_cnt)):
+            r, r_inv = r_z_j(theta), r_z_j(-theta)
+            e_f = np.einsum('ab,bc,vcd,de,e->av', x_pol_j, r_inv, j, r, jones_initial)
+            polar_intensities[i] = e_f*np.conj(e_f)
+
+        self.calculated_values['polar_intensities'] = polar_intensities
 
 class CSTResult(DictKeys):
     def __init__(self, ui_values):
@@ -201,7 +212,7 @@ class Results(DictKeys):
         angles_str = str(list(angles))
         widths_str = str(list(widths))
         stripes_str = str(list(stripes))
-        total_width = str(np.round(np.sum(self.selected_result.widths)*um_to_mm, 2))
+        total_width = str(np.round(np.sum(self.selected_result.widths) * um_to_mm, 2))
 
         return {"f": f_str, "angles": angles_str, "widths": widths_str, 'total_width': total_width,
                 "stripes": stripes_str}
