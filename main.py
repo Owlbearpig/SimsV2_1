@@ -340,6 +340,10 @@ class WaveplateApp(DictKeys):
         self.window[self.stripe_err_slider_key].update(range=(ui_values['min_stripe_error_input'],
                                                               ui_values['max_stripe_error_input']))
 
+    def polar_plot(self, ui_values):
+        if self.result_manager.result_selected:
+            self.plotter.polar_plot(ui_values)
+
     # ---------------------------------------CST tab------------------------------------------------------------------ #
     def update_cst_folder_listbox(self, *args):
         cst_folders = self.result_manager.get_cst_folder_names()
@@ -444,6 +448,7 @@ class WaveplateApp(DictKeys):
             self.plot_birefringence_button_key: self.plot_birefringence,
             self.plot_refractive_indices_button_key: self.plot_refractive_indices,
             self.plot_without_error_key: self.plot_x_without_error,
+            self.polar_plot_button_key: self.polar_plot,
             # tab8
             self.update_cst_list_button_key: self.update_cst_folder_listbox,
             self.plot_cst_selections_button_key: self.plot_cst_results,

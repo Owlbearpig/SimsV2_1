@@ -642,6 +642,14 @@ class Tabs(DictKeys):
                                               key=self.plot_birefringence_button_key)
         plot_refractive_indices_button = sg.Button('Plot refractive indices',
                                                    key=self.plot_refractive_indices_button_key)
+        polar_plot_button = sg.Button('Polar plot',
+                                      key=self.polar_plot_button_key)
+        polar_plot_min_freq_input = sg.Input(default_text=self.settings[self.polar_plot_min_freq_input_key],
+                                             size=(5, 1),
+                                             key=self.polar_plot_min_freq_input_key)
+        polar_plot_max_freq_input = sg.Input(default_text=self.settings[self.polar_plot_max_freq_input_key],
+                                             size=(5, 1),
+                                             key=self.polar_plot_max_freq_input_key)
 
         tab7_layout = [[plot_original_result, plot_result_with_error,
                         difference_plot_checkbox, polarization_components_plot_checkbox
@@ -660,6 +668,17 @@ class Tabs(DictKeys):
                         plot_np_checkbox, plot_ns_checkbox,
                         plot_kp_checkbox, plot_ks_checkbox,
                         plot_refractive_indices_button],
+                       [sg.Frame('Polar plot',
+                                 [[sg.Text('Min. freq'), polar_plot_min_freq_input,
+                                   sg.Text(f'({polar_plot_min_freq_input.DefaultText} THz)',
+                                           key=self.actual_min_frequency_key, size=(10, 1)),
+                                   sg.Text('Max. freq'), polar_plot_max_freq_input,
+                                   sg.Text(f'({polar_plot_max_freq_input.DefaultText} THz)',
+                                           key=self.actual_max_frequency_key, size=(10, 1)),
+                                   ],
+                                  [polar_plot_button]],
+                                 ),
+                        ]
                        ]
 
         return tab7_layout

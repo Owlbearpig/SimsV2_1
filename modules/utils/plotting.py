@@ -32,7 +32,7 @@ class Plot(DictKeys):
         plt.ylabel(y_label)
         if legend_label:
             plt.legend()
-        plt.show(block = False)
+        plt.show(block=False)
 
     def result_plot(self, target_figure='Result plot'):
         legend_x_polarizer_label = 'X-Polarizer'
@@ -134,10 +134,13 @@ class Plot(DictKeys):
                            'y': y})
         df.to_csv(plot_data_dir / (file_path.stem + '.csv'), index_label='n')
 
-    def polar_plot(self):
-        freq_min, freq_max = 0.2, 0.25
+    def polar_plot(self, ui_values):
+        f_min, f_max = self.result.add_angle_resolved_intensities(ui_values)
+        self.ui_window[self.actual_min_frequency_key].update(f'({round(f_min, 2)} THz)')
+        self.ui_window[self.actual_max_frequency_key].update(f'({round(f_max, 2)} THz)')
 
-        plt.polar()
+        plt.polar(self.result.calculated_values['polar_angles'], self.result.calculated_values['polar_intensities'])
+        plt.show(block=False)
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt

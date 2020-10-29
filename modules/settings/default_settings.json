@@ -167,6 +167,8 @@
     "overwrite_stripes": false,
     "stripe0_input": 1.0,
     "stripe1_input": 5.0,
+    "polar_plot_min_freq_input": 0.2,
+    "polar_plot_max_freq_input": 0.3,
     "plot_bf_real": true,
     "plot_bf_imag": true,
     "plot_np": true,

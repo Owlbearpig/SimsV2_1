@@ -113,6 +113,8 @@ default_settings_dict = {
     keys.plot_ns_key: True,
     keys.plot_kp_key: False,
     keys.plot_ks_key: False,
+    keys.polar_plot_min_freq_input_key: 0.2,
+    keys.polar_plot_max_freq_input_key: 0.3,
 
     # tab7
     keys.cst_plot_x_key: True,

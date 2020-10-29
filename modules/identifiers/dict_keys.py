@@ -163,6 +163,12 @@ class DictKeys:
         self.plotted_error_stripes_key = DictKey('plotted_error_stripes')
         self.plot_birefringence_button_key = DictKey('plot_birefringence_button')
         self.plot_refractive_indices_button_key = DictKey('plot_refractive_indices_button')
+        self.polar_plot_button_key = DictKey('polar_plot_button')
+        self.polar_plot_min_freq_input_key = DictKey('polar_plot_min_freq_input')
+        self.polar_plot_max_freq_input_key = DictKey('polar_plot_max_freq_input')
+        self.actual_min_frequency_key = DictKey('actual_min_frequency')
+        self.actual_max_frequency_key = DictKey('actual_max_frequency')
+
         self.fix_old_settings_button_key = DictKey('fix_old_settings_button')
 
         # tab7

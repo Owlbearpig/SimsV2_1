@@ -104,6 +104,11 @@ def calc_polarization_degrees_j(matrix_stack):
     return linear_comp_lst, circular_comp_lst
 
 
+def rotate_matrix(matrix, theta):
+    r, r_inv = r_z_j(theta), r_z_j(-theta)
+    return np.einsum('ab,vbc,cd->vad', r_inv, matrix, r)
+
+
 if __name__ == '__main__':
     pass
 """
