@@ -182,5 +182,13 @@
     "plot_np_checkbox_key": true,
     "plot_ks_checkbox_key": false,
     "plot_kp_checkbox_key": false,
-    "zeroth_order_freq_input": 750.0
+    "zeroth_order_freq_input": 750.0,
+    "basic_info_tab_l0": "",
+    "basic_info_tab_l1": "",
+    "info_tab_l0": "",
+    "info_tab_l1": "",
+    "info_tab_l2": "",
+    "info_tab_l3": "",
+    "polar_plot_min_freq_input": 0.2,
+    "polar_plot_max_freq_input": 0.3
 }

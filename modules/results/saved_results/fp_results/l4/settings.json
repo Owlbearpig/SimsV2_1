@@ -178,5 +178,16 @@
     "run_once_label_input": "",
     "set_ri_real_part_checkbox": false,
     "set_ri_img_part_checkbox": false,
-    "weak_absorption_checkbox": false
+    "weak_absorption_checkbox": false,
+    "dbo_save_name_input": "",
+    "dbo_widths_input": [
+        520,
+        420,
+        320,
+        220
+    ],
+    "dbo_continue_job_input": "",
+    "dbo_continue_job_checkbox": false,
+    "polar_plot_min_freq_input": 0.2,
+    "polar_plot_max_freq_input": 0.3
 }

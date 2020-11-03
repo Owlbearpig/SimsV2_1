@@ -139,7 +139,50 @@ class Plot(DictKeys):
         self.ui_window[self.actual_min_frequency_key].update(f'({round(f_min, 2)} THz)')
         self.ui_window[self.actual_max_frequency_key].update(f'({round(f_max, 2)} THz)')
 
-        plt.polar(self.result.calculated_values['polar_angles'], self.result.calculated_values['polar_intensities'])
+        polar_intensities = 20 * np.log10(self.result.calculated_values['polar_intensities'])
+        plt.polar(self.result.calculated_values['polar_angles'], polar_intensities)
+
+
+        data_dir = Path('/home/alex/Desktop/MDrive/AG/BFWaveplates/Data/PLAWP_table2')
+        # data_dir = Path('E:\MEGA\AG\BFWaveplates\Data\PLAWP_table1')
+        files = list(data_dir.iterdir())
+        from modules.utils.calculations import fft
+        refs = [file for file in files if 'reference' in str(file)]
+
+        data = np.loadtxt(data_dir / refs[0])  # 180 deg @ index 0
+
+        fft_ref = fft(data[:, 0], data[:, 1])
+
+        freqs = fft_ref[0]
+        freq_index_min, freq_index_max = np.argmin(np.abs(freqs - f_min)), np.argmin(np.abs(freqs - f_max))
+        res = []
+        for file in files:
+            file = str(file)
+            if 'reference' in file:
+                continue
+
+            deg = float(file.split('-')[-1].split(' ')[0])
+            data = np.loadtxt(data_dir / file)
+            data_ft = np.abs(fft(data[:, 0], data[:, 1])[1][freq_index_min:freq_index_max])
+            ref_ft = np.abs(fft_ref[1][freq_index_min:freq_index_max])
+            ft = sum(data_ft) / sum(ref_ft)
+            res.append([deg, ft])
+
+        key = lambda x: x[0]
+        res.sort(key=key)
+
+        theta = [t[0] - 7 for t in res]
+        r = [20 * np.log10(t[1]) for t in res]
+        mes_data = [[t[0]-7, 20 * np.log10(t[1])] for t in res]
+        mes_data.sort(key=lambda x: x[1])
+        print(mes_data[0])
+        data = list(zip(self.result.calculated_values['polar_angles'], polar_intensities))
+        data.sort(key=lambda x: x[1])
+        print(np.rad2deg(data[0]))
+        plt.polar(np.deg2rad(theta), r, marker=".")
+
+        plt.xlabel('Angle (Deg)')
+
         plt.show(block=False)
 
 if __name__ == '__main__':

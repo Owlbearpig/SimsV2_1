@@ -107,4 +107,8 @@ But still good idea, can add as a subsection and show result still : )
 
 36. implement discrete bruteforce optimization. (-> try all combinations of widths and optimize angles, stripes) (done)
 
-37.
+37. actually useful: Add method to plot real data lol
+
+38. use new path for calculation when adding material(not important, ui restart works too)
+
+39.

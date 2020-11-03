@@ -109,6 +109,15 @@ def rotate_matrix(matrix, theta):
     return np.einsum('ab,vbc,cd->vad', r_inv, matrix, r)
 
 
+def fft(t, y):
+    delta = np.float(np.mean(np.diff(t)))
+    Y = np.fft.fft(y)
+    freqs = np.fft.fftfreq(len(t), delta)
+    idx = freqs > 0
+
+    return freqs[idx], Y[idx]
+
+
 if __name__ == '__main__':
     pass
 """

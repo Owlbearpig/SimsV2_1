@@ -119,7 +119,7 @@ class Result(DictKeys):
         f_min, f_max = ui_values[self.polar_plot_min_freq_input_key], ui_values[self.polar_plot_max_freq_input_key]
         freqs = self.erf_setup.frequencies * Hz_to_THz
         f_min_index, f_max_index = np.argmin(np.abs(f_min-freqs)), np.argmin(np.abs(f_max-freqs))
-        angles = np.linspace(0, 2 * pi, 720)
+        angles = np.linspace(0, 2*pi, 720)
         j = self.calculated_values['j_matrix_stack'][f_min_index:f_max_index]
 
         polar_intensities = np.zeros(len(angles))
