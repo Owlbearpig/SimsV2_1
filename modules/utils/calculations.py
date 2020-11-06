@@ -129,6 +129,30 @@ def is_conjugate_symmetric(j_stack):
     return cond
 
 
+def eig(j_stack):
+    cond = is_conjugate_symmetric(j_stack)
+    # Calculate the eigenstates
+    val, vect = np.linalg.eig(j_stack)
+    if np.any(cond):
+        val2, vect2 = np.linalg.eigh(j_stack)
+    # Order the values in the py_pol way
+    v1, v2 = (val[:, 0], val[:, 1])
+    e1 = np.array([vect[:, 0, 0], vect[:, 1, 0]])
+    e2 = np.array([vect[:, 0, 1], vect[:, 1, 1]])
+    if np.any(cond):
+        v1[cond], v2[cond] = (val2[cond, 0], val2[cond, 1])
+        e1[0, cond] = vect2[cond, 0, 0]
+        e1[1, cond] = vect2[cond, 1, 0]
+        e2[0, cond] = vect2[cond, 0, 1]
+        e2[1, cond] = vect2[cond, 1, 1]
+    if v1.size == 1 and v1.ndim > 1:
+        v1, v2 = (v1[0], v2[0])
+
+    E1, E2 = (e1, e2)
+
+    return v1, v2, E1, E2
+
+
 def eigenvalues(j_stack):
     cond = is_conjugate_symmetric(j_stack)
     M = np.moveaxis(j_stack, -1, 0)

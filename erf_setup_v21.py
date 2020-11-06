@@ -5,7 +5,7 @@ import pandas
 from pathlib import PureWindowsPath
 from modules.identifiers.dict_keys import DictKeys
 from modules.utils.constants import *
-from modules.utils.calculations import calc_final_jones_intensities, retardance
+from modules.utils.calculations import calc_final_jones_intensities, retardance, eig
 from py_pol.jones_matrix import Jones_matrix
 
 # setup erf, init value and optimization bounds
@@ -373,8 +373,8 @@ class ErfSetup(DictKeys):
 
             # adds the full absorption in case of enabled weak absorption for testing
             #"""
-            j = np.einsum('mij,m->mij', j, sqrt(self.absorption_factor(d, k_s)))
-            self.intensity_x, self.intensity_y = calc_final_jones_intensities(j)
+            #j = np.einsum('mij,m->mij', j, sqrt(self.absorption_factor(d, k_s)))
+            #self.intensity_x, self.intensity_y = calc_final_jones_intensities(j)
             #"""
 
             if self.wp_type == 'λ/2':
@@ -382,10 +382,15 @@ class ErfSetup(DictKeys):
 
                 # jan loss function : No I_x
                 #res_no_x = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0])) ** 2)
+                #res = sum(j[:, 0, 0].real ** 2 + j[:, 0, 0].imag ** 2 + (1-j[:, 1, 0].real) ** 2 + j[:, 1, 0].imag ** 2)
+                #v1, v2, E1, E2 = eig(j)
+                #e2x, e2y = (E2[0, :], E2[1, :])
 
-                res_shift = sum((pi - retardance(j)) ** 2)
-
-                res = res_int + res_shift
+                #res_shift = sum((pi - retardance(j)) ** 2)
+                #res = sum(e2y.real) + res_shift
+                #res = res_int + res_shift
+                #res = res_shift
+                res = res_int
             else:
                 # OG intensity loss
                 # res = sum((j[:, 1, 0] * conj(j[:, 1, 0]) - j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
@@ -452,7 +457,7 @@ if __name__ == '__main__':
     from modules.identifiers.dict_keys import DictKeys
     keys = DictKeys()
 
-    dir_path = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/SLE_l2_longrun_restarts/5wp_0.65-2.2THz_300-850um_retoptimize_16-52-33_OptimizationProcess-1')
+    dir_path = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\SLE_l2_longrun_restarts\5wp_0.65-2.2THz_300-850um_retoptimize_21-14-22_OptimizationProcess-1')
 
     settings_dict = Settings().load_settings(dir_path / 'settings.json')
 
