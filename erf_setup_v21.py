@@ -452,7 +452,7 @@ if __name__ == '__main__':
     from modules.identifiers.dict_keys import DictKeys
     keys = DictKeys()
 
-    dir_path = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/SLE_l2_longrun_restarts/5wp_0.65-2.2THz_300-850um_retoptimize_16-25-51_OptimizationProcess-1')
+    dir_path = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/SLE_l2_longrun_restarts/5wp_0.65-2.2THz_300-850um_retoptimize_16-52-33_OptimizationProcess-1')
 
     settings_dict = Settings().load_settings(dir_path / 'settings.json')
 
