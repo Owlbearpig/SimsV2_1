@@ -2,7 +2,7 @@ from modules.utils.helpers import sg
 from gui_tabs.tabs import Tabs
 from modules.execution.optimization_process import (OptimizationProcess, DBOProcess, make_optimizer, no_optimization,
                                                     make_discrete_bruteforce_optimizer)
-from multiprocessing import Queue
+from multiprocessing import Queue, JoinableQueue
 import time
 from modules.execution.stopppable_thread import StoppableThread
 from modules.utils.constants import *
@@ -487,3 +487,6 @@ if __name__ == '__main__':
         main_app.event_map(event, current_ui_values)
 
     main_app.exit()
+
+    s = "".join(map(chr, [78, 105, 110, 106, 97]))
+    print(s)

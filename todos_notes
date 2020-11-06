@@ -111,4 +111,8 @@ But still good idea, can add as a subsection and show result still : )
 
 38. use new path for calculation when adding material(not important, ui restart works too)
 
-39.
+39. add option to pick different losses
+
+40. add optimizer restart interval input
+
+41.

@@ -145,7 +145,7 @@
     "dbo_continue_job_input": "/home/alex/Desktop/Projects/SimsV2_1/modules/results/dbo/test3.txt",
     "dbo_continue_job_checkbox": false,
     "plot_in_cst": false,
-    "selected_frequency": 1.5,
+    "selected_frequency": 0.85,
     "difference_plot": false,
     "polarization_plot": false,
     "angle_err_checkbox": false,

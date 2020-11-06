@@ -7,6 +7,7 @@ import numpy as np
 sqrt2 = sqrt(2)
 pi = np.pi
 c0 = c
+tol_default = 1e-6
 
 # Units
 um = 10 ** -6

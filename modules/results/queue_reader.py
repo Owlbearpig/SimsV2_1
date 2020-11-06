@@ -20,10 +20,11 @@ class QueueReader(DictKeys):
 
     def read_process_queue(self):
         while True:
+            time.sleep(0.0001)
             if self.queue_reader_thread.stopped():
                 break
             try:
-                output = self.queue.get(timeout=0.5)
+                output = self.queue.get_nowait()
             except Empty:
                 continue
             # gotta find another way to do this if too many if ... maybe do another map thing with a dict. dunno

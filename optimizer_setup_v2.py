@@ -219,7 +219,7 @@ class CustomStep:
             x[self.stripe_slice[0]:self.stripe_slice[1]] += \
                 np.random.uniform(-stripe_s, stripe_s, x[self.stripe_slice[0]:self.stripe_slice[1]].shape)
 
-        if (not self.optimizer_instance.iter_cnt % 10 ** 2) and self.optimizer_instance.periodic_restart:
+        if (not self.optimizer_instance.iter_cnt % 250) and self.optimizer_instance.periodic_restart:
             x = np.random.random(x.shape)
             self.optimizer_instance.force_accept = True
 

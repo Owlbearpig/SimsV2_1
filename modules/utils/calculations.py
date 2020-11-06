@@ -118,6 +118,93 @@ def fft(t, y):
     return freqs[idx], Y[idx]
 
 
+def is_conjugate_symmetric(j_stack):
+    J00, J01, J10, J11 = j_stack[0, 0], j_stack[0, 1], j_stack[1, 0], j_stack[1, 1]
+    # See if J01 is equal to J10
+    cond1 = np.abs(J01 - np.conj(J10)) < tol_default ** 2
+    cond2 = np.abs(J00 - np.conj(J00)) < tol_default ** 2
+    cond3 = np.abs(J11 - np.conj(J11)) < tol_default ** 2
+    cond = cond1 * cond2 * cond3
+
+    return cond
+
+
+def eigenvalues(j_stack):
+    cond = is_conjugate_symmetric(j_stack)
+    M = np.moveaxis(j_stack, -1, 0)
+    val = np.linalg.eigvals(M)
+    if np.any(cond):
+        val2 = np.linalg.eigvalsh(M)
+    # Order the values in the py_pol way
+    v1, v2 = (val[:, 0], val[:, 1])
+    if np.any(cond):
+        v1[cond], v2[cond] = (val2[cond, 0], val2[cond, 1])
+    if v1.size == 1 and v1.ndim > 1:
+        v1, v2 = (v1[0], v2[0])
+
+    return v1, v2
+
+
+def determinant(j_stack):
+    M = np.moveaxis(j_stack, -1, 0)
+
+    return np.linalg.det(M)
+
+
+def inhomogeneity(j_stack):
+    # Calculate the values
+    det = determinant(j_stack)
+    trace = np.trace(j_stack)
+    norm2 = np.linalg.norm(j_stack, axis=(0, 1)) ** 2
+    # Calculate the parameter
+    a = norm2 - 0.5 * np.abs(trace)**2
+    b = 0.5 * np.abs(trace**2 - 4 * det)
+    eta = (a - b) / (a + b)
+
+    return eta
+
+
+# copied from py-pol
+def retardance(j_stack):
+    # Makes j_stack look like a py_pol array
+    j_stack = np.moveaxis(j_stack, 0, -1)
+
+    v1, v2 = eigenvalues(j_stack)
+    a1, a2 = (np.abs(v1), np.abs(v2))
+    det = determinant(j_stack)
+    trace = np.trace(j_stack)
+    norm2 = np.linalg.norm(j_stack, axis=(0, 1)) ** 2
+    eta = inhomogeneity(j_stack)
+    # Act differently if the object is homogeneous
+    cond1 = eta < tol_default ** 2
+    R = np.zeros_like(eta)
+    # Homogeneous case
+    if np.any(cond1):
+        cond2 = np.abs(det) < tol_default ** 2
+        R[cond1 * cond2] = 2 * np.arccos(
+            np.abs(trace[cond1 * cond2]) / np.sqrt(norm2[cond1 * cond2]))
+        cond2 = ~cond2
+        num = np.abs(trace[cond1 * cond2] +
+                     det[cond1 * cond2] * np.conj(trace[cond1 * cond2]) /
+                     np.abs(det[cond1 * cond2]))
+        den = 2 * np.sqrt(norm2[cond1 * cond2] +
+                          2 * np.abs(det[cond1 * cond2]))
+        R[cond1 * cond2] = 2 * np.arccos(num / den)
+    # Inhomogeneous case
+    cond1 = ~cond1
+    if np.any(cond1):
+        num = (1 - eta[cond1] ** 2) * (a1[cond1] + a2[cond1]) ** 2
+        den = (a1[cond1] + a2[cond1]) ** 2 - eta[cond1] ** 2 * (
+                2 * v1[cond1] * a1[cond1] * a2[cond1] +
+                np.conj(v2[cond1] + v2[cond1] * np.conj(v1[cond1])))
+        co = np.cos((np.angle(v1[cond1]) - np.angle(v2[cond1])) / 2)
+        R[cond1] = 2 * np.arccos(np.sqrt(num / den) * co).real
+    # D must be real, but complex numbers are used during calculation
+    R = np.array(R, dtype=float)
+
+    return R
+
+
 if __name__ == '__main__':
     pass
 """

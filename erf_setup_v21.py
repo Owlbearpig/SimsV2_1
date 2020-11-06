@@ -5,7 +5,8 @@ import pandas
 from pathlib import PureWindowsPath
 from modules.identifiers.dict_keys import DictKeys
 from modules.utils.constants import *
-
+from modules.utils.calculations import calc_final_jones_intensities, retardance
+from py_pol.jones_matrix import Jones_matrix
 
 # setup erf, init value and optimization bounds
 class ErfSetup(DictKeys):
@@ -100,8 +101,8 @@ class ErfSetup(DictKeys):
         return new_bounds
 
     def read_data_file(self, file_path):
-        data_filepath = Path(PureWindowsPath(file_path)).absolute()
-        df = pandas.read_csv(data_filepath)
+        data_filepath = Path(PureWindowsPath(file_path))
+        df = pandas.read_csv(project_dir / data_filepath)
 
         freq_dict_key = [key for key in df.keys() if "freq" in key][0]
         eps_mat_r_key = [key for key in df.keys() if "epsilon_r" in key][0]
@@ -372,15 +373,19 @@ class ErfSetup(DictKeys):
 
             # adds the full absorption in case of enabled weak absorption for testing
             #"""
-            #j = np.einsum('mij,m->mij', j, sqrt(self.absorption_factor(d, k_s)))
-            from modules.utils.calculations import calc_final_jones_intensities
+            j = np.einsum('mij,m->mij', j, sqrt(self.absorption_factor(d, k_s)))
             self.intensity_x, self.intensity_y = calc_final_jones_intensities(j)
             #"""
 
             if self.wp_type == 'λ/2':
-                res = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0]) + j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
-                # jan loss function. No I_x
-                #res = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0])) ** 2)
+                res_int = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0])) ** 2 + (j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
+
+                # jan loss function : No I_x
+                #res_no_x = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0])) ** 2)
+
+                res_shift = sum((pi - retardance(j)) ** 2)
+
+                res = res_int + res_shift
             else:
                 # OG intensity loss
                 # res = sum((j[:, 1, 0] * conj(j[:, 1, 0]) - j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
@@ -431,6 +436,15 @@ class ErfSetup(DictKeys):
         else:
             return j_stack_err
 
+    def get_j_stack(self, x):
+        angles, d, stripes = self.setup_input_vectors(x)
+
+        n_s, n_p, k_s, k_p = self.setup_ri(stripes)
+
+        theta, x, y = self.j_matrix_input(angles, d, n_s, n_p, k_s, k_p)
+
+        return self.build_j_matrix_stack(theta, x, y)
+
 if __name__ == '__main__':
     from modules.settings.settings import Settings
     import matplotlib.pyplot as plt
@@ -438,10 +452,11 @@ if __name__ == '__main__':
     from modules.identifiers.dict_keys import DictKeys
     keys = DictKeys()
 
-    dir_path = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/Ceramic_l4_low-mid_freq/5wp_500-8000_0.25-1.00THz_15-13-17_OptimizationProcess-5')
+    dir_path = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/SLE_l2_longrun_restarts/5wp_0.65-2.2THz_300-850um_retoptimize_16-25-51_OptimizationProcess-1')
 
     settings_dict = Settings().load_settings(dir_path / 'settings.json')
 
+    settings_dict[keys.frequency_resolution_multiplier_key] = 1
     settings_dict[keys.weak_absorption_checkbox_key] = False
     settings_dict[keys.calculation_method_key] = 'Jones'
     settings_dict[keys.anisotropy_p_key] = 1
@@ -455,12 +470,22 @@ if __name__ == '__main__':
     stripes_ = np.load(dir_path / 'stripes.npy')
     #hermann_d = np.array([520, 830, 495, 330, 394.2])*um
 
-    x0 = np.concatenate((angles_, d_, stripes_))
-    erf(x0)
-
+    x_res = np.concatenate((angles_, d_, stripes_))
+    erf(x_res)
     intensity_x, intensity_y = erf_setup.intensity_x, erf_setup.intensity_y
 
     freqs = erf_setup.frequencies
+
+    j_stack = erf_setup.get_j_stack(x_res)
+
+    from py_pol.jones_matrix import Jones_matrix
+    j_res = Jones_matrix('j_res')
+    j_res.from_matrix(j_stack)
+
+    #print(j_res.checks)
+
+    j_res.parameters.field_transmissions = j_res.parameters.transmissions
+    print(j_res.parameters)
 
     plt.plot(freqs, intensity_x, label='after x-pol')
     plt.plot(freqs, intensity_y, label='after y-pol')
