@@ -77,6 +77,19 @@ def calc_final_jones_intensities(j_matrix_stack):
     return 10*np.log10(int_x.real), 10*np.log10(int_y.real)
 
 
+# calculate (vacuum)intensity of j_vector (v,a)
+def calc_intensity(j_vector):
+    return 10*np.log10(j_vector[:, 0]*np.conjugate(j_vector[:, 0]) + j_vector[:, 1]*np.conjugate(j_vector[:, 1]))
+
+
+# calculate jones vectors after x and y polarizers
+def calc_j_x_y_pol_states(j_vector):
+    x_pol_state = np.einsum('ab,vb->va', x_pol_j, j_vector)
+    y_pol_state = np.einsum('ab,vb->va', y_pol_j, j_vector)
+
+    return x_pol_state, y_pol_state
+
+
 # calculate polarization degrees
 def calc_polarization_degrees_m(matrix_stack):
     stokes_final_all = np.einsum('fjk,k->fj', matrix_stack, stokes_initial)

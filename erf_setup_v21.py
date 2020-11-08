@@ -336,6 +336,7 @@ class ErfSetup(DictKeys):
 
         :return: error function to be minimized
         """
+        # split frequency range in two, lower half for l4, upper half for l2. 2 sets of angles but equal widths
         def j_stack_err_mixed_wp_type(x):
             angles, d, stripes = self.setup_input_vectors(x)
 
@@ -389,6 +390,8 @@ class ErfSetup(DictKeys):
                 #res_shift = sum((pi - retardance(j)) ** 2)
                 #res = sum(e2y.real) + res_shift
                 #res = res_int + res_shift
+                #trace = sum((j[:, 0, 0] + j[:, 1, 1])**2)
+                #res = res_shift + trace
                 #res = res_shift
                 res = res_int
             else:
@@ -455,9 +458,13 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from pathlib import Path
     from modules.identifiers.dict_keys import DictKeys
+    from modules.utils.calculations import calc_intensity
     keys = DictKeys()
 
-    dir_path = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\SLE_l2_longrun_restarts\5wp_0.65-2.2THz_300-850um_retoptimize_21-14-22_OptimizationProcess-1')
+    dir_path_ret = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\SLE_l2_longrun_restarts\5wp_0.65-2.2THz_300-850um_retoptimize_16-52-33_OptimizationProcess-1')
+    dir_path_int = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\SLE_l2_longrun_restarts\5wp_0.65-2.2THz_250-850um_22-32-10_OptimizationProcess-1')
+
+    dir_path = dir_path_int#dir_path_ret#dir_path_int
 
     settings_dict = Settings().load_settings(dir_path / 'settings.json')
 
@@ -473,25 +480,58 @@ if __name__ == '__main__':
     angles_ = np.load(dir_path / 'angles.npy')
     d_ = np.load(dir_path / 'widths.npy')
     stripes_ = np.load(dir_path / 'stripes.npy')
-    #hermann_d = np.array([520, 830, 495, 330, 394.2])*um
 
     x_res = np.concatenate((angles_, d_, stripes_))
     erf(x_res)
-    intensity_x, intensity_y = erf_setup.intensity_x, erf_setup.intensity_y
 
     freqs = erf_setup.frequencies
 
     j_stack = erf_setup.get_j_stack(x_res)
-
+    intensity_x, intensity_y = calc_final_jones_intensities(j_stack)
     from py_pol.jones_matrix import Jones_matrix
+    from py_pol.jones_vector import Jones_vector
+
     j_res = Jones_matrix('j_res')
     j_res.from_matrix(j_stack)
 
-    #print(j_res.checks)
+    v1, v2, E1, E2 = eig(j_stack)
+    e_state = (E1 + E2).transpose(1, 0)
+
+    #x_dot = np.einsum('av,a->v', E1, np.array([1, 0]))
+    #x_axis_angle = np.arccos(x_dot)
+
+    eigen_state = Jones_vector('eigen_state_sum')
+    eigen_state.from_matrix(e_state)
+
+    E1_pypol = Jones_vector('E1')
+    E1_pypol.from_matrix(E1)
+
+    E2_pypol = Jones_vector('E2')
+    E2_pypol.from_matrix(E2)
+
+    #E1_pypol.parameters.get_all()
+    #E2_pypol.parameters.get_all()
+    #eigen_state.parameters.get_all()
+
+    #print(E1_pypol.parameters)
+    #print(E2_pypol.parameters)
+    #print(eigen_state.parameters)
+
+    #print(j_stack.shape)
+    #print(e_state.shape)
+
+    j_final = np.einsum('vab,vb->va', j_stack, e_state)
+
+    x_pol_state = np.einsum('ab,vb->va', x_pol_j, j_final)
+    y_pol_state = np.einsum('ab,vb->va', y_pol_j, j_final)
+
+    int_x_e, int_y_e = calc_intensity(x_pol_state), calc_intensity(y_pol_state)
 
     j_res.parameters.field_transmissions = j_res.parameters.transmissions
     print(j_res.parameters)
-
+    # print(j_res.checks)
+    plt.plot(freqs, int_x_e, label='e after x-pol')
+    plt.plot(freqs, int_y_e, label='e after y-pol')
     plt.plot(freqs, intensity_x, label='after x-pol')
     plt.plot(freqs, intensity_y, label='after y-pol')
     plt.legend()
