@@ -5,11 +5,12 @@ from modules.utils.constants import *
 
 
 class Output:
-    def __init__(self, f, angles, widths, stripes, process_name, iter_cnt, accepted_ratio):
+    def __init__(self, f, angles, widths, stripes, process_name, iter_cnt, accepted_ratio, stepsize):
         self.f = f
         self.angles, self.widths, self.stripes = angles, widths, stripes
         self.process_name = process_name
         self.iter_cnt = iter_cnt
+        self.current_stepsize = stepsize
         self.accepted_ratio = accepted_ratio
         self.new_best = False
 
@@ -17,7 +18,7 @@ class Output:
         l0 = "*****************************************************************\n"
         l1 = str(self.process_name) + "\n"
         f, ar = round(self.f, 4), round(self.accepted_ratio, 2)
-        l2 = f"{f} at iteration {self.iter_cnt}. AR: {ar}\n"
+        l2 = f"{f} at iteration {self.iter_cnt}. AR: {ar}. Stepsize: {round(self.current_stepsize, 3)}\n"
         angles = np.round(np.rad2deg(self.angles), 2)
         l3 = f"Angles: {angles} (deg)\n"
         widths = np.round(self.widths * 10 ** 6, 2)
@@ -46,6 +47,7 @@ class OptimizerSetup(DictKeys):
         self.angle_step = settings[self.angle_step_key]
         self.width_step = settings[self.width_step_key] * um
         self.stripe_width_step = settings[self.stripe_width_step_key] * um
+        self.stepsize = 1
         self.temperature = settings[self.temperature_key]
         self.local_min_kwargs = {'tol': settings[self.local_opt_tol_key]}
         self.print_precision = settings[self.print_precision_key]
@@ -134,13 +136,14 @@ class OptimizerSetup(DictKeys):
 
         ar = round(self.accepted_cnt / self.iter_cnt, 2)
 
-        self.queue.put(Output(f, angles, widths, stripes, self.process_name, self.iter_cnt, ar))
+        self.queue.put(Output(f, angles, widths, stripes, self.process_name, self.iter_cnt, ar, self.stepsize))
 
         if f < self.best_f and accepted:
             self.best_f = f
-            output = Output(f, angles, widths, stripes, self.process_name, self.iter_cnt, ar)
+            output = Output(f, angles, widths, stripes, self.process_name, self.iter_cnt, ar, self.stepsize)
             output.new_best = True
             self.queue.put(output)
+            self.reset_cntr = 250
 
     @staticmethod
     def local_min_method(fun, x0, args=(), **unknownoptions):
@@ -166,7 +169,9 @@ class OptimizerSetup(DictKeys):
         stack_err = self.erf
         x0 = self.x0
         iterations = self.iterations
+
         angle_step, width_step, stripe_step = self.angle_step, self.width_step, self.stripe_width_step
+        take_step = CustomStep(angle_step, width_step, stripe_step, self.erf_setup_instance, self)
 
         callback = self.custom_callback if self.custom_callback else self.default_callback
         if self.disable_callback:
@@ -174,7 +179,6 @@ class OptimizerSetup(DictKeys):
 
         local_min_kwargs = self.local_min_kwargs
         temperature = self.temperature
-        take_step = CustomStep(angle_step, width_step, stripe_step, self.erf_setup_instance, self)
         bounds_callable = Bounds(self)
 
         opt_res = basinhopping(stack_err, x0, niter=iterations, stepsize=angle_step,
@@ -190,11 +194,11 @@ class CustomStep:
     custom monte-carlo step
     """
 
-    def __init__(self, angle_step, width_step, stripe_step, erf_setup_instance, optimizer_instance, step_size=1):
-        self.step_size = step_size
-        self.angle_step = angle_step * step_size
-        self.width_step = width_step * step_size
-        self.stripe_step = stripe_step * step_size
+    def __init__(self, angle_step, width_step, stripe_step, erf_setup_instance, optimizer_instance, stepsize=1):
+        self.stepsize = stepsize
+        self.angle_step = angle_step
+        self.width_step = width_step
+        self.stripe_step = stripe_step
         self.erf_setup_instance = erf_setup_instance
         self.optimizer_instance = optimizer_instance
 
@@ -205,9 +209,12 @@ class CustomStep:
         self.stripe_slice = slicing[2]
 
     def __call__(self, x):
-        angle_s = self.angle_step
-        width_s = self.width_step
-        stripe_s = self.stripe_step
+        self.optimizer_instance.stepsize = self.stepsize
+        self.optimizer_instance.reset_cntr -= 1
+        s = self.stepsize
+        angle_s = self.angle_step * s
+        width_s = self.width_step * s
+        stripe_s = self.stripe_step * s
 
         x[self.angle_slice[0]:self.angle_slice[1]] += \
             np.random.uniform(-angle_s, angle_s, x[self.angle_slice[0]:self.angle_slice[1]].shape)
@@ -219,7 +226,7 @@ class CustomStep:
             x[self.stripe_slice[0]:self.stripe_slice[1]] += \
                 np.random.uniform(-stripe_s, stripe_s, x[self.stripe_slice[0]:self.stripe_slice[1]].shape)
 
-        if (not self.optimizer_instance.iter_cnt % 250) and self.optimizer_instance.periodic_restart:
+        if not self.optimizer_instance.reset_cntr and self.optimizer_instance.periodic_restart:
             x = np.random.random(x.shape)
             self.optimizer_instance.force_accept = True
 
@@ -246,6 +253,11 @@ class Bounds:
 
     def __call__(self, **kwargs):
         x = kwargs["x_new"]
+
+        if self.optimizer_instance.force_accept:
+            # reset force accept
+            self.optimizer_instance.force_accept = False
+            return "force accept"
 
         t_min_angle = bool(np.all(x[self.angle_slice[0]:self.angle_slice[1]] >=
                                   self.x_angle_min[self.angle_slice[0]:self.angle_slice[1]]))

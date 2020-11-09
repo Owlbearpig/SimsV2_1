@@ -380,20 +380,18 @@ class ErfSetup(DictKeys):
 
             if self.wp_type == 'λ/2':
                 res_int = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0])) ** 2 + (j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
-
                 # jan loss function : No I_x
                 #res_no_x = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0])) ** 2)
                 #res = sum(j[:, 0, 0].real ** 2 + j[:, 0, 0].imag ** 2 + (1-j[:, 1, 0].real) ** 2 + j[:, 1, 0].imag ** 2)
                 #v1, v2, E1, E2 = eig(j)
                 #e2x, e2y = (E2[0, :], E2[1, :])
-
-                #res_shift = sum((pi - retardance(j)) ** 2)
+                res_shift = sum(2*((pi - retardance(j))**2)/pi**2)
                 #res = sum(e2y.real) + res_shift
-                #res = res_int + res_shift
+                res = res_int + res_shift
                 #trace = sum((j[:, 0, 0] + j[:, 1, 1])**2)
                 #res = res_shift + trace
                 #res = res_shift
-                res = res_int
+                #res = res_int
             else:
                 # OG intensity loss
                 # res = sum((j[:, 1, 0] * conj(j[:, 1, 0]) - j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
@@ -461,10 +459,10 @@ if __name__ == '__main__':
     from modules.utils.calculations import calc_intensity
     keys = DictKeys()
 
-    dir_path_ret = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\SLE_l2_longrun_restarts\5wp_0.65-2.2THz_300-850um_retoptimize_16-52-33_OptimizationProcess-1')
-    dir_path_int = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\SLE_l2_longrun_restarts\5wp_0.65-2.2THz_250-850um_22-32-10_OptimizationProcess-1')
+    dir_path_1 = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/SLE_l2_longrun_restarts/5wp_0.65-2.2THz_250-850um_1mit_22-56-52_OptimizationProcess-1')
+    dir_path_2 = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/SLE_l2_longrun_restarts/5wp_0.65-2.2THz_250-850um_22-32-10_OptimizationProcess-1')
 
-    dir_path = dir_path_int#dir_path_ret#dir_path_int
+    dir_path = dir_path_1#dir_path_ret#dir_path_int
 
     settings_dict = Settings().load_settings(dir_path / 'settings.json')
 
@@ -528,10 +526,10 @@ if __name__ == '__main__':
     int_x_e, int_y_e = calc_intensity(x_pol_state), calc_intensity(y_pol_state)
 
     j_res.parameters.field_transmissions = j_res.parameters.transmissions
-    print(j_res.parameters)
+    #print(j_res.parameters)
     # print(j_res.checks)
-    plt.plot(freqs, int_x_e, label='e after x-pol')
-    plt.plot(freqs, int_y_e, label='e after y-pol')
+    #plt.plot(freqs, int_x_e, label='e after x-pol')
+    #plt.plot(freqs, int_y_e, label='e after y-pol')
     plt.plot(freqs, intensity_x, label='after x-pol')
     plt.plot(freqs, intensity_y, label='after y-pol')
     plt.legend()

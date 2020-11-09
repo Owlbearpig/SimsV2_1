@@ -150,7 +150,7 @@ def no_optimization(settings, new_values, queue):
 
     x0 = np.array([*angles, *widths, *stripes]).flatten()
     f = new_erf_setup.erf(x0)
-    output = Output(f, angles, widths, stripes, 'Single run', 1, 1)
+    output = Output(f, angles, widths, stripes, 'Single run', 1, 1, 1)
     output.new_best = True
     queue.put(output)
 

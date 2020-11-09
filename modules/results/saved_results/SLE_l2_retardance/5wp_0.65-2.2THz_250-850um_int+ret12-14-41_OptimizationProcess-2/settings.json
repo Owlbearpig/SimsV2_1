@@ -56,8 +56,8 @@
     "max_width": 850.0,
     "min_angle": 0.0,
     "max_angle": 6.283184,
-    "min_stripe_width": 10.0,
-    "max_stripe_width": 80.0,
+    "min_stripe_width": 15.0,
+    "max_stripe_width": 70.0,
     "anisotropy_p": 1.0,
     "anisotropy_s": 1.0,
     "wp_type": "\u03bb/2",
@@ -90,7 +90,7 @@
     "save_settings": true,
     "save_iterations": false,
     "save_name": "5wp_0.65-2.2THz_250-850um_int+ret",
-    "save_folder_name": "SLE_l2_optimizer_changes",
+    "save_folder_name": "SLE_l2_retardance",
     "selected_material_data_path": "modules/material_manager/data_folders/FusedSilica_4Eck/4Eck_D=2042.csv",
     "selected_fast_material_data_path": "modules/material_manager/data_folders/CeramicFast/Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
     "selected_slow_material_data_path": "modules/material_manager/data_folders/CeramicSlow/Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
@@ -100,30 +100,30 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": true,
     "x0_angle_input": [
-        0.94,
-        5.62,
-        4.32,
-        3.84,
-        3.45
+        3.27,
+        3.12,
+        1.13,
+        4.3,
+        5.07
     ],
     "x0_widths_input": [
-        348.6,
-        849.6,
-        717.5,
-        563.9,
-        491.7
+        753.2,
+        818.8,
+        533.1,
+        665.3,
+        783.5
     ],
     "x0_stripes_input": [
-        28.7,
-        65.0,
-        78.0,
-        16.8,
-        74.7,
-        38.2,
-        29.7,
-        48.7,
-        27.7,
-        31.0
+        54.9,
+        57.1,
+        50.7,
+        63.5,
+        67.6,
+        69.5,
+        26.3,
+        55.3,
+        44.4,
+        45.2
     ],
     "angle_input": [
         0
