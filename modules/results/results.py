@@ -51,7 +51,7 @@ class Result(DictKeys):
     # values rounded. Deg, um, um
     def get_rounded_values(self):
         angles, widths, stripes = self.get_values()
-        f = np.round(self.f, 5)
+        f = np.round(self.f, 7)
         rounded_angles = np.round(np.rad2deg(angles), 2)
         rounded_widths = np.round(widths * m_to_um, 1)
         rounded_stripes = np.round(stripes * m_to_um, 1)
