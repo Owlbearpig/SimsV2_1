@@ -229,6 +229,9 @@ class WaveplateApp(DictKeys):
         test_settings[self.iterations_key] = 5
         make_optimizer(queue=self.queue, settings=test_settings)
 
+    def clear_outputwindow(self, *args):
+        self.window['_output_'].update('')
+
     # ---------------------------------------Result tab--------------------------------------------------------------- #
     def set_selected_result_settings(self, *args):
         if self.result_manager.result_selected:
@@ -429,6 +432,7 @@ class WaveplateApp(DictKeys):
             self.run_once_button_key: self.run_once,
             self.optimizer_test_button_key: self.optimizer_test,
             self.dbo_start_job_button_key: self.discrete_bruteforce_optimization,
+            self.clear_output_button_key: self.clear_outputwindow,
 
             # tab6
             self.update_result_list_button_key: self.update_result_list,

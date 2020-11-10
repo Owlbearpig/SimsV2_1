@@ -200,7 +200,7 @@ class CustomStep:
     """
 
     def __init__(self, angle_step, width_step, stripe_step, erf_setup_instance, optimizer_instance, stepsize=1):
-        self.stepsize = stepsize
+        #self.stepsize = stepsize
         self.angle_step = angle_step
         self.width_step = width_step
         self.stripe_step = stripe_step
@@ -214,9 +214,9 @@ class CustomStep:
         self.stripe_slice = slicing[2]
 
     def __call__(self, x):
-        self.optimizer_instance.stepsize = self.stepsize
+        self.optimizer_instance.stepsize = 1#self.stepsize
         self.optimizer_instance.ttl -= 1
-        s = self.stepsize
+        s = 1#self.stepsize
         angle_s = self.angle_step * s
         width_s = self.width_step * s
         stripe_s = self.stripe_step * s

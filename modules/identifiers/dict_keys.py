@@ -89,6 +89,7 @@ class DictKeys:
         self.start_process_button_key = DictKey('start_process_button')
         self.stop_process_button_key = DictKey('stop_process_button')
         self.stop_all_processes_button_key = DictKey('stop_all_processes_button')
+        self.clear_output_button_key = DictKey('clear_output_button')
         self.run_once_button_key = DictKey('run_once_button')
         self.set_selected_result_settings_button_key = DictKey('set_selected_result_settings_button')
         self.optimizer_test_button_key = DictKey('optimizer_test_button')

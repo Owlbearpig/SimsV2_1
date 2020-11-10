@@ -349,13 +349,17 @@ class Tabs(DictKeys):
 
     def get_tab5_layout(self):
         output = sg.Output(size=(90, 12),
-                           text_color='Green')
+                           text_color='Green',
+                           key='_output_')
         start_process_button = sg.Button(button_text='Start process',
                                          key=self.start_process_button_key)
         stop_process_button = sg.Button(button_text='Stop process',
                                         key=self.stop_process_button_key)
         stop_all_processes_button = sg.Button(button_text='Stop all processes',
                                               key=self.stop_all_processes_button_key)
+        clear_output_button = sg.Button(button_text='Clear',
+                                        key=self.clear_output_button_key)
+
         process_list = Listbox(values=(),
                                size=(20, 13),
                                key=self.process_list_key)
@@ -417,7 +421,7 @@ class Tabs(DictKeys):
         tab5_layout = [[sg.Frame('Output',
                                  [[output],
                                   [start_process_button, stop_process_button,
-                                   stop_all_processes_button, optimizer_test_button]]),
+                                   stop_all_processes_button, optimizer_test_button, clear_output_button]]),
                         sg.Frame('Basic info',
                                  [[basic_info_tab_l0],
                                   [basic_info_tab_l1],
