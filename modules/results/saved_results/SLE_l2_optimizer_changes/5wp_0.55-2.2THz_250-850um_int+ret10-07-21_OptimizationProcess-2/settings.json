@@ -40,7 +40,7 @@
         5
     ],
     "frequency_resolution_multiplier": 0.25,
-    "min_freq": 0.25,
+    "min_freq": 0.55,
     "max_freq": 2.1,
     "material_drop_down": "FusedSilica_4Eck",
     "birefringence_type_dropdown": "Form",
@@ -89,7 +89,7 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "5wp_0.25-2.1THz_250-850um_int+ret",
+    "save_name": "5wp_0.55-2.2THz_250-850um_int+ret",
     "save_folder_name": "SLE_l2_optimizer_changes",
     "selected_material_data_path": "modules\\material_manager\\data_folders\\FusedSilica_4Eck\\4Eck_D=2042.csv",
     "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\CeramicFast\\Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",

@@ -5,12 +5,13 @@ from modules.utils.constants import *
 
 
 class Output:
-    def __init__(self, f, angles, widths, stripes, process_name, iter_cnt, accepted_ratio, stepsize):
+    def __init__(self, f, angles, widths, stripes, process_name, iter_cnt, accepted_ratio, stepsize, ttl):
         self.f = f
         self.angles, self.widths, self.stripes = angles, widths, stripes
         self.process_name = process_name
         self.iter_cnt = iter_cnt
         self.current_stepsize = stepsize
+        self.ttl = ttl
         self.accepted_ratio = accepted_ratio
         self.new_best = False
 
@@ -18,7 +19,8 @@ class Output:
         l0 = "*****************************************************************\n"
         l1 = str(self.process_name) + "\n"
         f, ar = round(self.f, 4), round(self.accepted_ratio, 2)
-        l2 = f"{f} at iteration {self.iter_cnt}. AR: {ar}. Stepsize: {round(self.current_stepsize, 3)}\n"
+        l2 = f"{f} at iteration {self.iter_cnt}, AR: {ar}, " \
+             f"Stepsize: {round(self.current_stepsize, 3)}, TTL: {self.ttl}\n"
         angles = np.round(np.rad2deg(self.angles), 2)
         l3 = f"Angles: {angles} (deg)\n"
         widths = np.round(self.widths * 10 ** 6, 2)
@@ -55,6 +57,9 @@ class OptimizerSetup(DictKeys):
         self.periodic_restart = settings[self.periodic_restart_key]
         self.disable_callback = settings[self.disable_callback_key]
         self.custom_callback = None
+        self.periodic_restart_ttl = 300
+        self.ttl = self.periodic_restart_ttl
+        self.force_accept = False
 
         # variables
         self.best_f = np.inf
@@ -136,14 +141,14 @@ class OptimizerSetup(DictKeys):
 
         ar = round(self.accepted_cnt / self.iter_cnt, 2)
 
-        self.queue.put(Output(f, angles, widths, stripes, self.process_name, self.iter_cnt, ar, self.stepsize))
+        self.queue.put(Output(f, angles, widths, stripes, self.process_name, self.iter_cnt, ar, self.stepsize, self.ttl))
 
         if f < self.best_f and accepted:
             self.best_f = f
-            output = Output(f, angles, widths, stripes, self.process_name, self.iter_cnt, ar, self.stepsize)
+            output = Output(f, angles, widths, stripes, self.process_name, self.iter_cnt, ar, self.stepsize, self.ttl)
             output.new_best = True
             self.queue.put(output)
-            self.reset_cntr = 250
+            self.ttl = self.periodic_restart_ttl
 
     @staticmethod
     def local_min_method(fun, x0, args=(), **unknownoptions):
@@ -210,7 +215,7 @@ class CustomStep:
 
     def __call__(self, x):
         self.optimizer_instance.stepsize = self.stepsize
-        self.optimizer_instance.reset_cntr -= 1
+        self.optimizer_instance.ttl -= 1
         s = self.stepsize
         angle_s = self.angle_step * s
         width_s = self.width_step * s
@@ -226,9 +231,10 @@ class CustomStep:
             x[self.stripe_slice[0]:self.stripe_slice[1]] += \
                 np.random.uniform(-stripe_s, stripe_s, x[self.stripe_slice[0]:self.stripe_slice[1]].shape)
 
-        if not self.optimizer_instance.reset_cntr and self.optimizer_instance.periodic_restart:
+        if not self.optimizer_instance.ttl and self.optimizer_instance.periodic_restart:
             x = np.random.random(x.shape)
             self.optimizer_instance.force_accept = True
+            self.optimizer_instance.ttl = self.optimizer_instance.periodic_restart_ttl
 
         return x
 
