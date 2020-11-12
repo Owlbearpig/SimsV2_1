@@ -81,6 +81,12 @@ class DBO(DictKeys):
                 except ValueError:
                     continue
 
+        # remove full 0 width combination if present
+        try:
+            combinations.remove([1]*wp_cnt)
+        except ValueError:
+            pass
+
         return combinations
 
     def callback(self, x, f, accept):

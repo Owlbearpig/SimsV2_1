@@ -1,5 +1,5 @@
 {
-    "wp_cnt": 5,
+    "wp_cnt": 4,
     "const_wp_dim": false,
     "equal_stripes": false,
     "initial_stripe_widths": [
@@ -7,11 +7,9 @@
             42.2,
             42.2,
             42.2,
-            42.2,
             42.2
         ],
         [
-            15.1,
             15.1,
             15.1,
             15.1,
@@ -22,24 +20,21 @@
         0,
         0,
         0,
-        0,
         0
     ],
     "const_widths": [
-        830,
-        830,
-        830,
-        830,
-        830
+        500,
+        450,
+        600,
+        400
     ],
     "width_pattern": [
         1,
         2,
         3,
-        4,
-        5
+        4
     ],
-    "frequency_resolution_multiplier": 0.35,
+    "frequency_resolution_multiplier": 0.4,
     "min_freq": 0.4,
     "max_freq": 2.0,
     "material_drop_down": "FusedSilica_4Eck",
@@ -57,22 +52,22 @@
     "min_angle": 0.0,
     "max_angle": 6.283184,
     "min_stripe_width": 10.0,
-    "max_stripe_width": 90.0,
+    "max_stripe_width": 80.0,
     "anisotropy_p": 1.0,
     "anisotropy_s": 1.0,
     "wp_type": "\u03bb/2",
     "x_slicing": [
         [
             0,
-            5
+            4
         ],
         [
-            5,
-            5
+            4,
+            4
         ],
         [
-            5,
-            15
+            4,
+            12
         ]
     ],
     "calculation_method": "Jones",
@@ -89,8 +84,8 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "5wp_0.4-2.0THz_5x830_int_",
-    "save_folder_name": "SLE_l2_const_widths_2",
+    "save_name": "4wp_500_450_600_400",
+    "save_folder_name": "SLE_reversal_tests",
     "selected_material_data_path": "modules\\material_manager\\data_folders\\FusedSilica_4Eck\\4Eck_D=2042.csv",
     "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\CeramicFast\\Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
     "selected_slow_material_data_path": "modules\\material_manager\\data_folders\\CeramicSlow\\Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
@@ -100,24 +95,21 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": true,
     "x0_angle_input": [
-        2.8,
-        0.45,
-        0.38,
-        1.06,
-        1.08
+        5.67,
+        0.75,
+        1.31,
+        3.32
     ],
     "x0_widths_input": [],
     "x0_stripes_input": [
-        49.8,
-        34.6,
-        36.1,
-        21.0,
-        29.8,
-        64.2,
-        81.1,
-        42.9,
-        55.4,
-        19.9
+        13.9,
+        55.5,
+        33.4,
+        60.2,
+        47.7,
+        46.4,
+        56.5,
+        44.9
     ],
     "angle_input": [
         0
@@ -139,7 +131,7 @@
         320
     ],
     "dbo_continue_job_input": "E:/CURPROJECT/SimsV2_1/modules/results/DBO/try2_with_0.txt",
-    "dbo_continue_job_checkbox": true,
+    "dbo_continue_job_checkbox": false,
     "plot_in_cst": false,
     "selected_frequency": 1.73,
     "difference_plot": false,
