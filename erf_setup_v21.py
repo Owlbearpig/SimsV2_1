@@ -385,13 +385,13 @@ class ErfSetup(DictKeys):
                 #res = sum(j[:, 0, 0].real ** 2 + j[:, 0, 0].imag ** 2 + (1-j[:, 1, 0].real) ** 2 + j[:, 1, 0].imag ** 2)
                 #v1, v2, E1, E2 = eig(j)
                 #e2x, e2y = (E2[0, :], E2[1, :])
-                #res_shift = sum(2*((pi - retardance(j))**2)/pi**2)
+                res_shift = sum(2*((pi - retardance(j))**2)/pi**2)
                 #res = sum(e2y.real) + res_shift
-                #res = res_int + res_shift
+                res = res_int + res_shift
                 #trace = sum((j[:, 0, 0] + j[:, 1, 1])**2)
                 #res = res_shift + trace
                 #res = res_shift
-                res = res_int
+                #res = res_int
             else:
                 # OG intensity loss
                 # res = sum((j[:, 1, 0] * conj(j[:, 1, 0]) - j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
@@ -459,28 +459,31 @@ if __name__ == '__main__':
     from modules.utils.calculations import calc_intensity
     keys = DictKeys()
 
-    dir_path_1 = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/SLE_l2_longrun_restarts/5wp_0.65-2.2THz_250-850um_1mit_22-56-52_OptimizationProcess-1')
-    dir_path_2 = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/SLE_l2_longrun_restarts/5wp_0.65-2.2THz_250-850um_22-32-10_OptimizationProcess-1')
+    dir_path_1 = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\SLE_l2_optimizer_changes\5wp_0.65-2.2THz_250-850um_int+ret15-26-29_OptimizationProcess-1')
+    #dir_path_2 = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/SLE_l2_longrun_restarts/5wp_0.65-2.2THz_250-850um_22-32-10_OptimizationProcess-1')
 
     dir_path = dir_path_1#dir_path_ret#dir_path_int
 
     settings_dict = Settings().load_settings(dir_path / 'settings.json')
 
     settings_dict[keys.frequency_resolution_multiplier_key] = 1
+    settings_dict[keys.const_widths_key] = [0]*int(settings_dict[keys.wp_cnt_key])
+    settings_dict[keys.min_freq_key] = 0.2
+    settings_dict[keys.max_freq_key] = 2.0
     settings_dict[keys.weak_absorption_checkbox_key] = False
     settings_dict[keys.calculation_method_key] = 'Jones'
     settings_dict[keys.anisotropy_p_key] = 1
     settings_dict[keys.anisotropy_s_key] = 1
 
     erf_setup = ErfSetup(settings_dict)
-    erf = erf_setup.erf
 
     angles_ = np.load(dir_path / 'angles.npy')
+
     d_ = np.load(dir_path / 'widths.npy')
     stripes_ = np.load(dir_path / 'stripes.npy')
-
+    print(angles_, d_, stripes_)
     x_res = np.concatenate((angles_, d_, stripes_))
-    erf(x_res)
+    print(erf_setup.erf(x_res))
 
     freqs = erf_setup.frequencies
 

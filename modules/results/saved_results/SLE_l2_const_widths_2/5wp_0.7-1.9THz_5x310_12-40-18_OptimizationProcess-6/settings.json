@@ -1,0 +1,179 @@
+{
+    "wp_cnt": 5,
+    "const_wp_dim": false,
+    "equal_stripes": false,
+    "initial_stripe_widths": [
+        [
+            42.2,
+            42.2,
+            42.2,
+            42.2,
+            42.2
+        ],
+        [
+            15.1,
+            15.1,
+            15.1,
+            15.1,
+            15.1
+        ]
+    ],
+    "const_angles": [
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "const_widths": [
+        310,
+        310,
+        310,
+        310,
+        310
+    ],
+    "width_pattern": [
+        1,
+        2,
+        3,
+        4,
+        5
+    ],
+    "frequency_resolution_multiplier": 0.35,
+    "min_freq": 0.7,
+    "max_freq": 1.9,
+    "material_drop_down": "FusedSilica_4Eck",
+    "birefringence_type_dropdown": "Form",
+    "fast_material_dropdown": "CeramicFast",
+    "slow_material_dropdown": "CeramicSlow",
+    "const_refr_index_input_n_s": 0.0,
+    "const_refr_index_input_k_s": 0.0,
+    "const_refr_index_input_n_p": 0.0,
+    "const_refr_index_input_k_p": 0.0,
+    "randomizer_seed": null,
+    "log_of_res": false,
+    "min_width": 250.0,
+    "max_width": 850.0,
+    "min_angle": 0.0,
+    "max_angle": 6.283184,
+    "min_stripe_width": 10.0,
+    "max_stripe_width": 80.0,
+    "anisotropy_p": 1.0,
+    "anisotropy_s": 1.0,
+    "wp_type": "\u03bb/2",
+    "x_slicing": [
+        [
+            0,
+            5
+        ],
+        [
+            5,
+            5
+        ],
+        [
+            5,
+            15
+        ]
+    ],
+    "calculation_method": "Jones",
+    "iterations": 10000,
+    "angle_step": 0.008,
+    "width_step": 2.0,
+    "stripe_width_step": 0.01,
+    "temperature": 0.0005,
+    "local_opt_tol": 0.001,
+    "print_precision": 5,
+    "print_interval": 200,
+    "periodic_restart": true,
+    "disable_callback": false,
+    "save_all_results": false,
+    "save_settings": true,
+    "save_iterations": false,
+    "save_name": "5wp_0.7-1.9THz_5x310_",
+    "save_folder_name": "SLE_l2_const_widths_2",
+    "selected_material_data_path": "modules\\material_manager\\data_folders\\FusedSilica_4Eck\\4Eck_D=2042.csv",
+    "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\CeramicFast\\Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
+    "selected_slow_material_data_path": "modules\\material_manager\\data_folders\\CeramicSlow\\Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
+    "new_material_name": "PLA_fit",
+    "new_material_path": "",
+    "set_ri_real_part_checkbox": false,
+    "set_ri_img_part_checkbox": false,
+    "weak_absorption_checkbox": true,
+    "x0_angle_input": [
+        3.87,
+        4.75,
+        4.32,
+        2.26,
+        3.84
+    ],
+    "x0_widths_input": [],
+    "x0_stripes_input": [
+        40.7,
+        63.3,
+        15.1,
+        22.1,
+        53.2,
+        10.5,
+        73.6,
+        12.2,
+        28.0,
+        20.6
+    ],
+    "angle_input": [
+        0
+    ],
+    "widths_input": [
+        4500
+    ],
+    "stripes_input": [
+        550,
+        205
+    ],
+    "run_once_label_input": "l2_200GHz",
+    "dbo_save_name_input": "try2_with_0",
+    "dbo_widths_input": [
+        1,
+        515,
+        830,
+        635,
+        320
+    ],
+    "dbo_continue_job_input": "E:/CURPROJECT/SimsV2_1/modules/results/DBO/try2_with_0.txt",
+    "dbo_continue_job_checkbox": true,
+    "plot_in_cst": false,
+    "selected_frequency": 1.73,
+    "difference_plot": false,
+    "polarization_plot": false,
+    "angle_err_checkbox": false,
+    "width_err_checkbox": false,
+    "stripe_err_checkbox": false,
+    "min_angle_error_input": 0.0,
+    "max_angle_error_input": 1.0,
+    "min_width_error_input": 1.0,
+    "max_width_error_input": 5.0,
+    "min_stripe_error_input": 1.0,
+    "max_stripe_error_input": 5.0,
+    "overwrite_stripes": false,
+    "stripe0_input": 1.0,
+    "stripe1_input": 5.0,
+    "plot_bf_real": true,
+    "plot_bf_imag": false,
+    "plot_np": true,
+    "plot_ns": true,
+    "plot_kp": false,
+    "plot_ks": false,
+    "polar_plot_min_freq_input": 0.2,
+    "polar_plot_max_freq_input": 0.25,
+    "cst_plot_x": true,
+    "cst_plot_y": true,
+    "single_wp_angle_input": 45.0,
+    "single_wp_width_input": 4500.0,
+    "single_wp_stripe1_width_input": 30.0,
+    "single_wp_stripe2_width_input": 40.0,
+    "single_wp_label_input": "",
+    "plot_ns_checkbox_key": true,
+    "plot_np_checkbox_key": true,
+    "plot_ks_checkbox_key": false,
+    "plot_kp_checkbox_key": false,
+    "zeroth_order_freq_input": 350.0
+}

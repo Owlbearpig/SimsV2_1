@@ -242,8 +242,45 @@ def retardance(j_stack):
     return R
 
 
+def all_combinations(lst, depth):
+    res = []
+
+    def recursion(old_lst, r):
+        r -= 1
+        for i in lst:
+            new_list = old_lst.copy()
+            new_list.append(i)
+            if r:
+                recursion(new_list, r)
+            else:
+                res.append(new_list)
+
+    recursion([], depth)
+    return res
+
+
 if __name__ == '__main__':
-    pass
+    combinations = all_combinations([515, 310, 830, 635], 5)
+
+    filt = []
+    for combi in combinations:
+        if sum(combi) < 2500:
+            filt.append(combi)
+
+    print(len(filt))
+
+    """
+    from pathlib import Path
+    import matplotlib.pyplot as plt
+
+    test_file = Path(r'E:\CURPROJECT\SimsV2_1\scratches\2020-10-23T11-45-26.395510-Reference.txt')
+    data = np.loadtxt(test_file)
+    freqs, y = fft(data[:, 0], data[:, 1])
+    plt.plot(freqs, 20*np.log10(np.abs(y)))
+    plt.xlim((0, 3))
+    plt.show()
+    """
+
 """
 def delays(M, freqs, wp_angle=0):
     delay_lst = []

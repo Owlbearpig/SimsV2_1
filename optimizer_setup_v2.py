@@ -57,7 +57,7 @@ class OptimizerSetup(DictKeys):
         self.periodic_restart = settings[self.periodic_restart_key]
         self.disable_callback = settings[self.disable_callback_key]
         self.custom_callback = None
-        self.periodic_restart_ttl = 300
+        self.periodic_restart_ttl = 50
         self.ttl = self.periodic_restart_ttl
         self.force_accept = False
 

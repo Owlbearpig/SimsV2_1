@@ -10,6 +10,7 @@ from modules.settings.settings import Settings
 from modules.utils.constants import *
 import numpy as np
 from itertools import combinations_with_replacement
+from modules.utils.calculations import all_combinations
 import time
 
 
@@ -71,7 +72,10 @@ class DBO(DictKeys):
     def get_combinations(self):
         wp_cnt = self.settings[self.wp_cnt_key]
         d_lst = self.settings[self.dbo_widths_input_key]
-        combinations = [list(combination) for combination in combinations_with_replacement(d_lst, wp_cnt)]
+        combinations = all_combinations(d_lst, wp_cnt) # all combis
+        #combinations = [list(combination) for combination in combinations_with_replacement(d_lst, wp_cnt)] # bin combi
+
+        combinations = [combi for combi in combinations if sum(combi) < 2500]
 
         if self.settings[self.dbo_continue_job_checkbox_key]:
             previous_combinations = self.read_previous_job_output()
@@ -87,7 +91,9 @@ class DBO(DictKeys):
         except ValueError:
             pass
 
-        return combinations
+        combi_cnt = len(combinations)
+
+        return combinations[:combi_cnt//2]
 
     def callback(self, x, f, accept):
         self.iter_cnt += 1

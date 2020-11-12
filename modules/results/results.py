@@ -17,7 +17,7 @@ class Result(DictKeys):
             self.result_date_dir_name = ui_values[self.folder_list_key][0]
             self.name = ui_values[self.result_list_key][0]
             self.result_full_path = self.set_result_path()
-            self.result_settings = self.set_result_settings()
+            self.result_settings, self.original_result_settings = self.set_result_settings(ui_values)
             self.f, self.angles, self.widths, self.stripes = self.set_values()
         self.err_plot_title = ''
         self.x = None
@@ -32,9 +32,17 @@ class Result(DictKeys):
     def set_result_path(self):
         return saved_results_dir / self.result_date_dir_name / self.name
 
-    def set_result_settings(self):
+    def set_result_settings(self, ui_values):
         result_settings_path = self.result_full_path / 'settings.json'
-        return Settings().load_settings(result_settings_path)
+        settings_dict = Settings().load_settings(result_settings_path)
+        original_result_settings = settings_dict.copy()
+
+        settings_dict[self.min_freq_key] = ui_values[self.min_freq_key]
+        settings_dict[self.max_freq_key] = ui_values[self.max_freq_key]
+        settings_dict[self.frequency_resolution_multiplier_key] = ui_values[self.frequency_resolution_multiplier_key]
+        settings_dict[self.weak_absorption_checkbox_key] = ui_values[self.weak_absorption_checkbox_key]
+
+        return settings_dict, original_result_settings
 
     def set_values(self):
         f = np.load(self.result_full_path / 'f.npy')
@@ -230,7 +238,7 @@ class Results(DictKeys):
         for key in DictKeys().__dict__.values():
             if key.label == label:
                 try:
-                    ret_str += str(key) + ': ' + str(self.selected_result.result_settings[key]) + '\n'
+                    ret_str += str(key) + ': ' + str(self.selected_result.original_result_settings[key]) + '\n'
                 except KeyError:
                     continue
         return ret_str
