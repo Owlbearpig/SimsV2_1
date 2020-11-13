@@ -93,7 +93,7 @@ class DBO(DictKeys):
 
         combi_cnt = len(combinations)
 
-        return combinations[:combi_cnt//2]
+        return combinations[combi_cnt//2:]
 
     def callback(self, x, f, accept):
         self.iter_cnt += 1

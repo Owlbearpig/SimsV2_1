@@ -6,18 +6,16 @@
         [
             61.0,
             64.0,
-            61.0,
-            61.0,
-            61.0,
-            61.0
+            55.0,
+            67.9,
+            61.7
         ],
         [
             33.1,
             34.2,
-            33.1,
-            33.1,
-            33.1,
-            33.1
+            37.2,
+            32.0,
+            34.2
         ]
     ],
     "const_angles": [
@@ -25,26 +23,23 @@
         0,
         0,
         0,
-        0,
         0
     ],
     "const_widths": [
-        520.0,
+        635.0,
+        330.0,
         310.0,
-        0,
-        0,
-        0,
-        0
+        330.0,
+        635.0
     ],
     "width_pattern": [
         1,
         2,
         3,
         4,
-        5,
-        6
+        5
     ],
-    "frequency_resolution_multiplier": 0.5,
+    "frequency_resolution_multiplier": 0.4,
     "min_freq": 0.35,
     "max_freq": 1.9,
     "material_drop_down": "FusedSilica_4Eck",
@@ -81,7 +76,7 @@
         ]
     ],
     "calculation_method": "Jones",
-    "iterations": 100000,
+    "iterations": 5000,
     "angle_step": 0.008,
     "width_step": 2.0,
     "stripe_width_step": 0.01,
@@ -94,7 +89,7 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "5wp_0.35-1.9THz_big_start_width_int_",
+    "save_name": "5wp_0.35-1.9THz_shift+int_delme",
     "save_folder_name": "SLE_l2_const_widths_3",
     "selected_material_data_path": "modules/material_manager/data_folders/FusedSilica_4Eck/4Eck_D=2042.csv",
     "selected_fast_material_data_path": "modules/material_manager/data_folders/CeramicFast/Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
@@ -143,13 +138,12 @@
         61.0
     ],
     "run_once_label_input": "fp_l2",
-    "dbo_save_name_input": "try4_1",
+    "dbo_save_name_input": "try4_2",
     "dbo_widths_input": [
-        1,
         515,
+        310,
         830,
-        635,
-        320
+        635
     ],
     "dbo_continue_job_input": "E:/CURPROJECT/SimsV2_1/modules/results/DBO/try2_with_0.txt",
     "dbo_continue_job_checkbox": false,

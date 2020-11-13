@@ -161,7 +161,7 @@ class ErfSetup(DictKeys):
 
     def form_birefringence(self, stripes):
         """
-        :return: array with length of frequency, frequency resolved delta n, delta kappa
+        :return: array with length of frequency, frequency resolved [ns, np, ks, kp]
         """
         if len(stripes) == 2:
             l_mat1, l_mat2 = stripes
@@ -459,36 +459,64 @@ if __name__ == '__main__':
     from modules.utils.calculations import calc_intensity
     keys = DictKeys()
 
-    dir_path_1 = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\SLE_l2_const_widths_3\5wp_0.35-1.9THz_shift+int_16-10-30_OptimizationProcess-1')
-    #dir_path_2 = Path(r'/home/alex/Desktop/Projects/SimsV2_1/modules/results/saved_results/SLE_l2_longrun_restarts/5wp_0.65-2.2THz_250-850um_22-32-10_OptimizationProcess-1')
+    dir_1 = Path(r'SLE_l2_const_widths_3/5wp_0.35-1.9THz_shift+int_16-10-30_OptimizationProcess-1')
+    dir_path_1 = saved_results_dir / dir_1
 
-    dir_path = dir_path_1#dir_path_ret#dir_path_int
+    dir_2 = Path(r'SLE_l2_longrun_restarts/5wp_0.65-2.2THz_250-850um_22-32-10_OptimizationProcess-1')
+    dir_path_2 = saved_results_dir / dir_2
+
+    dir_3_fp = Path(r'fp_results/fp_l2')
+    dir_3_fp = saved_results_dir / dir_3_fp
+
+    dir_path = dir_path_1
 
     settings_dict = Settings().load_settings(dir_path / 'settings.json')
 
     settings_dict[keys.frequency_resolution_multiplier_key] = 1
-    #settings_dict[keys.const_widths_key] = [0]*int(settings_dict[keys.wp_cnt_key])
     settings_dict[keys.min_freq_key] = 0.35
     settings_dict[keys.max_freq_key] = 2.0
-    settings_dict[keys.weak_absorption_checkbox_key] = True
+    settings_dict[keys.weak_absorption_checkbox_key] = False
     settings_dict[keys.calculation_method_key] = 'Jones'
     settings_dict[keys.anisotropy_p_key] = 1
     settings_dict[keys.anisotropy_s_key] = 1
+    settings_dict[keys.const_widths_key] = [0] * int(settings_dict[keys.wp_cnt_key])
+    settings_dict[keys.x_slicing_key] = [[0,5], [5,10], [10,20]]
 
     erf_setup = ErfSetup(settings_dict)
 
     angles_ = np.load(dir_path / 'angles.npy')
-
     d_ = np.load(dir_path / 'widths.npy')
     stripes_ = np.load(dir_path / 'stripes.npy')
-    print(angles_, d_, stripes_)
-    x_res = np.concatenate((angles_, stripes_))
-    print(erf_setup.erf(x_res))
+    print(stripes_)
+    x_res = np.concatenate((angles_, d_, stripes_))
+
+    angles_ = np.load(dir_3_fp / 'angles.npy')
+    d_ = np.load(dir_3_fp / 'widths.npy')
+    stripes_ = np.load(dir_3_fp / 'stripes.npy')
+
+    x_fp = np.concatenate((angles_, d_, stripes_))
+
+    j_stack_fp = erf_setup.get_j_stack(x_fp)
+    intensity_x_fp, intensity_y_fp = calc_final_jones_intensities(j_stack_fp)
 
     freqs = erf_setup.frequencies
 
     j_stack = erf_setup.get_j_stack(x_res)
     intensity_x, intensity_y = calc_final_jones_intensities(j_stack)
+
+    angles_test = np.deg2rad([83, 65, 47, 29, 9])
+    d_test = np.array([520, 495, 310, 495, 520])*um
+    stripes_test = np.array([61, 64, 55, 68, 62, 33, 34, 37, 32, 34])*um
+
+    # errors
+    d_test += 1*np.random.random(d_test.shape) * um
+    stripes_test += 1*np.random.random(stripes_test.shape) * um
+    angles_test += np.deg2rad(np.random.random(angles_test.shape))
+
+    x_res_test = np.concatenate((angles_test, d_test, stripes_test))
+    j_stack_test = erf_setup.get_j_stack(x_res_test)
+    intensity_x_test, intensity_y_test = calc_final_jones_intensities(j_stack_test)
+
     from py_pol.jones_matrix import Jones_matrix
     from py_pol.jones_vector import Jones_vector
 
@@ -497,22 +525,36 @@ if __name__ == '__main__':
     j_res.parameters.field_transmissions = j_res.parameters.transmissions
     j_res.parameters.get_all()
 
-    plt.plot(freqs, j_res.parameters.dict_params['retardance']/pi)
+    j_res_test = Jones_matrix('j_res_test')
+    j_res_test.from_matrix(j_stack_test)
+    j_res_test.parameters.field_transmissions = j_res_test.parameters.transmissions
+    j_res_test.parameters.get_all()
+
+    j_res_fp = Jones_matrix('j_res_fp')
+    j_res_fp.from_matrix(j_stack_fp)
+    j_res_fp.parameters.field_transmissions = j_res_test.parameters.transmissions
+    j_res_fp.parameters.get_all()
+
+    plt.plot(freqs, np.abs(j_res.parameters.dict_params['retardance']-pi), label='ret og')
+    plt.plot(freqs, np.abs(j_res_test.parameters.dict_params['retardance']-pi), label='ret test')
+    plt.plot(freqs, np.abs(j_res_fp.parameters.dict_params['retardance']-pi), label='ret fp')
+    plt.legend()
     plt.show()
-    v1, v2, E1, E2 = eig(j_stack)
-    e_state = (E1 + E2).transpose(1, 0)
+
+    #v1, v2, E1, E2 = eig(j_stack)
+    #e_state = (E1 + E2).transpose(1, 0)
 
     #x_dot = np.einsum('av,a->v', E1, np.array([1, 0]))
     #x_axis_angle = np.arccos(x_dot)
 
-    eigen_state = Jones_vector('eigen_state_sum')
-    eigen_state.from_matrix(e_state)
+    #eigen_state = Jones_vector('eigen_state_sum')
+    #eigen_state.from_matrix(e_state)
 
-    E1_pypol = Jones_vector('E1')
-    E1_pypol.from_matrix(E1)
+    #E1_pypol = Jones_vector('E1')
+    #E1_pypol.from_matrix(E1)
 
-    E2_pypol = Jones_vector('E2')
-    E2_pypol.from_matrix(E2)
+    #E2_pypol = Jones_vector('E2')
+    #E2_pypol.from_matrix(E2)
 
     #E1_pypol.parameters.get_all()
     #E2_pypol.parameters.get_all()
@@ -525,19 +567,23 @@ if __name__ == '__main__':
     #print(j_stack.shape)
     #print(e_state.shape)
 
-    j_final = np.einsum('vab,vb->va', j_stack, e_state)
+    #j_final = np.einsum('vab,vb->va', j_stack, e_state)
 
-    x_pol_state = np.einsum('ab,vb->va', x_pol_j, j_final)
-    y_pol_state = np.einsum('ab,vb->va', y_pol_j, j_final)
+    #x_pol_state = np.einsum('ab,vb->va', x_pol_j, j_final)
+    #y_pol_state = np.einsum('ab,vb->va', y_pol_j, j_final)
 
-    int_x_e, int_y_e = calc_intensity(x_pol_state), calc_intensity(y_pol_state)
+    #int_x_e, int_y_e = calc_intensity(x_pol_state), calc_intensity(y_pol_state)
 
 
     #print(j_res.parameters)
     # print(j_res.checks)
     #plt.plot(freqs, int_x_e, label='e after x-pol')
     #plt.plot(freqs, int_y_e, label='e after y-pol')
-    plt.plot(freqs, intensity_x, label='after x-pol')
-    plt.plot(freqs, intensity_y, label='after y-pol')
+    plt.plot(freqs, intensity_x_test, label='test x-pol')
+    plt.plot(freqs, intensity_y_test, label='test y-pol')
+    plt.plot(freqs, intensity_x_fp, label='fp x-pol')
+    plt.plot(freqs, intensity_y_fp, label='fp y-pol')
+    plt.plot(freqs, intensity_x, label='og x-pol')
+    plt.plot(freqs, intensity_y, label='og y-pol')
     plt.legend()
     plt.show()
