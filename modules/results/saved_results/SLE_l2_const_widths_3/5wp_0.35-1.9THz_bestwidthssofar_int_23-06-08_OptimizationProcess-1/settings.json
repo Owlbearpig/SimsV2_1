@@ -27,10 +27,10 @@
     ],
     "const_widths": [
         520.0,
+        495.0,
         310.0,
-        310.0,
-        310.0,
-        310.0
+        495.0,
+        520.0
     ],
     "width_pattern": [
         1,
@@ -39,7 +39,7 @@
         4,
         5
     ],
-    "frequency_resolution_multiplier": 0.1,
+    "frequency_resolution_multiplier": 0.35,
     "min_freq": 0.35,
     "max_freq": 1.9,
     "material_drop_down": "FusedSilica_4Eck",
@@ -89,7 +89,7 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "5wp_0.35-1.9THz_big_start_width_int_",
+    "save_name": "5wp_0.35-1.9THz_bestwidthssofar_int_",
     "save_folder_name": "SLE_l2_const_widths_3",
     "selected_material_data_path": "modules\\material_manager\\data_folders\\FusedSilica_4Eck\\4Eck_D=2042.csv",
     "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\CeramicFast\\Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",

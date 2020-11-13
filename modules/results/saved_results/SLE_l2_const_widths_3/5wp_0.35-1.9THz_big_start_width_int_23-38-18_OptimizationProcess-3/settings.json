@@ -39,7 +39,7 @@
         4,
         5
     ],
-    "frequency_resolution_multiplier": 0.1,
+    "frequency_resolution_multiplier": 0.35,
     "min_freq": 0.35,
     "max_freq": 1.9,
     "material_drop_down": "FusedSilica_4Eck",
