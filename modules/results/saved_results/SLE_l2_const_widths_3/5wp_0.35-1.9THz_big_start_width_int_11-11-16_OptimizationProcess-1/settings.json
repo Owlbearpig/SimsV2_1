@@ -8,11 +8,13 @@
             64.0,
             61.0,
             61.0,
+            61.0,
             61.0
         ],
         [
             33.1,
             34.2,
+            33.1,
             33.1,
             33.1,
             33.1
@@ -23,21 +25,24 @@
         0,
         0,
         0,
+        0,
         0
     ],
     "const_widths": [
-        1,
-        1,
-        1,
-        1,
-        1
+        520.0,
+        310.0,
+        0,
+        0,
+        0,
+        0
     ],
     "width_pattern": [
         1,
         2,
         3,
         4,
-        5
+        5,
+        6
     ],
     "frequency_resolution_multiplier": 0.5,
     "min_freq": 0.35,
@@ -76,7 +81,7 @@
         ]
     ],
     "calculation_method": "Jones",
-    "iterations": 5000,
+    "iterations": 100000,
     "angle_step": 0.008,
     "width_step": 2.0,
     "stripe_width_step": 0.01,
@@ -100,24 +105,24 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": true,
     "x0_angle_input": [
-        5.33,
-        2.38,
-        2.43,
-        5.49,
-        1.93
+        4.29,
+        2.77,
+        0.75,
+        0.15,
+        1.15
     ],
     "x0_widths_input": [],
     "x0_stripes_input": [
-        61.0,
-        64.0,
-        55.0,
-        67.9,
-        61.7,
-        33.1,
-        34.2,
-        37.2,
-        32.0,
-        34.2
+        75.6,
+        74.0,
+        66.7,
+        57.5,
+        76.8,
+        68.6,
+        30.6,
+        41.0,
+        76.7,
+        57.8
     ],
     "angle_input": [
         95.68,
@@ -140,10 +145,11 @@
     "run_once_label_input": "fp_l2",
     "dbo_save_name_input": "try5_int+shift_1",
     "dbo_widths_input": [
-        495,
+        1,
+        515,
         830,
         635,
-        310
+        320
     ],
     "dbo_continue_job_input": "E:/CURPROJECT/SimsV2_1/modules/results/DBO/try2_with_0.txt",
     "dbo_continue_job_checkbox": false,

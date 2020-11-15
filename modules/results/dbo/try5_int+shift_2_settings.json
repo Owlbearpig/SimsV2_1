@@ -100,11 +100,11 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": true,
     "x0_angle_input": [
-        5.33,
-        2.38,
-        2.43,
-        5.49,
-        1.93
+        4.29,
+        2.77,
+        0.75,
+        0.15,
+        1.15
     ],
     "x0_widths_input": [],
     "x0_stripes_input": [
@@ -138,7 +138,7 @@
         61.0
     ],
     "run_once_label_input": "fp_l2",
-    "dbo_save_name_input": "try5_int+shift_1",
+    "dbo_save_name_input": "try5_int+shift_2",
     "dbo_widths_input": [
         495,
         830,
