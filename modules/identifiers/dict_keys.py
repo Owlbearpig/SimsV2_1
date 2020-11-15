@@ -72,7 +72,7 @@ class DictKeys:
         self.random_x0_button_key = DictKey('random_x0_button')
         self.set_default_settings_button_key = DictKey('set_default_settings_button')
         self.enable_ri_overwrite_checkbox_key = DictKey('enable_ri_overwrite_checkbox')
-        self.weak_absorption_checkbox_key = DictKey('weak_absorption_checkbox')
+        self.weak_absorption_checkbox_key = DictKey('weak_absorption_checkbox', label='erf_settings')
 
         # tab4
         self.process_list_key = DictKey('process_list')

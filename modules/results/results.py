@@ -45,10 +45,10 @@ class Result(DictKeys):
         return settings_dict, original_result_settings
 
     def set_values(self):
-        f = np.load(self.result_full_path / 'f.npy')
-        angles = np.load(self.result_full_path / 'angles.npy')
-        widths = np.load(self.result_full_path / 'widths.npy')
-        stripes = np.load(self.result_full_path / 'stripes.npy')
+        f = np.load(self.result_full_path / 'f.npy', allow_pickle=True)
+        angles = np.load(self.result_full_path / 'angles.npy', allow_pickle=True)
+        widths = np.load(self.result_full_path / 'widths.npy', allow_pickle=True)
+        stripes = np.load(self.result_full_path / 'stripes.npy', allow_pickle=True)
 
         return f, angles, widths, stripes
 

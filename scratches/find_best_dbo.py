@@ -1,5 +1,5 @@
 from pathlib import Path
-path = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\DBO\try3_full_abs_.txt')
+path = Path(r'E:\CURPROJECT\SimsV2_1\modules\results\DBO\try5_int+shift_1.txt')
 
 best_f = [1]
 widths = None

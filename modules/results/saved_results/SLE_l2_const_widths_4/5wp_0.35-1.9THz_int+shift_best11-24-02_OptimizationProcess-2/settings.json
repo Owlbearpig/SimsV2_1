@@ -26,11 +26,11 @@
         0
     ],
     "const_widths": [
-        1,
-        1,
-        1,
-        1,
-        1
+        310,
+        635,
+        515,
+        515,
+        515
     ],
     "width_pattern": [
         1,
@@ -39,7 +39,7 @@
         4,
         5
     ],
-    "frequency_resolution_multiplier": 0.4,
+    "frequency_resolution_multiplier": 0.35,
     "min_freq": 0.35,
     "max_freq": 1.9,
     "material_drop_down": "FusedSilica_4Eck",
@@ -80,7 +80,7 @@
     "angle_step": 0.008,
     "width_step": 2.0,
     "stripe_width_step": 0.01,
-    "temperature": 1e-05,
+    "temperature": 0.0005,
     "local_opt_tol": 0.001,
     "print_precision": 5,
     "print_interval": 200,
@@ -89,8 +89,8 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "5wp_0.35-1.9THz_delme",
-    "save_folder_name": "SLE_l2_const_widths_5",
+    "save_name": "5wp_0.35-1.9THz_int+shift_best",
+    "save_folder_name": "SLE_l2_const_widths_4",
     "selected_material_data_path": "modules\\material_manager\\data_folders\\FusedSilica_4Eck\\4Eck_D=2042.csv",
     "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\CeramicFast\\Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
     "selected_slow_material_data_path": "modules\\material_manager\\data_folders\\CeramicSlow\\Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
@@ -98,13 +98,13 @@
     "new_material_path": "",
     "set_ri_real_part_checkbox": false,
     "set_ri_img_part_checkbox": false,
-    "weak_absorption_checkbox": true,
+    "weak_absorption_checkbox": false,
     "x0_angle_input": [
-        5.33,
-        2.38,
-        2.43,
-        5.49,
-        1.93
+        4.29,
+        2.77,
+        0.75,
+        0.15,
+        1.15
     ],
     "x0_widths_input": [],
     "x0_stripes_input": [
@@ -138,12 +138,13 @@
         61.0
     ],
     "run_once_label_input": "fp_l2",
-    "dbo_save_name_input": "try5_int+shift_1",
+    "dbo_save_name_input": "try4_1",
     "dbo_widths_input": [
-        495,
+        1,
+        515,
         830,
         635,
-        310
+        320
     ],
     "dbo_continue_job_input": "E:/CURPROJECT/SimsV2_1/modules/results/DBO/try2_with_0.txt",
     "dbo_continue_job_checkbox": false,
