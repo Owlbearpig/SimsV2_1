@@ -396,7 +396,10 @@ class ErfSetup(DictKeys):
                 # OG intensity loss
                 # res = sum((j[:, 1, 0] * conj(j[:, 1, 0]) - j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
                 q = j[:, 0, 0] / j[:, 1, 0]
-                res = sum(q.real**2 + (q.imag-1)**2)
+                res_int = sum(q.real**2 + (q.imag-1)**2)
+                res_shift = sum(2 * ((pi - retardance(j)) ** 2) / pi ** 2)
+
+                res = res_int + res_shift
 
             if self.log_of_res:
                 return np.log10(res / self.freq_cnt)
@@ -459,7 +462,8 @@ if __name__ == '__main__':
     from modules.utils.calculations import calc_intensity
     keys = DictKeys()
 
-    dir_1 = Path(r'SLE_l2_const_widths_3/5wp_0.35-1.9THz_shift+int_16-10-30_OptimizationProcess-1')
+    #dir_1 = Path(r'SLE_l2_const_widths_3/5wp_0.35-1.9THz_shift+int_16-10-30_OptimizationProcess-1')
+    dir_1 = Path(r'SLE_l2_const_widths_dbo5/5wp_0.35-1.9THz_best_of_112-12-14_OptimizationProcess-3')
     dir_path_1 = saved_results_dir / dir_1
 
     dir_2 = Path(r'SLE_l2_longrun_restarts/5wp_0.65-2.2THz_250-850um_22-32-10_OptimizationProcess-1')
@@ -487,7 +491,7 @@ if __name__ == '__main__':
     angles_ = np.load(dir_path / 'angles.npy')
     d_ = np.load(dir_path / 'widths.npy')
     stripes_ = np.load(dir_path / 'stripes.npy')
-    print(stripes_)
+
     x_res = np.concatenate((angles_, d_, stripes_))
 
     angles_ = np.load(dir_3_fp / 'angles.npy')
@@ -504,14 +508,21 @@ if __name__ == '__main__':
     j_stack = erf_setup.get_j_stack(x_res)
     intensity_x, intensity_y = calc_final_jones_intensities(j_stack)
 
-    angles_test = np.deg2rad([83, 65, 47, 29, 9])
-    d_test = np.array([520, 495, 310, 495, 520])*um
-    stripes_test = np.array([61, 64, 55, 68, 62, 33, 34, 37, 32, 34])*um
+    angles_test = np.deg2rad([79.3, 58.6, 37.9, 15.6, 9.1])
+    d_test = np.array([635, 495, 495, 495, 310])*um
+    stripes_test = np.array([75, 67, 65, 74, 77, 29, 31, 28, 26, 28])*um
+
+    """
+    [79.33, 58.55, 37.88, 15.56, 9.07]
+    [635.0, 495.0, 495.0, 495.0, 310.0]
+    [74.6, 66.5, 64.5, 73.5, 77.0, 29.4, 30.6, 27.9, 26.3, 28.2]
+    """
 
     # errors
-    d_test += 1*np.random.random(d_test.shape) * um
-    stripes_test += 1*np.random.random(stripes_test.shape) * um
-    angles_test += np.deg2rad(np.random.random(angles_test.shape))
+    #d_test += 1*np.random.random(d_test.shape) * um
+    #stripes_test += 1*np.random.random(stripes_test.shape) * um
+    #stripes_test[0:5] += 10*np.ones(5)*um
+    #angles_test += np.deg2rad(np.random.random(angles_test.shape))
 
     x_res_test = np.concatenate((angles_test, d_test, stripes_test))
     j_stack_test = erf_setup.get_j_stack(x_res_test)
@@ -535,17 +546,14 @@ if __name__ == '__main__':
     j_res_fp.parameters.field_transmissions = j_res_test.parameters.transmissions
     j_res_fp.parameters.get_all()
 
-    plt.plot(freqs, np.abs(j_res.parameters.dict_params['retardance']-pi), label='ret og')
-    plt.plot(freqs, np.abs(j_res_test.parameters.dict_params['retardance']-pi), label='ret test')
-    plt.plot(freqs, np.abs(j_res_fp.parameters.dict_params['retardance']-pi), label='ret fp')
-    plt.legend()
-    plt.show()
+    #plt.plot(freqs, np.abs(j_res.parameters.dict_params['retardance']-pi), label='ret og')
+    #plt.plot(freqs, np.abs(j_res_test.parameters.dict_params['retardance']-pi), label='ret test')
+    #plt.plot(freqs, np.abs(j_res_fp.parameters.dict_params['retardance']-pi), label='ret fp')
+    #plt.legend()
+    #plt.show()
 
-    #v1, v2, E1, E2 = eig(j_stack)
-    #e_state = (E1 + E2).transpose(1, 0)
-
-    #x_dot = np.einsum('av,a->v', E1, np.array([1, 0]))
-    #x_axis_angle = np.arccos(x_dot)
+    v1, v2, E1, E2 = eig(j_stack)
+    e_state = (E1 + E2).transpose(1, 0)
 
     #eigen_state = Jones_vector('eigen_state_sum')
     #eigen_state.from_matrix(e_state)
@@ -567,12 +575,27 @@ if __name__ == '__main__':
     #print(j_stack.shape)
     #print(e_state.shape)
 
-    #j_final = np.einsum('vab,vb->va', j_stack, e_state)
+    j_final = np.einsum('vab,vb->va', j_stack, e_state)
+
+    j_final_pypol = Jones_vector('j_final')
+    j_final_pypol.from_matrix(j_final)
+
+    polarizer_y = np.zeros((len(freqs), 2, 2))
+    polarizer_x = np.zeros((len(freqs), 2, 2))
+    orientations = j_final_pypol.parameters.azimuth()
+    for i, angle in enumerate(orientations):
+        r, r_inv = r_z_j(angle), r_z_j(-angle)
+        polarizer_y[i] = np.dot(r_inv, np.dot(y_pol_j, r))
+        r, r_inv = r_z_j(angle+pi/2), r_z_j(-angle+pi/2)
+        polarizer_x[i] = np.dot(r_inv, np.dot(x_pol_j, r))
+
+    x_pol_state = np.einsum('vab,vb->va', polarizer_x, j_final)
+    y_pol_state = np.einsum('vab,vb->va', polarizer_y, j_final)
 
     #x_pol_state = np.einsum('ab,vb->va', x_pol_j, j_final)
     #y_pol_state = np.einsum('ab,vb->va', y_pol_j, j_final)
 
-    #int_x_e, int_y_e = calc_intensity(x_pol_state), calc_intensity(y_pol_state)
+    int_x_e, int_y_e = calc_intensity(x_pol_state), calc_intensity(y_pol_state)
 
 
     #print(j_res.parameters)
@@ -581,8 +604,8 @@ if __name__ == '__main__':
     #plt.plot(freqs, int_y_e, label='e after y-pol')
     plt.plot(freqs, intensity_x_test, label='test x-pol')
     plt.plot(freqs, intensity_y_test, label='test y-pol')
-    plt.plot(freqs, intensity_x_fp, label='fp x-pol')
-    plt.plot(freqs, intensity_y_fp, label='fp y-pol')
+    #plt.plot(freqs, intensity_x_fp, label='fp x-pol')
+    #plt.plot(freqs, intensity_y_fp, label='fp y-pol')
     plt.plot(freqs, intensity_x, label='og x-pol')
     plt.plot(freqs, intensity_y, label='og y-pol')
     plt.legend()

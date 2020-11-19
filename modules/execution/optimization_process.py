@@ -72,9 +72,10 @@ class DBO(DictKeys):
     def get_combinations(self):
         wp_cnt = self.settings[self.wp_cnt_key]
         d_lst = self.settings[self.dbo_widths_input_key]
-        combinations = all_combinations(d_lst, wp_cnt) # all combis
-        #combinations = [list(combination) for combination in combinations_with_replacement(d_lst, wp_cnt)] # bin combi
+        #combinations = all_combinations(d_lst, wp_cnt) # all combis
+        combinations = [list(combi) for combi in combinations_with_replacement(d_lst, wp_cnt)] # bin combi
 
+        # filter out fat ones
         combinations = [combi for combi in combinations if sum(combi) < 2500]
 
         if self.settings[self.dbo_continue_job_checkbox_key]:
