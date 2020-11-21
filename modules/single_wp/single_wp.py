@@ -69,7 +69,7 @@ class SingleWaveplate(DictKeys):
         return d_l2, d_l4
 
     def single_wp_refractive_indices_plot(self):
-        n_p, n_s, k_p, k_s = self.calculate_refractive_indices()
+        n_s, n_p, k_s, k_p = self.calculate_refractive_indices()
         if self.ui_values[self.single_wp_plot_ns_checkbox_key]:
             self.single_wp_plotter.simple_plot(n_s, legend_label='n_s', fig_title='Single wp refractive indices')
         if self.ui_values[self.single_wp_plot_np_checkbox_key]:

@@ -47,7 +47,7 @@ class Plot(DictKeys):
 
     def refractive_index_plot(self, ui_values):
         error_values = self.result.add_errors(ui_values)
-        n_p, n_s, k_p, k_s = error_values['refractive_indices']
+        n_s, n_p, k_s, k_p = error_values['refractive_indices']
         fig_title = 'Refractive index plot'
         if ui_values[self.plot_np_key]:
             self.simple_plot(n_p, legend_label='n_p', fig_title=fig_title)
@@ -60,7 +60,7 @@ class Plot(DictKeys):
 
     def birefringence_plot(self, ui_values):
         error_values = self.result.add_errors(ui_values)
-        n_p, n_s, k_p, k_s = error_values['refractive_indices']
+        n_s, n_p, k_s, k_p = error_values['refractive_indices']
         bf_real, bf_imag = n_s - n_p, k_s - k_p
         fig_title = 'Birefringence plot'
         if ui_values[self.plot_bf_real_key]:
