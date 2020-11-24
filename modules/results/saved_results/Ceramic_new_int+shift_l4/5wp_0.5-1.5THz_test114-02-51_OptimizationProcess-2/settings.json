@@ -43,7 +43,7 @@
     "min_freq": 0.5,
     "max_freq": 1.5,
     "material_drop_down": "FusedSilica_4Eck",
-    "birefringence_type_dropdown": "Form",
+    "birefringence_type_dropdown": "Natural",
     "fast_material_dropdown": "CeramicFast",
     "slow_material_dropdown": "CeramicSlow",
     "const_refr_index_input_n_s": 0.0,
@@ -100,18 +100,18 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": true,
     "x0_angle_input": [
-        3.62,
-        5.06,
-        4.09,
-        4.83,
-        4.33
+        5.7,
+        3.9,
+        0.1,
+        0.99,
+        0.38
     ],
     "x0_widths_input": [
-        3614.7,
-        3740.8,
-        798.0,
-        2057.5,
-        3908.6
+        2518.7,
+        2885.2,
+        3317.8,
+        2181.5,
+        3338.1
     ],
     "x0_stripes_input": [],
     "angle_input": [
@@ -175,12 +175,12 @@
     "cst_plot_y": true,
     "single_wp_angle_input": 45.0,
     "single_wp_width_input": 4500.0,
-    "single_wp_stripe1_width_input": 30.0,
-    "single_wp_stripe2_width_input": 55.0,
+    "single_wp_stripe1_width_input": 55.0,
+    "single_wp_stripe2_width_input": 30.0,
     "single_wp_label_input": "",
-    "plot_ns_checkbox_key": false,
-    "plot_np_checkbox_key": false,
-    "plot_ks_checkbox_key": true,
-    "plot_kp_checkbox_key": true,
+    "plot_ns_checkbox_key": true,
+    "plot_np_checkbox_key": true,
+    "plot_ks_checkbox_key": false,
+    "plot_kp_checkbox_key": false,
     "zeroth_order_freq_input": 350.0
 }

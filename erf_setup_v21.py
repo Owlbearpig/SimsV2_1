@@ -385,7 +385,7 @@ class ErfSetup(DictKeys):
                 #res = sum(j[:, 0, 0].real ** 2 + j[:, 0, 0].imag ** 2 + (1-j[:, 1, 0].real) ** 2 + j[:, 1, 0].imag ** 2)
                 #v1, v2, E1, E2 = eig(j)
                 #e2x, e2y = (E2[0, :], E2[1, :])
-                res_shift = sum(2*((pi - retardance(j))**2)/pi**2)
+                res_shift = sum(2*((pi/2 - retardance(j))**2)/pi**2)
                 #res = sum(e2y.real) + res_shift
                 res = res_int + res_shift
                 #trace = sum((j[:, 0, 0] + j[:, 1, 1])**2)
@@ -512,6 +512,10 @@ if __name__ == '__main__':
     d_test = np.array([635, 495, 495, 495, 310])*um
     stripes_test = np.array([75, 67, 65, 74, 77, 29, 31, 28, 26, 28])*um
 
+    angles_test2 = np.deg2rad([79.3, 58.6, 37.9, 15.6, 9.1])
+    d_test2 = np.array([495, 635, 495, 495, 310]) * um
+    stripes_test2 = np.array([67, 75, 65, 74, 77, 31, 29, 28, 26, 28]) * um
+
     """
     [79.33, 58.55, 37.88, 15.56, 9.07]
     [635.0, 495.0, 495.0, 495.0, 310.0]
@@ -527,6 +531,10 @@ if __name__ == '__main__':
     x_res_test = np.concatenate((angles_test, d_test, stripes_test))
     j_stack_test = erf_setup.get_j_stack(x_res_test)
     intensity_x_test, intensity_y_test = calc_final_jones_intensities(j_stack_test)
+
+    x_res_test2 = np.concatenate((angles_test2, d_test2, stripes_test2))
+    j_stack_test2 = erf_setup.get_j_stack(x_res_test2)
+    intensity_x_test2, intensity_y_test2 = calc_final_jones_intensities(j_stack_test2)
 
     from py_pol.jones_matrix import Jones_matrix
     from py_pol.jones_vector import Jones_vector
@@ -604,9 +612,11 @@ if __name__ == '__main__':
     #plt.plot(freqs, int_y_e, label='e after y-pol')
     plt.plot(freqs, intensity_x_test, label='test x-pol')
     plt.plot(freqs, intensity_y_test, label='test y-pol')
+    plt.plot(freqs, intensity_x_test2, label='test x-pol')
+    plt.plot(freqs, intensity_y_test2, label='test y-pol')
     #plt.plot(freqs, intensity_x_fp, label='fp x-pol')
     #plt.plot(freqs, intensity_y_fp, label='fp y-pol')
-    plt.plot(freqs, intensity_x, label='og x-pol')
-    plt.plot(freqs, intensity_y, label='og y-pol')
+    #plt.plot(freqs, intensity_x, label='og x-pol')
+    #plt.plot(freqs, intensity_y, label='og y-pol')
     plt.legend()
     plt.show()
