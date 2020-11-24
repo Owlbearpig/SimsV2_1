@@ -66,11 +66,11 @@ plt.plot(es, t3, label='e dep')
 plt.legend()
 plt.show()
 
-exit(129042)
 
 for eps in (np.arange(1,4.5,0.5)):
+    lwr = 0.6
     grid = np.zeros((100, 100))
-    for i, lwr in enumerate(np.linspace(0, 0.61, 100)):
+    for i, eps in enumerate(np.linspace(1, 4, 90)):
         for j, f in enumerate(np.linspace(0, 1, 100)):
             #f2 = 1 - f1
             c = (lwr * pi * f * (1-f)) ** 2
@@ -82,6 +82,7 @@ for eps in (np.arange(1,4.5,0.5)):
             grid[i, j] = val
     lwr = np.linspace(0, 1, 100)
     f1 = np.linspace(0, 1, 100)
+    plt.imshow(grid)
     plt.pcolormesh(lwr,f1, grid, cmap="jet")
     plt.xlabel("f1_mat (%)")
     plt.ylabel("L/l (%)")

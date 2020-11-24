@@ -13,7 +13,7 @@ fs = np.linspace(0, 1, 100)
 
 
 
-print(fs[69])
+
 grid = np.zeros((100, 100))
 for i, e in enumerate(es):
     for j, f in enumerate(fs):
