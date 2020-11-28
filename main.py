@@ -311,9 +311,13 @@ class WaveplateApp(DictKeys):
         else:
             sg.PopupNoWait('No result selected')
 
-    def plot_selected_result(self, *args):
+    def plot_selected_result(self, ui_values):
         if self.result_manager.result_selected:
-            self.plotter.result_plot()
+            if ui_values[self.plot_in_cst_key]:
+                target_figure = 'CST'
+            else:
+                target_figure = 'Result plot'
+            self.plotter.result_plot(target_figure=target_figure)
 
     def fix_old_settings(self, *args):
         self.settings_module.fix_old_settings()

@@ -115,17 +115,18 @@ class Plot(DictKeys):
 
             cst_data_loader = CSTData(file_path)
             frequency_axis = cst_data_loader.f_s_parameters
-
             if ui_values['cst_plot_x']:
-                z24 = cst_data_loader.get_s_parameters(2, 4)
+                xp_s, xp_e = ui_values[self.plot_port_spinbox_start_x_key], ui_values[self.plot_port_spinbox_end_x_key]
+                z24 = cst_data_loader.get_s_parameters(xp_s, xp_e)
                 int_x = 20 * np.log10(z24)
-                label = f'{file_name} x-pol.'.replace('.txt', '')
+                label = f'{file_name} x-pol. ({xp_s}, {xp_e})'.replace('.txt', '')
                 self.cst_plot_base(frequency_axis, int_x, legend_label=label)
 
             if ui_values['cst_plot_y']:
-                z14 = cst_data_loader.get_s_parameters(1, 4)
+                yp_s, yp_e = ui_values[self.plot_port_spinbox_start_y_key], ui_values[self.plot_port_spinbox_end_y_key]
+                z14 = cst_data_loader.get_s_parameters(yp_s, yp_e)
                 int_y = 20 * np.log10(z14)
-                label = f'{file_name} y-pol.'.replace('.txt', '')
+                label = f'{file_name} y-pol. ({yp_s}, {yp_e})'.replace('.txt', '')
                 self.cst_plot_base(frequency_axis, int_y, legend_label=label)
 
     @staticmethod

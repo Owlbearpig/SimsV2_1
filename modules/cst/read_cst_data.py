@@ -1,4 +1,5 @@
 import numpy as np
+from modules.utils.constants import *
 
 
 class CSTData:
@@ -27,7 +28,7 @@ class CSTData:
                         break
                     freq_list.append(self.extract_float(line, 0))
 
-        return np.array(freq_list)
+        return np.array(freq_list)*GHz_to_THz
 
     def get_s_parameters(self, in_port_index, out_port_index, data_type='magnitude'):
 

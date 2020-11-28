@@ -196,7 +196,10 @@ class DictKeys:
         self.calculate_zeroth_order_width_button_key = DictKey('calculate_zeroth_order_width_button')
         self.zeroth_order_width_result_l2_input_key = DictKey('zeroth_order_width_result_l2_input')
         self.zeroth_order_width_result_l4_input_key = DictKey('zeroth_order_width_result_l4_input')
-
+        self.plot_port_spinbox_start_x_key = DictKey('plot_port_spinbox_start_x')
+        self.plot_port_spinbox_end_x_key = DictKey('plot_port_spinbox_end_x')
+        self.plot_port_spinbox_start_y_key = DictKey('plot_port_spinbox_start_y')
+        self.plot_port_spinbox_end_y_key = DictKey('plot_port_spinbox_end_y')
 
 if __name__ == '__main__':
     keys = DictKeys()

@@ -149,10 +149,10 @@ class Tabs(DictKeys):
              ],
             [const_wp_dim_checkbox, equal_stripes_checkbox,
              frequency_multiplier_input, sg.Text('Freq. res. multiplier')],
-            [sg.Text('Const angles (rad)', size=(20, 1)), const_angles_input],
-            [sg.Text('Const widths (μm)', size=(20, 1)), const_widths_input],
-            [sg.Text('Width pattern', size=(20, 1)), width_pattern_input],
-            [sg.Text('Stripe widths', size=(20, 1)), stripe_widths_input],
+            [sg.Text('Const angles (rad)', size=(25, 1)), const_angles_input],
+            [sg.Text('Const widths (μm)', size=(25, 1)), const_widths_input],
+            [sg.Text('Width pattern', size=(25, 1)), width_pattern_input],
+            [sg.Text('Stripe widths [[Mat],[Air]] (μm)', size=(25, 1)), stripe_widths_input],
             [set_default_settings_button],
             [sg.Text('Method'), calculation_method],
             [sg.Frame('Bounds',
@@ -705,9 +705,23 @@ class Tabs(DictKeys):
         plot_y_polarizer_only_checkbox = Checkbox('plot y pol.',
                                                   key=self.cst_plot_y_key,
                                                   default=self.settings[self.cst_plot_y_key])
+        plot_port_spinbox_start_x = sg.Spin(values=(1, 2, 3, 4),
+                                          initial_value=self.settings[self.plot_port_spinbox_start_x_key],
+                                          key=self.plot_port_spinbox_start_x_key)
+        plot_port_spinbox_end_x = sg.Spin(values=(1, 2, 3, 4),
+                                        initial_value=self.settings[self.plot_port_spinbox_end_x_key],
+                                        key=self.plot_port_spinbox_end_x_key)
+        plot_port_spinbox_start_y = sg.Spin(values=(1, 2, 3, 4),
+                                          initial_value=self.settings[self.plot_port_spinbox_start_y_key],
+                                          key=self.plot_port_spinbox_start_y_key)
+        plot_port_spinbox_end_y = sg.Spin(values=(1, 2, 3, 4),
+                                        initial_value=self.settings[self.plot_port_spinbox_end_y_key],
+                                        key=self.plot_port_spinbox_end_y_key)
 
         tab8_layout = [[update_cst_file_list_button, plot_selected_cst_results,
                         plot_x_polarizer_only_checkbox, plot_y_polarizer_only_checkbox],
+                       [sg.Text('Ports start, end (x): '), plot_port_spinbox_start_x, plot_port_spinbox_end_x],
+                       [sg.Text('Ports start, end (y): '), plot_port_spinbox_start_y, plot_port_spinbox_end_y],
                        [cst_folder_list_listbox, cst_file_list_listbox]
                        ]
 

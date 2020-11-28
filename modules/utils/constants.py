@@ -16,6 +16,7 @@ um_to_mm = 10**3
 ps = 10 ** -12
 THz = 10 ** 12
 Hz_to_THz = 10 ** -12
+GHz_to_THz = 10**-3
 GHz = 10 ** 9
 
 # Mueller Matrices

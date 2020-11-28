@@ -39,9 +39,9 @@
         4,
         5
     ],
-    "frequency_resolution_multiplier": 0.25,
-    "min_freq": 0.5,
-    "max_freq": 1.5,
+    "frequency_resolution_multiplier": 1,
+    "min_freq": 0.4,
+    "max_freq": 1.9,
     "material_drop_down": "FusedSilica_4Eck",
     "birefringence_type_dropdown": "Form",
     "fast_material_dropdown": "CeramicFast",
@@ -98,7 +98,7 @@
     "new_material_path": "",
     "set_ri_real_part_checkbox": false,
     "set_ri_img_part_checkbox": false,
-    "weak_absorption_checkbox": true,
+    "weak_absorption_checkbox": false,
     "x0_angle_input": [
         3.62,
         5.06,
@@ -147,7 +147,7 @@
     ],
     "dbo_continue_job_input": "E:/CURPROJECT/SimsV2_1/modules/results/DBO/try2_with_0.txt",
     "dbo_continue_job_checkbox": false,
-    "plot_in_cst": false,
+    "plot_in_cst": true,
     "selected_frequency": 1.73,
     "difference_plot": false,
     "polarization_plot": false,
@@ -182,5 +182,9 @@
     "plot_np_checkbox_key": false,
     "plot_ks_checkbox_key": true,
     "plot_kp_checkbox_key": true,
-    "zeroth_order_freq_input": 350.0
+    "zeroth_order_freq_input": 350.0,
+    "plot_port_spinbox_start_x": 2,
+    "plot_port_spinbox_end_x": 3,
+    "plot_port_spinbox_start_y": 2,
+    "plot_port_spinbox_end_y": 4
 }

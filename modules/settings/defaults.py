@@ -131,4 +131,8 @@ default_settings_dict = {
     keys.single_wp_plot_ks_checkbox_key: True,
     keys.single_wp_plot_kp_checkbox_key: True,
     keys.zeroth_order_freq_input_key: 300.0,
+    keys.plot_port_spinbox_start_x_key: 2,
+    keys.plot_port_spinbox_end_x_key: 4,
+    keys.plot_port_spinbox_start_y_key: 1,
+    keys.plot_port_spinbox_end_y_key: 4,
 }
