@@ -780,6 +780,10 @@ class Tabs(DictKeys):
                                                    disabled=True,
                                                    size=(10, 1))
 
+        add_simple_transmission_checkbox = Checkbox('Add simple Fresnel Transmission coeff. (Based on eps1)',
+                                                    key=self.add_simple_transmission_checkbox_key,
+                                                    default=self.settings[self.add_simple_transmission_checkbox_key])
+
         tab9_layout = [
             [tab9_desc],
             [sg.Frame('Input',
@@ -799,7 +803,7 @@ class Tabs(DictKeys):
              ],
             [single_wp_intensity_plot_button, single_wp_refractive_indices_plot_button],
             [sg.Text('Show:'), single_wp_plot_ns_checkbox, single_wp_plot_np_checkbox,
-             single_wp_plot_ks_checkbox, single_wp_plot_kp_checkbox],
+             single_wp_plot_ks_checkbox, single_wp_plot_kp_checkbox, add_simple_transmission_checkbox],
             [sg.Frame('Calculate zero order width',
                       [[sg.Text('Zeroth order frequency (GHz): '), zeroth_order_freq_input],
                        [calculate_zeroth_order_width_button],

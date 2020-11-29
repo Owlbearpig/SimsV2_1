@@ -200,6 +200,7 @@ class DictKeys:
         self.plot_port_spinbox_end_x_key = DictKey('plot_port_spinbox_end_x')
         self.plot_port_spinbox_start_y_key = DictKey('plot_port_spinbox_start_y')
         self.plot_port_spinbox_end_y_key = DictKey('plot_port_spinbox_end_y')
+        self.add_simple_transmission_checkbox_key = DictKey('add_simple_transmission_checkbox')
 
 if __name__ == '__main__':
     keys = DictKeys()

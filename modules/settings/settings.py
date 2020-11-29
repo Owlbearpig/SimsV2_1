@@ -99,7 +99,5 @@ class Settings(DictKeys):
 
 
 if __name__ == '__main__':
-    import numpy as np
-    path = r'E:\CURPROJECT\SimsV2_1\modules\results\saved_results\Ceramic_New_Absorption_Matrix\4wp_thin_mid_f_range_19-29-30_OptimizationProcess-5\angles.npy'
-    np.load(path, allow_pickle=True)
-
+    settings_module = Settings()
+    settings_module.make_default_settings()

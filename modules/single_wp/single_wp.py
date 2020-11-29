@@ -2,7 +2,8 @@ from erf_setup_v21 import ErfSetup
 from modules.identifiers.dict_keys import DictKeys
 from modules.utils.constants import *
 from modules.utils.calculations import (make_m_matrix_stack, make_j_matrix_stack,
-                                        calc_final_stokes_intensities, calc_final_jones_intensities)
+                                        calc_final_stokes_intensities, calc_final_jones_intensities,
+                                        simple_transmission_coeff)
 from modules.results.results import Result
 from modules.utils.plotting import Plot
 
@@ -58,7 +59,14 @@ class SingleWaveplate(DictKeys):
             j_matrix_stack = make_j_matrix_stack(self.erf_setup, refractive_indices, values)
             int_x, int_y = calc_final_jones_intensities(j_matrix_stack)
 
-        return int_x, int_y
+        if self.ui_values[self.add_simple_transmission_checkbox_key]:
+            db_transmission_coeff = 10*np.log10(simple_transmission_coeff(self.erf_setup.eps_mat1))
+        else:
+            db_transmission_coeff = 10*np.log10(np.ones_like(self.erf_setup.eps_mat1))
+
+        db_transmission_coeff = db_transmission_coeff.reshape(int_x.shape)
+
+        return db_transmission_coeff + int_x, db_transmission_coeff + int_y
 
     def calculate_zeroth_order_width(self, freq):
         refractive_indices = self.calculate_refractive_indices()

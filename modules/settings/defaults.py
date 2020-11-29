@@ -135,4 +135,5 @@ default_settings_dict = {
     keys.plot_port_spinbox_end_x_key: 4,
     keys.plot_port_spinbox_start_y_key: 1,
     keys.plot_port_spinbox_end_y_key: 4,
+    keys.add_simple_transmission_checkbox_key: False,
 }

@@ -5,6 +5,10 @@ from py_pol.jones_vector import Jones_vector
 from py_pol.jones_matrix import Jones_matrix
 
 
+def simple_transmission_coeff(epsilon):
+    ri = np.sqrt((np.abs(epsilon) + epsilon.real) / 2)
+    return 1-np.abs((1-ri)/(1+ri))**2
+
 # creates array(freq_len, 2, 2) (one chain of matrices for each frequency) for the input
 def make_j_matrix_stack(erf_setup, refractive_indices, values):
     # don't need the stripes here :)

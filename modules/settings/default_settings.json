@@ -53,22 +53,12 @@
     "randomizer_seed": null,
     "log_of_res": false,
     "min_width": 0.0,
-    "max_width": 500,
+    "max_width": 500.0,
     "min_angle": 0.0,
     "max_angle": 6.283184,
     "min_stripe_width": 5.0,
     "max_stripe_width": 90.0,
     "anisotropy_p": 1.0,
-    "weak_absorption_checkbox": false,
-    "dbo_widths_input": [
-        520,
-        420,
-        320,
-        220
-    ],
-    "dbo_save_name_input": "",
-    "dbo_continue_job_input": "",
-    "dbo_continue_job_checkbox": false,
     "anisotropy_s": 1.0,
     "wp_type": "\u03bb/2",
     "x_slicing": [
@@ -108,6 +98,7 @@
     "new_material_path": "",
     "set_ri_real_part_checkbox": false,
     "set_ri_img_part_checkbox": false,
+    "weak_absorption_checkbox": false,
     "x0_angle_input": [
         0,
         0,
@@ -151,6 +142,15 @@
         0
     ],
     "run_once_label_input": "",
+    "dbo_save_name_input": "",
+    "dbo_widths_input": [
+        520,
+        420,
+        320,
+        220
+    ],
+    "dbo_continue_job_input": "",
+    "dbo_continue_job_checkbox": false,
     "plot_in_cst": false,
     "selected_frequency": 0.5,
     "difference_plot": false,
@@ -167,14 +167,14 @@
     "overwrite_stripes": false,
     "stripe0_input": 1.0,
     "stripe1_input": 5.0,
-    "polar_plot_min_freq_input": 0.2,
-    "polar_plot_max_freq_input": 0.3,
     "plot_bf_real": true,
     "plot_bf_imag": true,
     "plot_np": true,
     "plot_ns": true,
     "plot_kp": false,
     "plot_ks": false,
+    "polar_plot_min_freq_input": 0.2,
+    "polar_plot_max_freq_input": 0.3,
     "cst_plot_x": true,
     "cst_plot_y": true,
     "single_wp_angle_input": 45.0,
@@ -186,5 +186,10 @@
     "plot_np_checkbox_key": true,
     "plot_ks_checkbox_key": true,
     "plot_kp_checkbox_key": true,
-    "zeroth_order_freq_input": 300.0
+    "zeroth_order_freq_input": 300.0,
+    "plot_port_spinbox_start_x": 2,
+    "plot_port_spinbox_end_x": 4,
+    "plot_port_spinbox_start_y": 1,
+    "plot_port_spinbox_end_y": 4,
+    "add_simple_transmission_checkbox": false
 }

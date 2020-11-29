@@ -174,9 +174,9 @@
     "cst_plot_x": true,
     "cst_plot_y": true,
     "single_wp_angle_input": 45.0,
-    "single_wp_width_input": 4500.0,
-    "single_wp_stripe1_width_input": 30.0,
-    "single_wp_stripe2_width_input": 55.0,
+    "single_wp_width_input": 2400.0,
+    "single_wp_stripe1_width_input": 100.0,
+    "single_wp_stripe2_width_input": 0.0,
     "single_wp_label_input": "",
     "plot_ns_checkbox_key": false,
     "plot_np_checkbox_key": false,
@@ -186,5 +186,6 @@
     "plot_port_spinbox_start_x": 2,
     "plot_port_spinbox_end_x": 3,
     "plot_port_spinbox_start_y": 2,
-    "plot_port_spinbox_end_y": 4
+    "plot_port_spinbox_end_y": 4,
+    "add_simple_transmission_checkbox": true
 }
