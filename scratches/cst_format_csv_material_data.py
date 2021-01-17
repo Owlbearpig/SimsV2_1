@@ -12,8 +12,15 @@ def fix_keys_ffs(_dict):
 
 df = fix_keys_ffs(df)
 
+"""
 Hz_to_GHZ = 10**-9
 with open('4Eck_D=2042.txt', 'a') as file:
     for freq, e_r, e_i in zip(df['freq'], df['epsilon_r'], df['epsilon_i']):
         line = f'{freq*Hz_to_GHZ}    {e_r}    {e_i}\n'
+        file.write(line)
+"""
+Hz_to_GHZ = 10**-9
+with open('4Eck_D=2042.txt', 'a') as file:
+    for freq, e_r, e_i in zip(df['freq'], df['epsilon_r'], df['epsilon_i']):
+        line = f'{freq*Hz_to_GHZ}    {e_r}    {0*e_i}\n'
         file.write(line)

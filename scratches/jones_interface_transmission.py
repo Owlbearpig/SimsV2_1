@@ -9,6 +9,10 @@ from py_pol.jones_vector import Jones_vector
 from py_pol.jones_matrix import Jones_matrix
 from functools import reduce
 from modules.utils.constants import *
+from sympy.solvers import nsolve
+from sympy import Symbol, tan, Rational
+eps = Symbol("eps")
+
 
 dot = np.dot
 arctan = np.arctan
@@ -47,6 +51,54 @@ def calc_wp_deltas(l_mat1, l_mat2):
         abs(wp_eps_s_2) - wp_eps_s_2.real) / sqrt2
 
     return n_s, n_p, k_s, k_p
+
+
+def rytov_two_layer_numerical(l1, l2, eps1, eps2, f, x0):
+    k = 2 * pi * f / c
+
+    r = Rational(1, 2)
+
+    # parallel (first return value) (p-pol.)
+    eps_p = nsolve(
+        k * (eps2 - eps) ** r * tan(k * (eps2 - eps) ** r * l2 * r) + k * (
+                    eps1 - eps) ** r * tan(k * (eps1 - eps) ** r * l1 * r)
+        , eps, x0[0])
+
+    # perpendicular (second return value) (s-pol.)
+    eps_s = nsolve(
+        (1/eps2) * k * (eps2 - eps) ** r * tan(k * (eps2 - eps) ** r * l2 * r) + (1/eps1) * k * (
+                    eps1 - eps) ** r * tan(k * (eps1 - eps) ** r * l1 * r)
+        , eps, x0[1])
+
+    return  eps_s ** 0.5, eps_p ** 0.5
+
+
+def real_ri(l_mat1, l_mat2, eps1, eps2, frequencies):
+    n_s, n_p, k_s, k_p = calc_wp_deltas(l_mat1, l_mat2)
+    n_s, n_p = n_s.real, n_p.real
+
+    prev_sol = [n_s[0], n_p[0]]
+
+    n_p_n, n_s_n = [], []
+    for i, freq in enumerate(frequencies):
+        print(i, len(frequencies))
+
+        for delta in np.linspace(0, 1.5, 10):
+            start_val = (prev_sol[0] + delta, prev_sol[1] + delta)
+            try:
+                num_res = rytov_two_layer_numerical(l_mat1, l_mat2, eps1, eps2, freq, x0=start_val)
+
+                if all([i ** 2 > 0 for i in num_res]):
+                    if num_res[0] > 1 and num_res[1] > 1:
+                        n_s_n.append(np.float(num_res[0]))
+                        n_p_n.append(np.float(num_res[1]))
+                        break
+            except ValueError:  # not all start values lead to convergence (secant method)
+                continue
+
+        prev_sol = (n_p_n[-1], n_s_n[-1])
+
+    return np.array(n_s_n), np.array(n_p_n)
 
 
 # x is along s (perpendicular to stripes), y along p (parallel to stripes)
@@ -121,6 +173,7 @@ def single_wp_w_t_loss(theta, d, n_s, n_p):
 
     return np.einsum('abf,bcf,cdf->adf', t_wp_a, wp, t_a_wp)
 
+
 def calc_intensity(wp_, only_x=False):
     if only_x:
         final_j_x = np.einsum('ab,bce,c->ae', x_pol_j, wp_, x_linear_j)
@@ -182,26 +235,27 @@ def single_wp_intensity(theta, d, n_s, n_p, t_loss=True):
     return 10*np.log10(e_0*np.conjugate(e_0))
 
 
-f_start = 0.150 * THz
+f_start = 1.0 * THz
 f_end = 1.5 * THz
 
-f_pnts = int((f_end - f_start) / (1 * GHz))
+f_pnts = int((f_end - f_start) / (10 * GHz))
 freqs = np.linspace(f_start, f_end, f_pnts)
 
-angles = [95.68, 290.49, 134.65, 332.32, 348.36]
+angles = [45] #[95.68, 290.49, 134.65, 332.32, 348.36]
 angles = np.deg2rad(angles)
 
-d = [590., 600., 570., 400., 600.]
+d = [430] #[590., 600., 570., 400., 600.]
 d = np.array(d) * um
 
 wp_cnt = len(d)
 
-l_mat1 = 58 * um  # *75*um  # 64.8*um # mat1: nicht luft
-l_mat2 = 92 * um  # *61*um  # 45.6*um # mat2: luft
+l_mat1 = 50 * um  # *75*um  # 64.8*um # mat1: nicht luft
+l_mat2 = 30 * um  # *61*um  # 45.6*um # mat2: luft
 
 x_linear_j = np.array([1, 0])
 x_linear_m = np.array([1, 1, 0, 0])
 
+"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # eps_1,2 from material parameters
 
@@ -229,28 +283,57 @@ freqs = freqs
 
 eps_mat1 = (constants["eps_silica_r"] + constants["eps_silica_i"] * 1j)
 eps_mat2 = (np.ones(eps_mat1.shape, dtype=eps_mat1.dtype))
-
 """
+#"""
 # const eps_1,2
-n1 = 1.89  # material
+n1 = 2  #1.89  # material
 n2 = 1  # luft
 
 # n1**2+0.053j
 eps_mat1 = ((n1 ** 2 + 0.000j) * np.ones(freqs.shape, dtype=np.float))
 eps_mat2 = ((n2 ** 2 + 0.000j) * np.ones(freqs.shape, dtype=np.float))
-"""
+#"""
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 wls = (c / freqs)
 n_s, n_p, k_s, k_p = calc_wp_deltas(l_mat1, l_mat2)
+n_s_n, n_p_n = real_ri(l_mat1, l_mat2, eps_mat1[0].real, eps_mat2[0].real, freqs)
 
-angles = [95.68, 290.49, 134.65, 332.32, 348.36]
-angles = [45]
-angles = np.deg2rad(angles)
+#"""
+plt.plot(freqs, n_s, label="s-second order", color="blue")
+plt.plot(freqs, n_p, label="p-second order", color="red")
+plt.plot(freqs, n_s_n, 'b*', label="s-numerical")
+plt.plot(freqs, n_p_n, 'r+', label="p-numerical")
+plt.plot(freqs, n_p-n_s, label="bf 2nd order")
+plt.plot(freqs, n_p_n-n_s_n, label="bf numerical")
+plt.legend()
+plt.show()
+#"""
 
-d = [500, 600., 570., 400., 600.]
-d = [500]
-d = np.array(d) * um
+# simple plots
+wp = jones_wp_no_t_loss(angles, d, n_s, n_p)
+wp_n = jones_wp_no_t_loss(angles, d, n_s_n, n_p_n)
+
+int_x, int_y = calc_intensity(wp)
+int_x_n, int_y_n = calc_intensity(wp_n)
+
+plt.plot(freqs, int_x, label='int after x_polarizer')
+plt.plot(freqs, int_y, label='int after y_polarizer')
+plt.plot(freqs, int_x_n, label='int after x_polarizer (numerical)')
+plt.plot(freqs, int_y_n, label='int after y_polarizer (numerical)')
+plt.legend()
+plt.show()
+
+"""
+# save ri to file for import in cst
+Hz_to_THZ = 10**-12
+with open('anisotropic_material_data.txt', 'a') as file:
+    for freq, n_x, n_y, n_z in zip(freqs, n_s, n_p, n_p):
+        line = f'{freq*Hz_to_THZ}    {n_x**2}    {0}    {n_y**2}    {0}    {n_z**2}    {0}\n'
+        file.write(line)
+print(n_s, n_p)
+"""
 
 # int l2 fp result with and without t losses
 """
@@ -333,7 +416,7 @@ for x, n_s in enumerate(n_s_lst):
 
 np.save('image_t_loss.npy', img)
 """
-
+"""
 img = np.load('image_t_loss.npy')
 # autumn, gnuplot, brg, gist_rainbow, rainbow, nipy_spectral, jet, RdBu, coolwarm
 im = plt.imshow(img, extent=[1.1, 3.5, 1.1, 3.5], cmap=plt.cm.RdBu)
@@ -341,7 +424,7 @@ plt.xlabel('n_p')
 plt.ylabel('n_s')
 plt.colorbar(im)
 plt.show()
-
+"""
 
 # x-axis: frequency, y-axis: intensity, for single bf., no loss and with t-loss
 """
