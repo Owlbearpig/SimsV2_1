@@ -1,14 +1,18 @@
 {
-    "wp_cnt": 3,
+    "wp_cnt": 5,
     "const_wp_dim": false,
-    "equal_stripes": true,
+    "equal_stripes": false,
     "initial_stripe_widths": [
         [
+            61.0,
+            61.0,
             61.0,
             61.0,
             61.0
         ],
         [
+            33.1,
+            33.1,
             33.1,
             33.1,
             33.1
@@ -17,9 +21,13 @@
     "const_angles": [
         0,
         0,
+        0,
+        0,
         0
     ],
     "const_widths": [
+        0,
+        0,
         0,
         0,
         0
@@ -27,11 +35,13 @@
     "width_pattern": [
         1,
         2,
-        3
+        3,
+        4,
+        5
     ],
     "frequency_resolution_multiplier": 0.4,
-    "min_freq": 1.0,
-    "max_freq": 1.5,
+    "min_freq": 0.35,
+    "max_freq": 2.0,
     "material_drop_down": "FusedSilica_4Eck",
     "birefringence_type_dropdown": "Form",
     "fast_material_dropdown": "CeramicFast",
@@ -47,22 +57,22 @@
     "min_angle": 0.0,
     "max_angle": 3.15,
     "min_stripe_width": 10,
-    "max_stripe_width": 60,
+    "max_stripe_width": 80,
     "anisotropy_p": 1.0,
     "anisotropy_s": 1.0,
     "wp_type": "\u03bb/2",
     "x_slicing": [
         [
             0,
-            3
+            5
         ],
         [
-            3,
-            6
+            5,
+            10
         ],
         [
-            6,
-            8
+            10,
+            20
         ]
     ],
     "calculation_method": "Jones",
@@ -90,18 +100,30 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": true,
     "x0_angle_input": [
-        1.32,
-        0.2,
-        0.66
+        0.1,
+        0.57,
+        2.6,
+        2.42,
+        2.47
     ],
     "x0_widths_input": [
-        435.9,
-        409.3,
-        316.1
+        727.2,
+        840.5,
+        483.9,
+        460.0,
+        302.1
     ],
     "x0_stripes_input": [
-        56.9,
-        38.1
+        64.0,
+        21.6,
+        55.5,
+        12.6,
+        67.9,
+        25.0,
+        37.7,
+        73.9,
+        70.5,
+        18.2
     ],
     "angle_input": [
         95.68,

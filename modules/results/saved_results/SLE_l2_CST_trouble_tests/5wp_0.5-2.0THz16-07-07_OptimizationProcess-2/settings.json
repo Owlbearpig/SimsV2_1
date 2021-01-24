@@ -47,7 +47,7 @@
     "min_angle": 0.0,
     "max_angle": 3.15,
     "min_stripe_width": 10,
-    "max_stripe_width": 60,
+    "max_stripe_width": 80,
     "anisotropy_p": 1.0,
     "anisotropy_s": 1.0,
     "wp_type": "\u03bb/2",

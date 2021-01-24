@@ -385,9 +385,9 @@ class ErfSetup(DictKeys):
                 #res = sum(j[:, 0, 0].real ** 2 + j[:, 0, 0].imag ** 2 + (1-j[:, 1, 0].real) ** 2 + j[:, 1, 0].imag ** 2)
                 #v1, v2, E1, E2 = eig(j)
                 #e2x, e2y = (E2[0, :], E2[1, :])
-                res_shift = sum(2*((pi/2 - retardance(j))**2)/pi**2)
+                #res_shift = sum(2*((pi/2 - retardance(j))**2)/pi**2)
                 #res = sum(e2y.real) + res_shift
-                res = res_int + res_shift
+                res = res_int #+ res_shift
                 #trace = sum((j[:, 0, 0] + j[:, 1, 1])**2)
                 #res = res_shift + trace
                 #res = res_shift

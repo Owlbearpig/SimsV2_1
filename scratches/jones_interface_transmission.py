@@ -241,26 +241,26 @@ f_end = 1.5 * THz
 f_pnts = int((f_end - f_start) / (10 * GHz))
 freqs = np.linspace(f_start, f_end, f_pnts)
 
-angles = [45] #[95.68, 290.49, 134.65, 332.32, 348.36]
+angles = [76.1, 46.31, 13.81] #[95.68, 290.49, 134.65, 332.32, 348.36]
 angles = np.deg2rad(angles)
 
-d = [430] #[590., 600., 570., 400., 600.]
+d = [802.7, 818.6, 942.1] #[590., 600., 570., 400., 600.]
 d = np.array(d) * um
 
 wp_cnt = len(d)
 
-l_mat1 = 50 * um  # *75*um  # 64.8*um # mat1: nicht luft
-l_mat2 = 30 * um  # *61*um  # 45.6*um # mat2: luft
+l_mat1 = 79.4 * um  # *75*um  # 64.8*um # mat1: nicht luft
+l_mat2 = 12.1 * um  # *61*um  # 45.6*um # mat2: luft
 
 x_linear_j = np.array([1, 0])
 x_linear_m = np.array([1, 1, 0, 0])
 
-"""
+#"""
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # eps_1,2 from material parameters
 
-data_file_path = Path('/home/alex/Desktop/Projects/SimsV2_1/modules/material_manager/data_folders/FusedSilica/3Eck_D=1028.csv')
-# data_file_path = Path(r'E:\CURPROJECT\SimsV2_1\modules\material_manager\data_folders\FusedSilica\3Eck_D=1028.csv')
+#data_file_path = Path('/home/alex/Desktop/Projects/SimsV2_1/modules/material_manager/data_folders/FusedSilica/3Eck_D=1028.csv')
+data_file_path = Path(r'E:\CURPROJECT\SimsV2_1\modules\material_manager\data_folders\FusedSilica_4Eck\4Eck_D=2042.csv')
 
 df = pandas.read_csv(data_file_path)
 eps_silica_r_key = [key for key in df.keys() if "epsilon_r" in key][0]
@@ -283,8 +283,8 @@ freqs = freqs
 
 eps_mat1 = (constants["eps_silica_r"] + constants["eps_silica_i"] * 1j)
 eps_mat2 = (np.ones(eps_mat1.shape, dtype=eps_mat1.dtype))
-"""
 #"""
+"""
 # const eps_1,2
 n1 = 2  #1.89  # material
 n2 = 1  # luft
@@ -292,7 +292,7 @@ n2 = 1  # luft
 # n1**2+0.053j
 eps_mat1 = ((n1 ** 2 + 0.000j) * np.ones(freqs.shape, dtype=np.float))
 eps_mat2 = ((n2 ** 2 + 0.000j) * np.ones(freqs.shape, dtype=np.float))
-#"""
+"""
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -312,8 +312,22 @@ plt.show()
 #"""
 
 # simple plots
-wp = jones_wp_no_t_loss(angles, d, n_s, n_p)
-wp_n = jones_wp_no_t_loss(angles, d, n_s_n, n_p_n)
+wp1 = jones_wp_no_t_loss(angles[0], d[0], n_s, n_p)
+wp2 = jones_wp_no_t_loss(angles[1], d[1], n_s, n_p)
+wp3 = jones_wp_no_t_loss(angles[2], d[2], n_s, n_p)
+#wp4 = jones_wp_no_t_loss(angles[3], d[3], n_s, n_p)
+#wp5 = jones_wp_no_t_loss(angles[4], d[4], n_s, n_p)
+wp1_n = jones_wp_no_t_loss(angles[0], d[0], n_s_n, n_p_n)
+wp2_n = jones_wp_no_t_loss(angles[1], d[1], n_s_n, n_p_n)
+wp3_n = jones_wp_no_t_loss(angles[2], d[2], n_s_n, n_p_n)
+#wp4_n = jones_wp_no_t_loss(angles[3], d[3], n_s_n, n_p_n)
+#wp5_n = jones_wp_no_t_loss(angles[4], d[4], n_s_n, n_p_n)
+
+# shape of each wp array: (2,2,freqs)
+#wp = np.einsum('abv,bcv,cdv,dev,efv->afv', wp5,wp4,wp3,wp2, wp1)
+#wp_n = np.einsum('abv,bcv,cdv,dev,efv->afv', wp5_n,wp4_n,wp3_n,wp2_n,wp1_n)
+wp = np.einsum('abv,bcv,cdv->adv', wp3,wp2, wp1)
+wp_n = np.einsum('abv,bcv,cdv->adv', wp3_n,wp2_n,wp1_n)
 
 int_x, int_y = calc_intensity(wp)
 int_x_n, int_y_n = calc_intensity(wp_n)
