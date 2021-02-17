@@ -39,7 +39,7 @@
         4,
         5
     ],
-    "frequency_resolution_multiplier": 0.01,
+    "frequency_resolution_multiplier": 0.4,
     "min_freq": 0.05,
     "max_freq": 0.2,
     "material_drop_down": "MUT_1H1",
