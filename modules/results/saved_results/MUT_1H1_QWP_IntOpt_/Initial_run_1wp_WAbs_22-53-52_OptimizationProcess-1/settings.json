@@ -1,38 +1,23 @@
 {
-    "wp_cnt": 4,
+    "wp_cnt": 1,
     "const_wp_dim": false,
     "equal_stripes": true,
     "initial_stripe_widths": [
         [
-            61.0,
-            61.0,
-            61.0,
             61.0
         ],
         [
-            33.1,
-            33.1,
-            33.1,
             33.1
         ]
     ],
     "const_angles": [
-        0,
-        0,
-        0,
         0
     ],
     "const_widths": [
-        0,
-        0,
-        0,
         0
     ],
     "width_pattern": [
-        1,
-        2,
-        3,
-        4
+        1
     ],
     "frequency_resolution_multiplier": 0.04,
     "min_freq": 0.05,
@@ -59,15 +44,15 @@
     "x_slicing": [
         [
             0,
+            1
+        ],
+        [
+            1,
+            2
+        ],
+        [
+            2,
             4
-        ],
-        [
-            4,
-            8
-        ],
-        [
-            8,
-            10
         ]
     ],
     "calculation_method": "Jones",
@@ -84,7 +69,7 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "Initial_run_4wp_WAbs_",
+    "save_name": "Initial_run_1wp_WAbs_",
     "save_folder_name": "MUT_1H1_QWP_IntOpt_",
     "selected_material_data_path": "modules\\material_manager\\data_folders\\MUT_1H1\\MUT 1-1.csv",
     "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\CeramicFast\\Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
@@ -95,20 +80,14 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": true,
     "x0_angle_input": [
-        1.98,
-        0.66,
-        2.58,
-        0.19
+        1.93
     ],
     "x0_widths_input": [
-        7094.8,
-        2275.6,
-        5424.6,
-        9733.9
+        9649.5
     ],
     "x0_stripes_input": [
-        354.0,
-        401.6
+        247.5,
+        550.0
     ],
     "angle_input": [
         95.68,
