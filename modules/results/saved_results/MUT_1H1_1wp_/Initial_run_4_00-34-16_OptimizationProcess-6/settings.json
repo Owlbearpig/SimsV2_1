@@ -1,28 +1,23 @@
 {
-    "wp_cnt": 2,
+    "wp_cnt": 1,
     "const_wp_dim": false,
     "equal_stripes": true,
     "initial_stripe_widths": [
         [
-            61.0,
             61.0
         ],
         [
-            33.1,
             33.1
         ]
     ],
     "const_angles": [
-        0,
         0
     ],
     "const_widths": [
-        0,
         0
     ],
     "width_pattern": [
-        1,
-        2
+        1
     ],
     "frequency_resolution_multiplier": 0.03,
     "min_freq": 0.05,
@@ -49,15 +44,15 @@
     "x_slicing": [
         [
             0,
+            1
+        ],
+        [
+            1,
             2
         ],
         [
             2,
             4
-        ],
-        [
-            4,
-            6
         ]
     ],
     "calculation_method": "Jones",
@@ -74,8 +69,8 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "Initial_run_5_",
-    "save_folder_name": "MUT_1H1_2wp_",
+    "save_name": "Initial_run_4_",
+    "save_folder_name": "MUT_1H1_1wp_",
     "selected_material_data_path": "E:/MEGA/AG/BFWaveplates/Data/GHz/Messergebisse (Hornantenne)/csv_formatted/MUT 1-1.csv",
     "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\CeramicFast\\Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
     "selected_slow_material_data_path": "modules\\material_manager\\data_folders\\CeramicSlow\\Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
@@ -83,18 +78,16 @@
     "new_material_path": "E:/MEGA/AG/BFWaveplates/Data/GHz/Messergebisse (Hornantenne)/csv_formatted/MUT 1-1.csv",
     "set_ri_real_part_checkbox": false,
     "set_ri_img_part_checkbox": false,
-    "weak_absorption_checkbox": true,
+    "weak_absorption_checkbox": false,
     "x0_angle_input": [
-        2.96,
-        2.3
+        0.69
     ],
     "x0_widths_input": [
-        19638.6,
-        11681.2
+        11630.4
     ],
     "x0_stripes_input": [
-        520.8,
-        279.3
+        356.7,
+        369.6
     ],
     "angle_input": [
         95.68,

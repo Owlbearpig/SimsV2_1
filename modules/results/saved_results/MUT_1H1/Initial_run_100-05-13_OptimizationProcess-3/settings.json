@@ -1,28 +1,43 @@
 {
-    "wp_cnt": 2,
+    "wp_cnt": 5,
     "const_wp_dim": false,
     "equal_stripes": true,
     "initial_stripe_widths": [
         [
             61.0,
+            61.0,
+            61.0,
+            61.0,
             61.0
         ],
         [
+            33.1,
+            33.1,
+            33.1,
             33.1,
             33.1
         ]
     ],
     "const_angles": [
         0,
+        0,
+        0,
+        0,
         0
     ],
     "const_widths": [
+        0,
+        0,
+        0,
         0,
         0
     ],
     "width_pattern": [
         1,
-        2
+        2,
+        3,
+        4,
+        5
     ],
     "frequency_resolution_multiplier": 0.03,
     "min_freq": 0.05,
@@ -49,15 +64,15 @@
     "x_slicing": [
         [
             0,
-            2
+            5
         ],
         [
-            2,
-            4
+            5,
+            10
         ],
         [
-            4,
-            6
+            10,
+            12
         ]
     ],
     "calculation_method": "Jones",
@@ -74,8 +89,8 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "Initial_run_5_",
-    "save_folder_name": "MUT_1H1_2wp_",
+    "save_name": "Initial_run_1",
+    "save_folder_name": "MUT_1H1",
     "selected_material_data_path": "E:/MEGA/AG/BFWaveplates/Data/GHz/Messergebisse (Hornantenne)/csv_formatted/MUT 1-1.csv",
     "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\CeramicFast\\Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
     "selected_slow_material_data_path": "modules\\material_manager\\data_folders\\CeramicSlow\\Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
@@ -83,18 +98,24 @@
     "new_material_path": "E:/MEGA/AG/BFWaveplates/Data/GHz/Messergebisse (Hornantenne)/csv_formatted/MUT 1-1.csv",
     "set_ri_real_part_checkbox": false,
     "set_ri_img_part_checkbox": false,
-    "weak_absorption_checkbox": true,
+    "weak_absorption_checkbox": false,
     "x0_angle_input": [
-        2.96,
-        2.3
+        0.45,
+        1.82,
+        0.71,
+        2.44,
+        1.04
     ],
     "x0_widths_input": [
-        19638.6,
-        11681.2
+        6759.2,
+        5686.1,
+        5838.8,
+        15662.7,
+        12348.3
     ],
     "x0_stripes_input": [
-        520.8,
-        279.3
+        334.3,
+        439.3
     ],
     "angle_input": [
         95.68,
