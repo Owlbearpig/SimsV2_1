@@ -185,5 +185,10 @@
     "dbo_continue_job_input": "",
     "dbo_continue_job_checkbox": false,
     "polar_plot_min_freq_input": 0.2,
-    "polar_plot_max_freq_input": 0.3
+    "polar_plot_max_freq_input": 0.3,
+    "plot_port_spinbox_start_x": 2,
+    "plot_port_spinbox_end_x": 4,
+    "plot_port_spinbox_start_y": 1,
+    "plot_port_spinbox_end_y": 4,
+    "add_simple_transmission_checkbox": false
 }

@@ -149,5 +149,10 @@
     "info_tab_l0": "",
     "info_tab_l1": "",
     "info_tab_l2": "",
-    "info_tab_l3": ""
+    "info_tab_l3": "",
+    "plot_port_spinbox_start_x": 2,
+    "plot_port_spinbox_end_x": 4,
+    "plot_port_spinbox_start_y": 1,
+    "plot_port_spinbox_end_y": 4,
+    "add_simple_transmission_checkbox": false
 }

@@ -1,0 +1,187 @@
+{
+    "wp_cnt": 4,
+    "const_wp_dim": false,
+    "equal_stripes": true,
+    "initial_stripe_widths": [
+        [
+            61.0,
+            61.0,
+            61.0,
+            61.0
+        ],
+        [
+            33.1,
+            33.1,
+            33.1,
+            33.1
+        ]
+    ],
+    "const_angles": [
+        0,
+        0,
+        0,
+        0
+    ],
+    "const_widths": [
+        0,
+        0,
+        0,
+        0
+    ],
+    "width_pattern": [
+        1,
+        2,
+        3,
+        4
+    ],
+    "frequency_resolution_multiplier": 0.03,
+    "min_freq": 0.05,
+    "max_freq": 0.2,
+    "material_drop_down": "MUT_1H1",
+    "birefringence_type_dropdown": "Form",
+    "fast_material_dropdown": "CeramicFast",
+    "slow_material_dropdown": "CeramicSlow",
+    "const_refr_index_input_n_s": 0.0,
+    "const_refr_index_input_k_s": 0.0,
+    "const_refr_index_input_n_p": 0.0,
+    "const_refr_index_input_k_p": 0.0,
+    "randomizer_seed": null,
+    "log_of_res": false,
+    "min_width": 2000.0,
+    "max_width": 11000.0,
+    "min_angle": 0.0,
+    "max_angle": 3.15,
+    "min_stripe_width": 200,
+    "max_stripe_width": 800,
+    "anisotropy_p": 1.0,
+    "anisotropy_s": 1.0,
+    "wp_type": "\u03bb/4",
+    "x_slicing": [
+        [
+            0,
+            4
+        ],
+        [
+            4,
+            8
+        ],
+        [
+            8,
+            10
+        ]
+    ],
+    "calculation_method": "Jones",
+    "iterations": 1000000,
+    "angle_step": 0.008,
+    "width_step": 2.0,
+    "stripe_width_step": 0.01,
+    "temperature": 0.0005,
+    "local_opt_tol": 0.001,
+    "print_precision": 5,
+    "print_interval": 200,
+    "periodic_restart": true,
+    "disable_callback": false,
+    "save_all_results": false,
+    "save_settings": true,
+    "save_iterations": false,
+    "save_name": "4wp_WA_",
+    "save_folder_name": "MUT_1H1_QWP_IntOpt+PhaseOpt_",
+    "selected_material_data_path": "modules\\material_manager\\data_folders\\MUT_1H1\\MUT 1-1.csv",
+    "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\CeramicFast\\Sample1_090deg_1825ps_0\u00b5m88Grad_D=3000.csv",
+    "selected_slow_material_data_path": "modules\\material_manager\\data_folders\\CeramicSlow\\Sample1_000deg_1825ps_0\u00b5m-2Grad_D=3000.csv",
+    "new_material_name": "MUT_1H1",
+    "new_material_path": "E:/MEGA/AG/BFWaveplates/Data/GHz/Messergebisse (Hornantenne)/csv_formatted/MUT 1-1.csv",
+    "set_ri_real_part_checkbox": false,
+    "set_ri_img_part_checkbox": false,
+    "weak_absorption_checkbox": true,
+    "x0_angle_input": [
+        0.66,
+        3.07,
+        2.23,
+        1.49
+    ],
+    "x0_widths_input": [
+        5383.6,
+        8194.2,
+        10160.6,
+        8034.3
+    ],
+    "x0_stripes_input": [
+        750.5,
+        446.3
+    ],
+    "angle_input": [
+        95.68,
+        290.49,
+        134.65,
+        332.32,
+        348.36
+    ],
+    "widths_input": [
+        590.0,
+        600.0,
+        570.0,
+        400.0,
+        600.0
+    ],
+    "stripes_input": [
+        75.0,
+        61.0
+    ],
+    "run_once_label_input": "fp_l2",
+    "dbo_save_name_input": "try6_int+shift_2",
+    "dbo_widths_input": [
+        1,
+        520,
+        515,
+        495,
+        330,
+        310,
+        830,
+        635,
+        320
+    ],
+    "dbo_continue_job_input": "E:/CURPROJECT/SimsV2_1/modules/results/DBO/try2_with_0.txt",
+    "dbo_continue_job_checkbox": false,
+    "plot_in_cst": false,
+    "selected_frequency": 0.1,
+    "difference_plot": false,
+    "polarization_plot": false,
+    "angle_err_checkbox": false,
+    "width_err_checkbox": false,
+    "stripe_err_checkbox": false,
+    "min_angle_error_input": 0.0,
+    "max_angle_error_input": 1.0,
+    "min_width_error_input": 1.0,
+    "max_width_error_input": 5.0,
+    "min_stripe_error_input": 1.0,
+    "max_stripe_error_input": 5.0,
+    "overwrite_stripes": false,
+    "stripe0_input": 1.0,
+    "stripe1_input": 5.0,
+    "plot_bf_real": true,
+    "plot_bf_imag": false,
+    "plot_np": true,
+    "plot_ns": true,
+    "plot_kp": false,
+    "plot_ks": false,
+    "polar_plot_min_freq_input": 0.02,
+    "polar_plot_max_freq_input": 0.25,
+    "cst_plot_x": true,
+    "cst_plot_y": true,
+    "single_wp_angle_input": 45.0,
+    "single_wp_width_input": 350,
+    "single_wp_stripe1_width_input": 400.0,
+    "single_wp_stripe2_width_input": 400.0,
+    "single_wp_label_input": "",
+    "plot_ns_checkbox_key": true,
+    "plot_np_checkbox_key": true,
+    "plot_ks_checkbox_key": false,
+    "plot_kp_checkbox_key": false,
+    "zeroth_order_freq_input": 100,
+    "plot_port_spinbox_start_x": 2,
+    "plot_port_spinbox_end_x": 3,
+    "plot_port_spinbox_start_y": 2,
+    "plot_port_spinbox_end_y": 4,
+    "add_simple_transmission_checkbox": true
+}

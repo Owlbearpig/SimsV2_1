@@ -169,5 +169,11 @@
     "plot_port_spinbox_end_x": 3,
     "plot_port_spinbox_start_y": 2,
     "plot_port_spinbox_end_y": 4,
-    "add_simple_transmission_checkbox": true
+    "add_simple_transmission_checkbox": true,
+    "basic_info_tab_l0": "",
+    "basic_info_tab_l1": "",
+    "info_tab_l0": "",
+    "info_tab_l1": "",
+    "info_tab_l2": "",
+    "info_tab_l3": ""
 }
