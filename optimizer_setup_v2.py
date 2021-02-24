@@ -57,7 +57,7 @@ class OptimizerSetup(DictKeys):
         self.periodic_restart = settings[self.periodic_restart_key]
         self.disable_callback = settings[self.disable_callback_key]
         self.custom_callback = None
-        self.periodic_restart_ttl = 50
+        self.periodic_restart_ttl = 200
         self.ttl = self.periodic_restart_ttl
         self.force_accept = False
 
@@ -200,7 +200,7 @@ class CustomStep:
     """
 
     def __init__(self, angle_step, width_step, stripe_step, erf_setup_instance, optimizer_instance, stepsize=1):
-        #self.stepsize = stepsize
+        self.stepsize = stepsize
         self.angle_step = angle_step
         self.width_step = width_step
         self.stripe_step = stripe_step
@@ -214,12 +214,14 @@ class CustomStep:
         self.stripe_slice = slicing[2]
 
     def __call__(self, x):
-        self.optimizer_instance.stepsize = 1#self.stepsize
-        self.optimizer_instance.ttl -= 1
-        s = 1#self.stepsize
-        angle_s = self.angle_step * s
-        width_s = self.width_step * s
-        stripe_s = self.stripe_step * s
+        self.optimizer_instance.stepsize = self.stepsize
+
+        if self.optimizer_instance.periodic_restart:
+            self.optimizer_instance.ttl -= 1
+
+        angle_s = self.angle_step * self.stepsize
+        width_s = self.width_step #* self.stepsize
+        stripe_s = self.stripe_step #* self.stepsize
 
         x[self.angle_slice[0]:self.angle_slice[1]] += \
             np.random.uniform(-angle_s, angle_s, x[self.angle_slice[0]:self.angle_slice[1]].shape)
@@ -231,7 +233,7 @@ class CustomStep:
             x[self.stripe_slice[0]:self.stripe_slice[1]] += \
                 np.random.uniform(-stripe_s, stripe_s, x[self.stripe_slice[0]:self.stripe_slice[1]].shape)
 
-        if not self.optimizer_instance.ttl and self.optimizer_instance.periodic_restart:
+        if not self.optimizer_instance.ttl:
             x = np.random.random(x.shape)
             self.optimizer_instance.force_accept = True
             self.optimizer_instance.ttl = self.optimizer_instance.periodic_restart_ttl

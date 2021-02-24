@@ -396,7 +396,7 @@ class ErfSetup(DictKeys):
                 # OG intensity loss
                 # res = sum((j[:, 1, 0] * conj(j[:, 1, 0]) - j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
                 q = j[:, 0, 0] / j[:, 1, 0]
-                res_int = sum(q.real**2 + (q.imag-1)**2)
+                res_int = sum(q.real**2 + (q.imag-1)**2) + sum(q.real**2 + (q.imag-1)**2)
                 res_shift = 0#sum(2 * ((pi/2 - retardance(j)) ** 2) / pi ** 2)
 
                 res = res_int + res_shift
