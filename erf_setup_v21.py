@@ -4,6 +4,7 @@ import string
 import pandas
 from pathlib import PureWindowsPath
 from modules.identifiers.dict_keys import DictKeys
+from modules.material_manager.materials import ProjectMaterials
 from modules.utils.constants import *
 from modules.utils.calculations import calc_final_jones_intensities, retardance, eig
 from py_pol.jones_matrix import Jones_matrix
@@ -19,7 +20,7 @@ class ErfSetup(DictKeys):
         self.const_angles = np.array(settings[self.const_angles_key])
         self.const_widths = np.array(settings[self.const_widths_key]) * um
         self.width_pattern = np.array(settings[self.width_pattern_key])
-        self.selected_material_data_path = settings[self.selected_material_data_path_key]
+        self.material_name = settings[self.material_drop_down_key]
         self.frequency_range = np.array([settings[self.min_freq_key], settings[self.max_freq_key]]) * THz
         self.frequency_resolution_multiplier = np.array(settings[self.frequency_resolution_multiplier_key])
         self.randomizer_seed = settings[self.randomizer_seed_key]
@@ -100,8 +101,10 @@ class ErfSetup(DictKeys):
 
         return new_bounds
 
-    def read_data_file(self, file_path):
-        data_filepath = Path(PureWindowsPath(file_path))
+    def load_material_data(self, material_name):
+        material = self.all_materials.get_material(material_name)
+
+        data_filepath = Path(PureWindowsPath(material.path))
         df = pandas.read_csv(project_dir / data_filepath)
 
         freq_dict_key = [key for key in df.keys() if "freq" in key][0]
@@ -125,17 +128,19 @@ class ErfSetup(DictKeys):
         """
         load eps data from self.selected_material_data_path
         """
+        self.all_materials = ProjectMaterials()
+
         if self.settings[self.birefringence_type_dropdown_key] in 'Form':
-            self.eps_mat1, self.frequencies = self.read_data_file(self.selected_material_data_path)
+            self.eps_mat1, self.frequencies = self.load_material_data(self.material_name)
             # second material is air, ri=1
             self.eps_mat2 = np.ones(self.eps_mat1.shape, dtype=self.eps_mat1.dtype).reshape(len(self.frequencies), 1)
 
         else:
-            fast_material_data_path = self.settings[self.selected_fast_material_data_path_key]
-            slow_material_data_path = self.settings[self.selected_slow_material_data_path_key]
+            fast_material_name = self.settings[self.fast_material_dropdown_key]
+            slow_material_name = self.settings[self.slow_material_dropdown_key]
 
-            self.eps_mat1, self.frequencies = self.read_data_file(fast_material_data_path)
-            self.eps_mat2, _ = self.read_data_file(slow_material_data_path)
+            self.eps_mat1, self.frequencies = self.load_material_data(fast_material_name)
+            self.eps_mat2, _ = self.load_material_data(slow_material_name)
 
         self.freq_cnt = len(self.frequencies)
         self.wls = (c / self.frequencies).reshape(self.freq_cnt, 1)
@@ -211,6 +216,7 @@ class ErfSetup(DictKeys):
         return theta, 1j * phi_s + alpha_s, 1j * phi_p + alpha_p
 
     def build_j_matrix_stack(self, theta, x, y):
+
         j = np.zeros((self.freq_cnt, self.wp_cnt, 2, 2), dtype=np.complex)
         j[:, :, 0, 0] = exp(y) * sin(theta) ** 2 + exp(x) * cos(theta) ** 2
         j[:, :, 0, 1] = 0.5 * sin(2 * theta) * (exp(y) - exp(x))
@@ -472,19 +478,22 @@ if __name__ == '__main__':
     dir_3_fp = Path(r'fp_results/fp_l2')
     dir_3_fp = saved_results_dir / dir_3_fp
 
-    dir_path = dir_path_1
+    dir_4_ghz = Path(r'MUT_1H1_QWP_IntOpt_/GHz_QWP_MUT1_12-44-09_Thread-3')
+    dir_path_ghz = saved_results_dir / dir_4_ghz
+
+    dir_path = dir_path_ghz
 
     settings_dict = Settings().load_settings(dir_path / 'settings.json')
 
     settings_dict[keys.frequency_resolution_multiplier_key] = 1
-    settings_dict[keys.min_freq_key] = 0.35
-    settings_dict[keys.max_freq_key] = 2.0
+    settings_dict[keys.min_freq_key] = 0.05
+    settings_dict[keys.max_freq_key] = 0.15
     settings_dict[keys.weak_absorption_checkbox_key] = False
     settings_dict[keys.calculation_method_key] = 'Jones'
     settings_dict[keys.anisotropy_p_key] = 1
     settings_dict[keys.anisotropy_s_key] = 1
     settings_dict[keys.const_widths_key] = [0] * int(settings_dict[keys.wp_cnt_key])
-    settings_dict[keys.x_slicing_key] = [[0,5], [5,10], [10,20]]
+    #settings_dict[keys.x_slicing_key] = [[0,4], [4,8], [8,16]]
 
     erf_setup = ErfSetup(settings_dict)
 
@@ -494,15 +503,6 @@ if __name__ == '__main__':
 
     x_res = np.concatenate((angles_, d_, stripes_))
 
-    angles_ = np.load(dir_3_fp / 'angles.npy')
-    d_ = np.load(dir_3_fp / 'widths.npy')
-    stripes_ = np.load(dir_3_fp / 'stripes.npy')
-
-    x_fp = np.concatenate((angles_, d_, stripes_))
-
-    j_stack_fp = erf_setup.get_j_stack(x_fp)
-    intensity_x_fp, intensity_y_fp = calc_final_jones_intensities(j_stack_fp)
-
     freqs = erf_setup.frequencies
 
     j_stack = erf_setup.get_j_stack(x_res)
@@ -511,10 +511,6 @@ if __name__ == '__main__':
     angles_test = np.deg2rad([79.3, 58.6, 37.9, 15.6, 9.1])
     d_test = np.array([635, 495, 495, 495, 310])*um
     stripes_test = np.array([75, 67, 65, 74, 77, 29, 31, 28, 26, 28])*um
-
-    angles_test2 = np.deg2rad([79.3, 58.6, 37.9, 15.6, 9.1])
-    d_test2 = np.array([495, 635, 495, 495, 310]) * um
-    stripes_test2 = np.array([67, 75, 65, 74, 77, 31, 29, 28, 26, 28]) * um
 
     """
     [79.33, 58.55, 37.88, 15.56, 9.07]
@@ -528,13 +524,9 @@ if __name__ == '__main__':
     #stripes_test[0:5] += 10*np.ones(5)*um
     #angles_test += np.deg2rad(np.random.random(angles_test.shape))
 
-    x_res_test = np.concatenate((angles_test, d_test, stripes_test))
-    j_stack_test = erf_setup.get_j_stack(x_res_test)
-    intensity_x_test, intensity_y_test = calc_final_jones_intensities(j_stack_test)
-
-    x_res_test2 = np.concatenate((angles_test2, d_test2, stripes_test2))
-    j_stack_test2 = erf_setup.get_j_stack(x_res_test2)
-    intensity_x_test2, intensity_y_test2 = calc_final_jones_intensities(j_stack_test2)
+    #x_res_test = np.concatenate((angles_test, d_test, stripes_test))
+    #j_stack_test = erf_setup.get_j_stack(x_res_test)
+    #intensity_x_test, intensity_y_test = calc_final_jones_intensities(j_stack_test)
 
     from py_pol.jones_matrix import Jones_matrix
     from py_pol.jones_vector import Jones_vector
@@ -543,16 +535,6 @@ if __name__ == '__main__':
     j_res.from_matrix(j_stack)
     j_res.parameters.field_transmissions = j_res.parameters.transmissions
     j_res.parameters.get_all()
-
-    j_res_test = Jones_matrix('j_res_test')
-    j_res_test.from_matrix(j_stack_test)
-    j_res_test.parameters.field_transmissions = j_res_test.parameters.transmissions
-    j_res_test.parameters.get_all()
-
-    j_res_fp = Jones_matrix('j_res_fp')
-    j_res_fp.from_matrix(j_stack_fp)
-    j_res_fp.parameters.field_transmissions = j_res_test.parameters.transmissions
-    j_res_fp.parameters.get_all()
 
     #plt.plot(freqs, np.abs(j_res.parameters.dict_params['retardance']-pi), label='ret og')
     #plt.plot(freqs, np.abs(j_res_test.parameters.dict_params['retardance']-pi), label='ret test')
@@ -610,10 +592,8 @@ if __name__ == '__main__':
     # print(j_res.checks)
     #plt.plot(freqs, int_x_e, label='e after x-pol')
     #plt.plot(freqs, int_y_e, label='e after y-pol')
-    plt.plot(freqs, intensity_x_test, label='test x-pol')
-    plt.plot(freqs, intensity_y_test, label='test y-pol')
-    plt.plot(freqs, intensity_x_test2, label='test x-pol')
-    plt.plot(freqs, intensity_y_test2, label='test y-pol')
+    plt.plot(freqs, intensity_x, label='x-pol')
+    plt.plot(freqs, intensity_y, label='y-pol')
     #plt.plot(freqs, intensity_x_fp, label='fp x-pol')
     #plt.plot(freqs, intensity_y_fp, label='fp y-pol')
     #plt.plot(freqs, intensity_x, label='og x-pol')

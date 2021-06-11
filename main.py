@@ -272,6 +272,11 @@ class WaveplateApp(DictKeys):
         selected_frequency_str = ui_values[self.selected_frequency_key]
         if selected_frequency_str and self.result_manager.result_selected:
             selected_frequency = np.float(selected_frequency_str) * THz
+
+            # return if selected frequency is out of data range
+            if selected_frequency < np.min(self.result_manager.selected_result.erf_setup.frequencies):
+                return
+
             s_final_str, j_final_str, str1, str2 = self.result_manager.get_final_state_info(selected_frequency)
 
             self.window[self.stokes_vector_key].update(s_final_str)

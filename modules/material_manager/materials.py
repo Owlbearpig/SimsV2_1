@@ -37,4 +37,5 @@ class ProjectMaterials:
 
 if __name__ == '__main__':
     materials = ProjectMaterials()
-    print(materials.material_list[0])
+    for material in materials.material_list:
+        print(material.path)
