@@ -29,7 +29,7 @@
         2,
         3
     ],
-    "frequency_resolution_multiplier": 0.01,
+    "frequency_resolution_multiplier": 0.05,
     "min_freq": 0.0,
     "max_freq": 0.15,
     "material_drop_down": "MUT_1H1",
@@ -44,7 +44,7 @@
     "randomizer_seed": null,
     "log_of_res": false,
     "min_width": 0.0,
-    "max_width": 16000.0,
+    "max_width": 15000.0,
     "min_angle": 0.0,
     "max_angle": 6.35,
     "min_stripe_width": 500,
@@ -80,25 +80,25 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "NewDesign_n3_1",
+    "save_name": "NewDesign_n4_1_",
     "save_folder_name": "Part2data_AvgGratingBF",
     "selected_material_data_path": "modules\\material_manager\\data_folders\\MUT_1H1\\MUT 1-1.csv",
-    "selected_fast_material_data_path": "E:/MEGA/AG/BFWaveplates/Data/GHz/Part II/appFormatted/7grating_fast_s.csv",
-    "selected_slow_material_data_path": "E:/MEGA/AG/BFWaveplates/Data/GHz/Part II/appFormatted/7grating_slow_p.csv",
+    "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\7grating_fast_s\\7grating_fast_s.csv",
+    "selected_slow_material_data_path": "modules\\material_manager\\data_folders\\7grating_slow_p\\7grating_slow_p.csv",
     "new_material_name": "7grating_slow_p",
     "new_material_path": "E:/MEGA/AG/BFWaveplates/Data/GHz/Part II/appFormatted/7grating_slow_p.csv",
     "set_ri_real_part_checkbox": false,
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": false,
     "x0_angle_input": [
-        6.21,
-        3.84,
-        1.09
+        4.07,
+        5.3,
+        4.05
     ],
     "x0_widths_input": [
-        2832.3,
-        3085.2,
-        7715.4
+        10528.3,
+        6602.8,
+        2779.5
     ],
     "x0_stripes_input": [],
     "angle_input": [

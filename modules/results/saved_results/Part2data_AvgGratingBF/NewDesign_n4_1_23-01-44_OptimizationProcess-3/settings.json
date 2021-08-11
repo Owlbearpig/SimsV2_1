@@ -1,14 +1,16 @@
 {
-    "wp_cnt": 3,
+    "wp_cnt": 4,
     "const_wp_dim": true,
     "equal_stripes": true,
     "initial_stripe_widths": [
         [
             735,
             735,
+            735,
             735
         ],
         [
+            400,
             400,
             400,
             400
@@ -17,9 +19,11 @@
     "const_angles": [
         0,
         0,
+        0,
         0
     ],
     "const_widths": [
+        0,
         0,
         0,
         0
@@ -27,7 +31,8 @@
     "width_pattern": [
         1,
         2,
-        3
+        3,
+        4
     ],
     "frequency_resolution_multiplier": 0.05,
     "min_freq": 0.0,
@@ -55,11 +60,11 @@
     "x_slicing": [
         [
             0,
-            3
+            4
         ],
         [
-            3,
-            6
+            4,
+            8
         ],
         [
             0,
@@ -91,14 +96,16 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": false,
     "x0_angle_input": [
-        4.07,
-        5.3,
-        4.05
+        1.29,
+        2.55,
+        4.63,
+        2.71
     ],
     "x0_widths_input": [
-        10528.3,
-        6602.8,
-        2779.5
+        3576.1,
+        10302.9,
+        12729.5,
+        5579.3
     ],
     "x0_stripes_input": [],
     "angle_input": [

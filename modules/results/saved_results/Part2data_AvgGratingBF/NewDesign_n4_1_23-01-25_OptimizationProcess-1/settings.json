@@ -1,14 +1,16 @@
 {
-    "wp_cnt": 3,
+    "wp_cnt": 4,
     "const_wp_dim": true,
     "equal_stripes": true,
     "initial_stripe_widths": [
         [
             735,
             735,
+            735,
             735
         ],
         [
+            400,
             400,
             400,
             400
@@ -17,9 +19,11 @@
     "const_angles": [
         0,
         0,
+        0,
         0
     ],
     "const_widths": [
+        0,
         0,
         0,
         0
@@ -27,9 +31,10 @@
     "width_pattern": [
         1,
         2,
-        3
+        3,
+        4
     ],
-    "frequency_resolution_multiplier": 0.05,
+    "frequency_resolution_multiplier": 0.1,
     "min_freq": 0.0,
     "max_freq": 0.15,
     "material_drop_down": "MUT_1H1",
@@ -44,7 +49,7 @@
     "randomizer_seed": null,
     "log_of_res": false,
     "min_width": 0.0,
-    "max_width": 15000.0,
+    "max_width": 10000.0,
     "min_angle": 0.0,
     "max_angle": 6.35,
     "min_stripe_width": 500,
@@ -55,11 +60,11 @@
     "x_slicing": [
         [
             0,
-            3
+            4
         ],
         [
-            3,
-            6
+            4,
+            8
         ],
         [
             0,
@@ -91,14 +96,16 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": false,
     "x0_angle_input": [
-        4.07,
-        5.3,
-        4.05
+        4.16,
+        3.66,
+        1.45,
+        3.58
     ],
     "x0_widths_input": [
-        10528.3,
-        6602.8,
-        2779.5
+        1146.0,
+        6661.8,
+        2127.2,
+        724.6
     ],
     "x0_stripes_input": [],
     "angle_input": [
