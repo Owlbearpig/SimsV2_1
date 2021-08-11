@@ -77,17 +77,17 @@ if __name__ == '__main__':
 
     # Material 1: silica glass, Material 2: air
     HQ_THz_GWP_values = {
-        "width_layer_1": 30 * um,  # m,
-        "width_layer_2": 70 * um,  # m
+        "width_layer_1": 700 * um,  # m,
+        "width_layer_2": 500 * um,  # m
         #"frequency": 400 * GHz,  # Hz
-        "ref_index_1": complex(4**(1/2), 0),  # DQ
+        "ref_index_1": complex(2.1**(1/2), 0),  # DQ
         "ref_index_2": complex(1, 0)  # DQ
     }
 
     mat_params = HQ_THz_GWP_values
 
     nopp = 50  # number of plot points; resolution
-    start_freq, end_freq = 400, 2000
+    start_freq, end_freq = 0.075, 0.110
     frequency_list = [(start_freq + end_freq * (i/nopp)) * GHz for i in range(nopp)]
     a = mat_params["width_layer_1"]
     b = mat_params["width_layer_2"]

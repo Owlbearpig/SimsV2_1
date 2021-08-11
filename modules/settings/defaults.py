@@ -22,6 +22,7 @@ default_settings_dict = {
     keys.const_refr_index_input_k_s_key: 0.0,
     keys.const_refr_index_input_n_p_key: 0.0,
     keys.const_refr_index_input_k_p_key: 0.0,
+    keys.add_const_birefringence_input_key: 0.025,
     keys.randomizer_seed_key: None,
     keys.log_of_res_key: False,
     keys.min_width_key: 0.0,

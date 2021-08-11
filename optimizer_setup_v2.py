@@ -190,7 +190,7 @@ class OptimizerSetup(DictKeys):
                                callback=callback, take_step=take_step, T=temperature,
                                accept_test=bounds_callable,
                                minimizer_kwargs=local_min_kwargs, interval=50)
-
+        
         return opt_res
 
 
@@ -263,7 +263,7 @@ class Bounds:
         x = kwargs["x_new"]
 
         if self.optimizer_instance.force_accept:
-            # reset force accept
+            # reset accept force
             self.optimizer_instance.force_accept = False
             return "force accept"
 

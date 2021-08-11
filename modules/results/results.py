@@ -3,7 +3,7 @@ from modules.identifiers.dict_keys import DictKeys
 from modules.utils.calculations import (make_m_matrix_stack, make_j_matrix_stack,
                                         calc_final_stokes_intensities, calc_final_jones_intensities,
                                         calculate_final_vectors, calc_polarization_degrees_m,
-                                        calc_polarization_degrees_j, rotate_matrix)
+                                        calc_polarization_degrees_j, rotate_matrix, calc_phase_shift)
 from modules.utils.helpers import search_dir
 from modules.utils.constants import *
 from modules.settings.settings import Settings
@@ -179,6 +179,8 @@ class Results(DictKeys):
             self.selected_result.calculated_values['intensities'] = calc_final_stokes_intensities(m_matrix_stack)
         else:
             self.selected_result.calculated_values['intensities'] = calc_final_jones_intensities(j_matrix_stack)
+
+        self.selected_result.calculated_values['phase shift'] = calc_phase_shift(j_matrix_stack)
 
         self.result_selected = True
 

@@ -1,6 +1,5 @@
 from multiprocessing import Process
 import multiprocessing as mp
-from pathlib import Path
 from erf_setup_v21 import ErfSetup
 from optimizer_setup_v2 import OptimizerSetup
 from modules.identifiers.dict_keys import DictKeys

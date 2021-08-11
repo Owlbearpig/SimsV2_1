@@ -73,6 +73,7 @@ class DictKeys:
         self.set_default_settings_button_key = DictKey('set_default_settings_button')
         self.enable_ri_overwrite_checkbox_key = DictKey('enable_ri_overwrite_checkbox')
         self.weak_absorption_checkbox_key = DictKey('weak_absorption_checkbox', label='erf_settings')
+        self.add_const_birefringence_input_key = DictKey('add_const_birefringence_input')
 
         # tab4
         self.process_list_key = DictKey('process_list')
@@ -131,6 +132,7 @@ class DictKeys:
         self.update_result_list_button_key = DictKey('update_result_list_button')
         self.update_folder_list_button_key = DictKey('update_folder_list_button')
         self.plot_selected_result_button_key = DictKey('plot_selected_result_button')
+        self.plot_phase_selected_result_button_key = DictKey('plot_phase_selected_result_button_key')
         self.selected_result_total_width_key = DictKey('selected_result_total_width')
 
         # tab6

@@ -314,7 +314,8 @@ class ErfSetup(DictKeys):
         if self.settings[self.birefringence_type_dropdown_key] in 'Form':
             if self.const_wp_dimensions:
                 # if stripe width doesn't change -> birefringence doesn't change
-                n = self.n0
+                #n = self.n0
+                n = self.form_birefringence(self.stripe_widths)
             else:
                 n = self.form_birefringence(stripes)
         else:
@@ -330,6 +331,10 @@ class ErfSetup(DictKeys):
             n[2], n[3] = self.const_k_s*np.ones_like(n[2]), self.const_k_p*np.ones_like(n[3])
 
         n[2], n[3] = self.anis_s * n[2], self.anis_p * n[3]
+
+        const_bf_offset = self.settings[self.add_const_birefringence_input_key]
+
+        n[1] += const_bf_offset # add bf offset to TE mode
 
         return n
 
@@ -385,7 +390,7 @@ class ErfSetup(DictKeys):
             #"""
 
             if self.wp_type == 'λ/2':
-                res_int = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0])) ** 2 + (j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
+                #res_int = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0])) ** 2 + (j[:, 0, 0] * conj(j[:, 0, 0])) ** 2) # OG loss
                 # jan loss function : No I_x
                 #res_no_x = sum((1 - j[:, 1, 0] * conj(j[:, 1, 0])) ** 2)
                 #res = sum(j[:, 0, 0].real ** 2 + j[:, 0, 0].imag ** 2 + (1-j[:, 1, 0].real) ** 2 + j[:, 1, 0].imag ** 2)
@@ -393,16 +398,19 @@ class ErfSetup(DictKeys):
                 #e2x, e2y = (E2[0, :], E2[1, :])
                 #res_shift = sum(2*((pi/2 - retardance(j))**2)/pi**2)
                 #res = sum(e2y.real) + res_shift
-                res = res_int #+ res_shift
+                #res = res_int #+ res_shift
                 #trace = sum((j[:, 0, 0] + j[:, 1, 1])**2)
                 #res = res_shift + trace
                 #res = res_shift
                 #res = res_int
+                res = sum((j[:, 0, 0].real)**2)
             else:
                 # OG intensity loss
                 # res = sum((j[:, 1, 0] * conj(j[:, 1, 0]) - j[:, 0, 0] * conj(j[:, 0, 0])) ** 2)
+                int_tot = sum((1-(conj(j[:, 1, 0]) * j[:, 1, 0] + conj(j[:, 0, 0]) * j[:, 0, 0]))**2)
+                int_tot = 0
                 q = j[:, 0, 0] / j[:, 1, 0]
-                res_int = sum(q.real**2 + (q.imag-1)**2) + sum(q.real**2 + (q.imag-1)**2)
+                res_int = sum(q.real**2 + (q.imag-1)**2) + 0.05*int_tot
                 res_shift = 0#sum(2 * ((pi/2 - retardance(j)) ** 2) / pi ** 2)
 
                 res = res_int + res_shift

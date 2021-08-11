@@ -324,6 +324,11 @@ class WaveplateApp(DictKeys):
                 target_figure = 'Result plot'
             self.plotter.result_plot(target_figure=target_figure)
 
+    def plot_phase_selected_result(self, *args):
+        if self.result_manager.result_selected:
+            target_figure = 'Phase shift plot'
+            self.plotter.phase_shift_plot(target_figure=target_figure)
+
     def fix_old_settings(self, *args):
         self.settings_module.fix_old_settings()
 
@@ -449,6 +454,7 @@ class WaveplateApp(DictKeys):
             self.folder_list_key: self.on_folder_selection,
             self.result_list_key: self.on_result_selection,
             self.plot_selected_result_button_key: self.plot_selected_result,
+            self.plot_phase_selected_result_button_key: self.plot_phase_selected_result,
             self.erf_settings_key: self.show_erf_settings,
             self.optimizer_settings_key: self.show_optimizer_settings,
             self.saver_settings_key: self.show_saver_settings,

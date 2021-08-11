@@ -50,6 +50,7 @@
     "const_refr_index_input_k_s": 0.0,
     "const_refr_index_input_n_p": 0.0,
     "const_refr_index_input_k_p": 0.0,
+    "add_const_birefringence_input": 0.025,
     "randomizer_seed": null,
     "log_of_res": false,
     "min_width": 0.0,
@@ -75,7 +76,7 @@
             12
         ]
     ],
-    "calculation_method": "Stokes",
+    "calculation_method": "Jones",
     "iterations": 100000,
     "angle_step": 0.1,
     "width_step": 10.0,

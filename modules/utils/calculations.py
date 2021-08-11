@@ -80,6 +80,19 @@ def calc_final_jones_intensities(j_matrix_stack):
 
     return 10*np.log10(int_x.real), 10*np.log10(int_y.real)
 
+def calc_phase_shift(j_matrix_stack):
+    J = Jones_matrix('stack')
+    J.from_matrix(j_matrix_stack)
+
+    # initial polarization is along x-axis
+    x_lin_pol_jones = Jones_vector('x_pol')
+    x_lin_pol_jones.linear_light()
+
+    J_out = J * x_lin_pol_jones
+
+    phase_shift = J_out.parameters.delay()
+
+    return phase_shift
 
 # calculate (vacuum)intensity of j_vector (v,a)
 def calc_intensity(j_vector):

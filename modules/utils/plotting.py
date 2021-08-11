@@ -34,6 +34,14 @@ class Plot(DictKeys):
             plt.legend()
         plt.show(block=False)
 
+    def phase_shift_plot(self, target_figure='Phase shift plot'):
+        y_axis_label = 'Phase shift (rad)'
+        fig_title = target_figure
+        phase_shift = self.result.calculated_values['phase shift']
+        self.simple_plot(phase_shift, legend_label='Phase shift', fig_title=fig_title, y_label=y_axis_label)
+
+        self.set_plotted_values(self.result.get_values())
+
     def result_plot(self, target_figure='Result plot'):
         legend_x_polarizer_label = 'X-Polarizer'
         legend_y_polarizer_label = 'Y-Polarizer'

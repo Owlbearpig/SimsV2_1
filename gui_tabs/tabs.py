@@ -241,6 +241,10 @@ class Tabs(DictKeys):
                                       auto_size_text=True,
                                       key=self.slow_material_dropdown_key)
 
+        add_const_birefringence_input = Input(self.settings[self.add_const_birefringence_input_key],
+                                              size=(5, 1),
+                                              key=self.add_const_birefringence_input_key)
+
         tab2_layout = [
             [sg.Text('Birefringence type:'), birefringence_type_dropdown],
             [sg.Frame('Overwrite RI',
@@ -250,6 +254,7 @@ class Tabs(DictKeys):
                         sg.Text('n_p'), const_refr_index_input_n_p,
                         sg.Text('k_p'), const_refr_index_input_k_p
                         ]])],
+            [sg.Text('const bf offset:'), add_const_birefringence_input],
             [sg.Frame('Add material',
                       [[sg.Text('Name'), new_material_name_input,
                         sg.Text('Path'), new_material_path_input,
@@ -481,6 +486,8 @@ class Tabs(DictKeys):
                                               key=self.update_folder_list_button_key)
         plot_selected_result_button = sg.Button('Plot result',
                                                 key=self.plot_selected_result_button_key)
+        plot_phase_selected_result_button = sg.Button('Plot phase shift',
+                                                key=self.plot_phase_selected_result_button_key)
         plot_in_cst_window_checkbox = Checkbox('Add to CST plot',
                                                default=False,
                                                key=self.plot_in_cst_key)
@@ -537,7 +544,7 @@ class Tabs(DictKeys):
                        ])
              ],
             [update_folder_list_button, update_result_list_button],
-            [plot_selected_result_button, plot_in_cst_window_checkbox],
+            [plot_selected_result_button, plot_phase_selected_result_button, plot_in_cst_window_checkbox],
             [set_selected_result_settings_button, fix_old_settings_button]
         ]
 
