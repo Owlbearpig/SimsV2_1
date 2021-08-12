@@ -26,19 +26,42 @@ class Plot(DictKeys):
     def simple_plot(self, y, legend_label='', fig_title=None, title=None, y_label=None):
         plt.figure(fig_title)
         plt.title(title)
+        plot_label = legend_label + ' ' + self.result.name.split("_")[0]
         x = self.result.erf_setup.frequencies * Hz_to_THz
-        plt.plot(x, y, label=legend_label + ' ' + self.result.name.split("_")[0])
+        plt.plot(x, y, label=plot_label)
+
+        plt.xlim((min(x)*0.95, max(x)*1.05))
+
         plt.xlabel('Frequency (THz)')
         plt.ylabel(y_label)
         if legend_label:
             plt.legend()
         plt.show(block=False)
 
+    def plot_error_range(self):
+        if self.result.result_settings[self.wp_type_key] != 'λ/2':
+            x_min, x_max = plt.gca().get_xlim()
+            plt.hlines([1.03 * 0.5, 0.97 * 0.5], x_min, x_max, linestyles='dotted', label=r'$0.5\pm \ 3\%$')
+            plt.hlines([1.005 * 0.5, 0.995 * 0.5], x_min, x_max, linestyles='dotted', label=r'$0.5\pm \ 0.5\%$'
+                       , color='orange')
+            plt.legend()
+        else:
+            x_min, x_max = plt.gca().get_xlim()
+            plt.hlines([1.03, 0.97], x_min, x_max, linestyles='dotted', label=r'$1\pm \ 3\%$')
+            plt.legend()
+
     def phase_shift_plot(self, target_figure='Phase shift plot'):
-        y_axis_label = 'Phase shift (rad)'
+        # if the figure already exists error ranges have probably been plotted
+        if not plt.fignum_exists(target_figure):
+            plt.figure(target_figure)
+            self.plot_error_range()
+
+        legend_label = f'WpCnt {self.result.result_settings[self.wp_cnt_key]}'
+        y_axis_label = r'Phase shift $(\frac{\delta}{\pi})$'
         fig_title = target_figure
         phase_shift = self.result.calculated_values['phase shift']
-        self.simple_plot(phase_shift, legend_label='Phase shift', fig_title=fig_title, y_label=y_axis_label)
+        phase_shift /= pi
+        self.simple_plot(phase_shift, fig_title=fig_title, y_label=y_axis_label, legend_label=legend_label)
 
         self.set_plotted_values(self.result.get_values())
 
