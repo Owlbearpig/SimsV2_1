@@ -1,33 +1,28 @@
 {
-    "wp_cnt": 3,
+    "wp_cnt": 2,
     "const_wp_dim": true,
     "equal_stripes": true,
     "initial_stripe_widths": [
         [
             735,
-            735,
             735
         ],
         [
-            400,
             400,
             400
         ]
     ],
     "const_angles": [
         0,
-        0,
         0
     ],
     "const_widths": [
-        0,
         0,
         0
     ],
     "width_pattern": [
         1,
-        2,
-        3
+        2
     ],
     "frequency_resolution_multiplier": 0.05,
     "min_freq": 0.0,
@@ -55,11 +50,11 @@
     "x_slicing": [
         [
             0,
-            3
+            2
         ],
         [
-            3,
-            6
+            2,
+            4
         ],
         [
             0,
@@ -80,8 +75,8 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "NewDesign_n3_2_",
-    "save_folder_name": "Part2data_AvgGratingBF_+1erf_1_",
+    "save_name": "NewDesign_n2_1_",
+    "save_folder_name": "Part2data_AvgGratingBF_+1erf_",
     "selected_material_data_path": "modules\\material_manager\\data_folders\\MUT_1H1\\MUT 1-1.csv",
     "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\7grating_fast_s\\7grating_fast_s.csv",
     "selected_slow_material_data_path": "modules\\material_manager\\data_folders\\7grating_slow_p\\7grating_slow_p.csv",
@@ -91,14 +86,12 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": false,
     "x0_angle_input": [
-        2.53,
-        2.4,
-        5.5
+        1.94,
+        5.6
     ],
     "x0_widths_input": [
-        3926.0,
-        8392.2,
-        11044.0
+        13541.2,
+        9232.8
     ],
     "x0_stripes_input": [],
     "angle_input": [

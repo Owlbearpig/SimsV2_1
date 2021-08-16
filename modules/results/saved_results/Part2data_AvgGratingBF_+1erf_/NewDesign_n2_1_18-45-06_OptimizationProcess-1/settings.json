@@ -80,8 +80,8 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "NewDesign_n3_2_",
-    "save_folder_name": "Part2data_AvgGratingBF_+1erf_1_",
+    "save_name": "NewDesign_n2_1_",
+    "save_folder_name": "Part2data_AvgGratingBF_+1erf_",
     "selected_material_data_path": "modules\\material_manager\\data_folders\\MUT_1H1\\MUT 1-1.csv",
     "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\7grating_fast_s\\7grating_fast_s.csv",
     "selected_slow_material_data_path": "modules\\material_manager\\data_folders\\7grating_slow_p\\7grating_slow_p.csv",
@@ -91,14 +91,14 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": false,
     "x0_angle_input": [
-        2.53,
-        2.4,
-        5.5
+        3.36,
+        1.3,
+        0.1
     ],
     "x0_widths_input": [
-        3926.0,
-        8392.2,
-        11044.0
+        9970.7,
+        8303.8,
+        12064.6
     ],
     "x0_stripes_input": [],
     "angle_input": [
