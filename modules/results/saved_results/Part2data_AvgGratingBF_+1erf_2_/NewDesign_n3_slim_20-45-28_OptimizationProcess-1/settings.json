@@ -1,18 +1,14 @@
 {
-    "wp_cnt": 5,
+    "wp_cnt": 3,
     "const_wp_dim": true,
     "equal_stripes": true,
     "initial_stripe_widths": [
         [
             735,
             735,
-            735,
-            735,
             735
         ],
         [
-            400,
-            400,
             400,
             400,
             400
@@ -21,13 +17,9 @@
     "const_angles": [
         0,
         0,
-        0,
-        0,
         0
     ],
     "const_widths": [
-        0,
-        0,
         0,
         0,
         0
@@ -35,9 +27,7 @@
     "width_pattern": [
         1,
         2,
-        3,
-        4,
-        5
+        3
     ],
     "frequency_resolution_multiplier": 0.05,
     "min_freq": 0.0,
@@ -54,7 +44,7 @@
     "randomizer_seed": null,
     "log_of_res": false,
     "min_width": 0.0,
-    "max_width": 4000.0,
+    "max_width": 10000.0,
     "min_angle": 0.0,
     "max_angle": 6.35,
     "min_stripe_width": 500,
@@ -65,11 +55,11 @@
     "x_slicing": [
         [
             0,
-            5
+            3
         ],
         [
-            5,
-            10
+            3,
+            6
         ],
         [
             0,
@@ -90,7 +80,7 @@
     "save_all_results": false,
     "save_settings": true,
     "save_iterations": false,
-    "save_name": "NewDesign_n4_slim_",
+    "save_name": "NewDesign_n3_slim_",
     "save_folder_name": "Part2data_AvgGratingBF_+1erf_2_",
     "selected_material_data_path": "modules\\material_manager\\data_folders\\MUT_1H1\\MUT 1-1.csv",
     "selected_fast_material_data_path": "modules\\material_manager\\data_folders\\7grating_fast_s\\7grating_fast_s.csv",
@@ -101,18 +91,14 @@
     "set_ri_img_part_checkbox": false,
     "weak_absorption_checkbox": false,
     "x0_angle_input": [
-        4.22,
-        2.38,
-        0.75,
-        4.38,
-        5.21
+        3.6,
+        1.87,
+        1.62
     ],
     "x0_widths_input": [
-        1689.4,
-        1786.5,
-        2348.0,
-        2201.4,
-        3585.6
+        6433.7,
+        425.3,
+        9674.5
     ],
     "x0_stripes_input": [],
     "angle_input": [
