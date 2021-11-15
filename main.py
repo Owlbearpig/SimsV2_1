@@ -153,7 +153,7 @@ class WaveplateApp(DictKeys):
         self.update_process_list()
         dbo_process.start()
 
-    @check_values
+    #@check_values
     def new_optimization_process(self, ui_values):
         # save settings in case of crash (:
         self.settings_module.save_settings(ui_values)
